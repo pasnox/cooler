@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UIMapEditor</class>
+ <widget class="QMainWindow" name="UIMapEditor">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>My Form Class</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <widget class="QFrame" name="frame">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Map Name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" colspan="2">
+        <widget class="QLineEdit" name="leName"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Map Size</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QSpinBox" name="sbWidth"/>
+       </item>
+       <item row="1" column="2">
+        <widget class="QSpinBox" name="sbHeight"/>
+       </item>
+       <item row="2" column="0" colspan="3">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="3">
+        <widget class="TreeWidgetLayers" name="twLayers">
+         <property name="contextMenuPolicy">
+          <enum>Qt::ActionsContextMenu</enum>
+         </property>
+         <property name="uniformRowHeights">
+          <bool>true</bool>
+         </property>
+         <property name="itemsExpandable">
+          <bool>false</bool>
+         </property>
+         <property name="allColumnsShowFocus">
+          <bool>true</bool>
+         </property>
+         <property name="expandsOnDoubleClick">
+          <bool>false</bool>
+         </property>
+         <column>
+          <property name="text">
+           <string>Layers</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="3">
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="3">
+        <widget class="TreeWidgetTiles" name="twTiles">
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <column>
+          <property name="text">
+           <string>Tiles</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="3">
+        <widget class="QCheckBox" name="cbExclusiveLayer">
+         <property name="text">
+          <string>Exclusive Layer</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="GraphicsViewEditor" name="gvView">
+      <property name="contextMenuPolicy">
+       <enum>Qt::ActionsContextMenu</enum>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="lineWidth">
+       <number>0</number>
+      </property>
+      <property name="backgroundBrush">
+       <brush brushstyle="SolidPattern">
+        <color alpha="126">
+         <red>155</red>
+         <green>155</green>
+         <blue>155</blue>
+        </color>
+       </brush>
+      </property>
+      <property name="renderHints">
+       <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="sbBar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="aOpenMap"/>
+   <addaction name="aSaveMap"/>
+   <addaction name="aClearMap"/>
+   <addaction name="separator"/>
+   <addaction name="aAddLayer"/>
+   <addaction name="aAddSkyLayer"/>
+   <addaction name="aRemoveLayer"/>
+   <addaction name="aClearLayers"/>
+  </widget>
+  <action name="aOpenMap">
+   <property name="text">
+    <string>Open Map</string>
+   </property>
+  </action>
+  <action name="aSaveMap">
+   <property name="text">
+    <string>Save Map</string>
+   </property>
+  </action>
+  <action name="aClearMap">
+   <property name="text">
+    <string>Clear Map</string>
+   </property>
+  </action>
+  <action name="aAddLayer">
+   <property name="text">
+    <string>Add Layer</string>
+   </property>
+  </action>
+  <action name="aRemoveLayer">
+   <property name="text">
+    <string>Remove Layer</string>
+   </property>
+  </action>
+  <action name="aClearLayers">
+   <property name="text">
+    <string>Clear Layers</string>
+   </property>
+  </action>
+  <action name="aAddSkyLayer">
+   <property name="text">
+    <string>Add Sky Layer</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TreeWidgetTiles</class>
+   <extends>QTreeWidget</extends>
+   <header>editor/TreeWidgetTiles.h</header>
+  </customwidget>
+  <customwidget>
+   <class>GraphicsViewEditor</class>
+   <extends>QGraphicsView</extends>
+   <header>editor/GraphicsViewEditor.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TreeWidgetLayers</class>
+   <extends>QTreeWidget</extends>
+   <header>editor/TreeWidgetLayers.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
