@@ -48,48 +48,49 @@ CONFIG(debug, debug|release) {
 }
 
 INCLUDEPATH	= . \
-	src
+	src \
+	src/include
 
 FORMS	= src/UIMain.ui \
 	src/editor/UIMapEditor.ui
 
-HEADERS	= src/PlayerItem.h \
+HEADERS	= src/tiles/AbstractTile.h \
+	src/tiles/BombTile.h \
+	src/tiles/ObjectTile.h \
+	src/tiles/PlayerTile.h \
+	src/items/BombItem.h \
+	src/items/ObjectItem.h \
+	src/items/PlayerItem.h \
 	src/BombInformations.h \
-	src/UIMain.h \
+	src/Globals.h \
 	src/GraphicsView.h \
 	src/MapItem.h \
 	src/TilesManager.h \
-	src/editor/TreeWidgetTiles.h \
+	src/UIMain.h \
 	src/editor/GraphicsViewEditor.h \
 	src/editor/MapEditorItem.h \
-	src/editor/UIMapEditor.h \
 	src/editor/TreeWidgetLayers.h \
-	src/ObjectItem.h \
-	src/Globals.h \
-	src/BombItem.h \
-	src/tile/PlayerTile.h \
-	src/tile/ObjectTile.h \
-	src/tile/BombTile.h \
-	src/AbstractObjectItem.h \
-	src/tile/AbstractTile.h
+	src/editor/TreeWidgetTiles.h \
+	src/editor/UIMapEditor.h \
+	src/items/AbstractItem.h
 
-SOURCES	= src/main.cpp \
-	src/PlayerItem.cpp \
+SOURCES	= src/tiles/AbstractTile.cpp \
+	src/tiles/BombTile.cpp \
+	src/tiles/ObjectTile.cpp \
+	src/tiles/PlayerTile.cpp \
+	src/items/BombItem.cpp \
+	src/items/ObjectItem.cpp \
+	src/items/PlayerItem.cpp \
 	src/BombInformations.cpp \
-	src/UIMain.cpp \
+	src/Globals.cpp \
 	src/GraphicsView.cpp \
+	src/main.cpp \
 	src/MapItem.cpp \
 	src/TilesManager.cpp \
-	src/editor/TreeWidgetTiles.cpp \
+	src/UIMain.cpp \
 	src/editor/GraphicsViewEditor.cpp \
 	src/editor/MapEditorItem.cpp \
-	src/editor/UIMapEditor.cpp \
 	src/editor/TreeWidgetLayers.cpp \
-	src/ObjectItem.cpp \
-	src/Globals.cpp \
-	src/BombItem.cpp \
-	src/tile/PlayerTile.cpp \
-	src/tile/ObjectTile.cpp \
-	src/tile/BombTile.cpp \
-	src/AbstractObjectItem.cpp \
-	src/tile/AbstractTile.cpp
+	src/editor/TreeWidgetTiles.cpp \
+	src/editor/UIMapEditor.cpp \
+	src/items/AbstractItem.cpp
