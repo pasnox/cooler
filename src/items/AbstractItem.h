@@ -1,9 +1,9 @@
-#ifndef ABSTRACTOBJECTITEM_H
-#define ABSTRACTOBJECTITEM_H
+#ifndef ABSTRACTITEM_H
+#define ABSTRACTITEM_H
 
 #include <QGraphicsPixmapItem>
 
-class AbstractObjectItem : public QGraphicsPixmapItem
+class AbstractItem : public QGraphicsPixmapItem
 {
 public:
 	virtual int type() const = 0;
@@ -11,4 +11,4 @@ public:
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 ) = 0;
 };
 
-#endif // ABSTRACTOBJECTITEM_H
+#endif // ABSTRACTITEM_H
