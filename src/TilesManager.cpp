@@ -56,7 +56,11 @@ bool TilesManager::loadDatas()
 		return false;
 	}
 	
-	mObjectTiles.clear();
+	foreach ( const Globals::TypeTile& type, mTiles.keys() )
+	{
+		qDeleteAll( mTiles[ type ] );
+	}
+	mTiles.clear();
 	
 	const QStringList filters = QStringList( "blocks" ) << "bombs" << "boxes" << "explosions" << "floors" << "players" << "sky";
 	const QFileInfoList folders = datas.entryInfoList( filters, QDir::Dirs );
@@ -65,27 +69,27 @@ bool TilesManager::loadDatas()
 	{
 		if ( folder.fileName().toLower() == "blocks" )
 		{
-			loadObjectTiles( Globals::BlockObject, folder.absoluteFilePath() );
+			loadTiles( Globals::BlockTile, folder.absoluteFilePath() );
 		}
 		else if ( folder.fileName().toLower() == "boxes" )
 		{
-			loadObjectTiles( Globals::BoxObject, folder.absoluteFilePath() );
+			loadTiles( Globals::BoxTile, folder.absoluteFilePath() );
 		}
 		else if ( folder.fileName().toLower() == "floors" )
 		{
-			loadObjectTiles( Globals::FloorObject, folder.absoluteFilePath() );
+			loadTiles( Globals::FloorTile, folder.absoluteFilePath() );
 		}
 		else if ( folder.fileName().toLower() == "sky" )
 		{
-			loadObjectTiles( Globals::SkyObject, folder.absoluteFilePath() );
+			loadTiles( Globals::SkyTile, folder.absoluteFilePath() );
 		}
 		else if ( folder.fileName().toLower() == "players" )
 		{
-			loadPlayerTiles( folder.absoluteFilePath() );
+			loadTiles( Globals::PlayerTile, folder.absoluteFilePath() );
 		}
 		else if ( folder.fileName().toLower() == "bombs" )
 		{
-			loadBombTiles( folder.absoluteFilePath() );
+			loadTiles( Globals::BombTile, folder.absoluteFilePath() );
 		}
 	}
 	
@@ -93,39 +97,27 @@ bool TilesManager::loadDatas()
 	return true;
 }
 
-ObjectTile TilesManager::objectTile( const QString& key ) const
+TypesTilesMap TilesManager::tiles() const
 {
-	return mObjectTiles.value( key );
+	return mTiles;
 }
 
-QString TilesManager::objectTileName( const ObjectTile& tile ) const
+TilesMap TilesManager::tiles( Globals::TypeTile type ) const
 {
-	return mObjectTiles.key( tile );
+	return mTiles.value( type );
 }
 
-TilesMap TilesManager::objectTiles() const
+AbstractTile* TilesManager::tile( const QString& key ) const
 {
-	return mObjectTiles;
-}
-
-PlayerTile TilesManager::playerTile( const QString& key )
-{
-	return mPlayerTiles.value( key );
-}
-
-PlayerTilesMap TilesManager::playerTiles() const
-{
-	return mPlayerTiles;
-}
-
-BombTile TilesManager::bombTile( const QString& key ) const
-{
-	return mBombTiles.value( key );
-}
-
-BombTilesMap TilesManager::bombTiles() const
-{
-	return mBombTiles;
+	foreach ( const Globals::TypeTile& type, mTiles.keys() )
+	{
+		if ( mTiles[ type ].contains( key ) )
+		{
+			return mTiles[ type ][ key ];
+		}
+	}
+	
+	return 0;
 }
 
 QString TilesManager::relativeFilePath( const QString& fn ) const
@@ -161,40 +153,52 @@ QFileInfoList TilesManager::getFiles( QDir& fromDir, const QStringList& filters 
 	return files;
 }
 
-void TilesManager::loadObjectTiles( Globals::TypeObject type, const QString& path )
+void TilesManager::loadTiles( Globals::TypeTile type, const QString& path )
 {
 	QDir dir( path );
+	QFileInfoList files;
 	
-	foreach ( const QFileInfo& file, getFiles( dir ) )
+	switch ( type )
+	{
+		case Globals::BlockTile:
+		case Globals::BoxTile:
+		case Globals::FloorTile:
+		case Globals::SkyTile:
+			files = getFiles( dir );
+			break;
+		case Globals::PlayerTile:
+		case Globals::BombTile:
+			files = getFiles( dir, QStringList( "*.ini" ) );
+			break;
+		case Globals::InvalidTile:
+			Q_ASSERT( 0 );
+			break;
+	}
+	
+	foreach ( const QFileInfo& file, files )
 	{
 		const QString key = relativeFilePath( file );
-		ObjectTile tile( type, file );
-		mObjectTiles[ key ] = tile;
-	}
-}
-
-void TilesManager::loadPlayerTiles( const QString& path )
-{
-	QDir dir( path );
-	const QStringList filters = QStringList( "*.ini" );
-	
-	foreach ( const QFileInfo& file, getFiles( dir, filters ) )
-	{
-		PlayerTile tile( file );
-		const QString key = tile.Name;
-		mPlayerTiles[ key ] = tile;
-	}
-}
-
-void TilesManager::loadBombTiles( const QString& path )
-{
-	QDir dir( path );
-	const QStringList filters = QStringList( "*.ini" );
-	
-	foreach ( const QFileInfo& file, getFiles( dir, filters ) )
-	{
-		BombTile tile( file );
-		const QString key = tile.Name;
-		mBombTiles[ key ] = tile;
+		AbstractTile* tile = 0;
+		
+		switch ( type )
+		{
+			case Globals::BlockTile:
+			case Globals::BoxTile:
+			case Globals::FloorTile:
+			case Globals::SkyTile:
+				tile = new ObjectTile( file, type );
+				break;
+			case Globals::PlayerTile:
+				tile = new PlayerTile( file, type );
+				break;
+			case Globals::BombTile:
+				tile = new BombTile( file, type );
+				break;
+			case Globals::InvalidTile:
+				Q_ASSERT( 0 );
+				break;
+		}
+		
+		mTiles[ type ][ key ] = tile;
 	}
 }

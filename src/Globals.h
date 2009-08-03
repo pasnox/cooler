@@ -5,20 +5,23 @@
 
 namespace Globals
 {
+	enum TypeTile
+	{
+		InvalidTile,
+		BlockTile,
+		BoxTile,
+		FloorTile,
+		SkyTile,
+		PlayerTile,
+		BombTile
+	};
+	
 	enum TypeItem
 	{
 		MapItem = QGraphicsItem::UserType +1,
 		ObjectItem,
 		BombItem,
 		PlayerItem
-	};
-	enum TypeObject
-	{
-		InvalidObject,
-		BlockObject,
-		BoxObject,
-		FloorObject,
-		SkyObject
 	};
 	
 	enum ObjectLayers

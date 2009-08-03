@@ -1,40 +1,20 @@
 #ifndef PLAYERTILE_H
 #define PLAYERTILE_H
 
-#include "Globals.h"
+#include "AbstractTile.h"
 
-#include <QFileInfo>
-
-struct PlayerTile
+struct PlayerTile : AbstractTile
 {
-	PlayerTile();
-	PlayerTile( const QFileInfo& fn );
+	PlayerTile( const QFileInfo& fn = QFileInfo(), Globals::TypeTile type = Globals::InvalidTile );
 	
-	QPixmap tile( Globals::PlayerStroke stroke, int step );
-	int steps() const;
+	virtual int steps() const;
+	virtual QPixmap tile( int step ) const;
 	
-	bool operator==( const PlayerTile& other ) const;
-	bool operator!=( const PlayerTile& other ) const;
+	QPixmap tile( Globals::PlayerStroke stroke, int step ) const;
 	
-	QString FileName;
 	QString Name;
 	QSize Size;
-	QPixmap Pixmap;
 	QPixmap DeadPixmap;
 };
-
-Q_DECLARE_METATYPE( PlayerTile )
-
-inline QDataStream& operator<<( QDataStream& stream, const PlayerTile& tile )
-{
-	stream << tile.FileName << tile.Name << tile.Size << tile.Pixmap << tile.DeadPixmap;
-	return stream;
-}
-
-inline QDataStream& operator>>( QDataStream& stream, PlayerTile& tile )
-{
-	stream >> tile.FileName >> tile.Name >> tile.Size >> tile.Pixmap >> tile.DeadPixmap;
-	return stream;
-}
 
 #endif // PLAYERTILE_H

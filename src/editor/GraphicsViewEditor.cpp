@@ -60,7 +60,7 @@ void GraphicsViewEditor::dragMoveEvent( QDragMoveEvent* event )
 	
 	if ( event->proposedAction() == Qt::CopyAction && isMouseOnMap( mousePos() ) &&
 		mimeData->hasFormat( "application/x-cooler-layer" ) &&
-		mimeData->hasFormat( "application/x-cooler-objecttile" ) )
+		mimeData->hasFormat( "application/x-cooler-tile" ) )
 	{
 		event->acceptProposedAction();
 		return;
@@ -74,20 +74,16 @@ void GraphicsViewEditor::dropEvent( QDropEvent* event )
 	const QMimeData* mimeData = event->mimeData();
 	
 	if ( !mimeData->hasFormat( "application/x-cooler-layer" ) ||
-		!mimeData->hasFormat( "application/x-cooler-objecttile" ) )
+		!mimeData->hasFormat( "application/x-cooler-tile" ) )
 	{
 		GraphicsView::dropEvent( event );
 		return;
 	}
 	
-	ObjectTile tile;
-	int layer = mimeData->data( "application/x-cooler-layer" ).toInt();
-	QByteArray datas = mimeData->data( "application/x-cooler-objecttile" );
+	const int layer = mimeData->data( "application/x-cooler-layer" ).toInt();
+	AbstractTile* tile = AbstractTile::fromByteArray( mimeData->data( "application/x-cooler-tile" ) );
 	
-	QDataStream stream( &datas, QIODevice::ReadOnly );
-	stream >> tile;
-	
-	mEditedMap->setLayerObjectTile( layer, mouseTilePos( mousePos() ), tile );
+	mEditedMap->setLayerTile( layer, mouseTilePos( mousePos() ), tile );
 	
 	GraphicsView::dropEvent( event );
 }

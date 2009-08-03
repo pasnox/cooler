@@ -59,19 +59,15 @@ void TreeWidgetTiles::mousePressEvent( QMouseEvent* event )
 		
 		if ( me->button() == Qt::LeftButton )
 		{
-			ObjectTile tile = item->data( 0, Qt::UserRole ).value<ObjectTile>();
+			AbstractTile* tile = item->data( 0, Qt::UserRole ).value<AbstractTile*>();
 			QDrag* drag = new QDrag( this );
 			QMimeData* mimeData = new QMimeData;
-			
-			QByteArray datas;
-			QDataStream stream( &datas, QIODevice::WriteOnly );
-			stream << tile;
 
 			mimeData->setData( "application/x-cooler-layer", QByteArray::number( mCurrentLayer ) );
-			mimeData->setData( "application/x-cooler-objecttile", datas );
+			mimeData->setData( "application/x-cooler-tile", AbstractTile::toByteArray( tile ) );
 
 			drag->setMimeData( mimeData );
-			drag->setPixmap( tile.Pixmap );
+			drag->setPixmap( tile->tile( 0 ) );
 			drag->exec( Qt::CopyAction, Qt::CopyAction );
 		}
 	}
@@ -82,54 +78,58 @@ void TreeWidgetTiles::datasLoaded( bool success )
 	if ( success )
 	{
 		clear();
+		mTypesItems.clear();
 		
-		// Block
-		QTreeWidgetItem* blocks = new QTreeWidgetItem( this, -1 );
-		blocks->setText( 0, tr( "Blocks" ) );
+		const TypesTilesMap tiles = mTiles->tiles();
+		QTreeWidgetItem* item;
 		
-		// Sky
-		QTreeWidgetItem* sky = new QTreeWidgetItem( this, -1 );
-		sky->setText( 0, tr( "Sky" ) );
-		
-		// Box
-		QTreeWidgetItem* boxes = new QTreeWidgetItem( this, -1 );
-		boxes->setText( 0, tr( "Boxes" ) );
-		
-		// Block
-		QTreeWidgetItem* floors = new QTreeWidgetItem( this, -1 );
-		floors->setText( 0, tr( "Floors" ) );
-		
-		// tiles
-		TilesMap tiles = mTiles->objectTiles();
-		foreach ( const QString& name, tiles.keys() )
+		foreach ( const Globals::TypeTile& type, tiles.keys() )
 		{
-			const ObjectTile tile = tiles[ name ];
-			QTreeWidgetItem* item = 0;
+			item = new QTreeWidgetItem( this, -1 );
 			
-			switch ( tile.Type )
+			switch ( type )
 			{
-				case Globals::BlockObject:
-					item = new QTreeWidgetItem( blocks, tile.Type );
+				case Globals::BlockTile:
+					item->setText( 0, tr( "Blocks" ) );
 					break;
-				case Globals::BoxObject:
-					item = new QTreeWidgetItem( boxes, tile.Type );
+				case Globals::BoxTile:
+					item->setText( 0, tr( "Boxes" ) );
 					break;
-				case Globals::FloorObject:
-					item = new QTreeWidgetItem( floors, tile.Type );
+				case Globals::FloorTile:
+					item->setText( 0, tr( "Floors" ) );
 					break;
-				case Globals::SkyObject:
-					item = new QTreeWidgetItem( sky, tile.Type );
+				case Globals::SkyTile:
+					item->setText( 0, tr( "Sky" ) );
 					break;
-				case Globals::InvalidObject:
+				case Globals::PlayerTile:
+					item->setText( 0, tr( "Players" ) );
+					break;
+				case Globals::BombTile:
+					item->setText( 0, tr( "Bombs" ) );
+					break;
+				case Globals::InvalidTile:
 					Q_ASSERT( 0 );
 					break;
 			}
 			
-			Q_ASSERT( item );
-			item->setIcon( 0, QIcon( tile.Pixmap ) );
-			item->setText( 0, QFileInfo( name ).fileName() );
-			item->setToolTip( 0, name );
-			item->setData( 0, Qt::UserRole, QVariant::fromValue( tile ) );
+			mTypesItems[ type ] = item;
+		}
+		
+		// tiles
+		foreach ( const Globals::TypeTile& type, tiles.keys() )
+		{
+			const TilesMap typeTiles = tiles[ type ];
+			
+			foreach ( const QString& name, typeTiles.keys() )
+			{
+				AbstractTile* tile = typeTiles[ name ];
+				item = new QTreeWidgetItem( mTypesItems[ type ], tile->Type );
+				
+				item->setIcon( 0, QIcon( tile->tile( 0 ) ) );
+				item->setText( 0, tile->name() );
+				item->setToolTip( 0, tile->absoluteFilePath() );
+				item->setData( 0, Qt::UserRole, QVariant::fromValue( tile ) );
+			}
 		}
 	}
 }

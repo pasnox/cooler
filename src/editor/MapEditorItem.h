@@ -15,7 +15,7 @@ public:
 	void setSize( const QSize& size );
 	void setLayers( const LayersMap& layers );
 	void setLayer( uint id, const LayerMap& layer );
-	void setLayerObjectTile( uint id, const QPoint& pos, const ObjectTile& tile );
+	void setLayerTile( uint id, const QPoint& pos, AbstractTile* tile );
 	void setCurrentLayer( int layer, bool exclusive );
 	void removeLayer( int layer );
 	void clearLayers();
@@ -23,7 +23,7 @@ public:
 	bool save( const QString& fileName );
 
 protected:
-	ObjectTile objectTile( const QString& name ) const;
+	ObjectTile* objectTile( const QString& name ) const;
 	uint createMapping( const QString& name );
 };
 

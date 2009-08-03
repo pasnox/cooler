@@ -2,14 +2,10 @@
 
 #include <QSettings>
 
-PlayerTile::PlayerTile()
+PlayerTile::PlayerTile( const QFileInfo& fn, Globals::TypeTile type )
+	: AbstractTile( fn, type )
 {
-}
-
-PlayerTile::PlayerTile( const QFileInfo& fn )
-{
-	FileName = fn.absoluteFilePath();
-	QSettings settings( FileName, QSettings::IniFormat );
+	QSettings settings( FileName.absoluteFilePath(), QSettings::IniFormat );
 	settings.beginGroup( "Player" );
 	Name = settings.value( "Name" ).toString();
 	Size = settings.value( "Size" ).toSize();
@@ -20,23 +16,19 @@ PlayerTile::PlayerTile( const QFileInfo& fn )
 	DeadPixmap = QPixmap( deadTilesFn );
 }
 
-QPixmap PlayerTile::tile( Globals::PlayerStroke stroke, int step )
-{
-	const QPoint point = QPoint( step *Size.width(), stroke *Size.height() );
-	return Pixmap.copy( QRect( point, Size ) );
-}
-
 int PlayerTile::steps() const
 {
 	return Pixmap.width() /Size.width();
 }
 
-bool PlayerTile::operator==( const PlayerTile& other ) const
+QPixmap PlayerTile::tile( int step ) const
 {
-	return FileName == other.FileName && Name == other.Name && Size == other.Size;
+	Q_UNUSED( step );
+	return QPixmap();
 }
 
-bool PlayerTile::operator!=( const PlayerTile& other ) const
+QPixmap PlayerTile::tile( Globals::PlayerStroke stroke, int step ) const
 {
-	return !operator==( other );
+	const QPoint point = QPoint( step *Size.width(), stroke *Size.height() );
+	return Pixmap.copy( QRect( point, Size ) );
 }

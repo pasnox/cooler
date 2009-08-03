@@ -3,6 +3,8 @@
 
 #include <QTreeWidget>
 
+#include "Globals.h"
+
 class TilesManager;
 
 class TreeWidgetTiles : public QTreeWidget
@@ -20,6 +22,7 @@ public:
 
 protected:
 	TilesManager* mTiles;
+	QMap<Globals::TypeTile, QTreeWidgetItem*> mTypesItems;
 	int mCurrentLayer;
 	
 	virtual void mousePressEvent( QMouseEvent* event );

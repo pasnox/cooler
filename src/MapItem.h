@@ -68,7 +68,7 @@ protected:
 	TilesMapping mMapping;
 	LayersMap mLayers;
 	
-	ObjectTile mappedObjectTile( uint id ) const;
+	ObjectTile* mappedObjectTile( uint id ) const;
 	QPoint objectPos( ObjectItem* object ) const;
 	ObjectItem* nearestObject( const QPoint& strokePoint, Globals::PlayerStroke stroke, const QSet<ObjectItem*>& objects ) const;
 	void updateMap();
