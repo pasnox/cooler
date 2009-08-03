@@ -5,7 +5,7 @@
 #include <QGraphicsPixmapItem>
 
 #include "Globals.h"
-#include "tile/BombTile.h"
+#include "BombTile.h"
 
 class QTimer;
 
