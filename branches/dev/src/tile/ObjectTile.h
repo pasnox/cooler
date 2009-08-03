@@ -1,36 +1,14 @@
 #ifndef OBJECTTILE_H
 #define OBJECTTILE_H
 
-#include "Globals.h"
+#include "AbstractTile.h"
 
-#include <QFileInfo>
-
-struct ObjectTile
+struct ObjectTile : AbstractTile
 {
-	ObjectTile();
-	ObjectTile( Globals::TypeObject type, const QFileInfo& fn );
-	bool operator==( const ObjectTile& other ) const;
-	bool operator!=( const ObjectTile& other ) const;
+	ObjectTile( const QFileInfo& fn = QFileInfo(), Globals::TypeTile type = Globals::InvalidTile );
 	
-	Globals::TypeObject Type;
-	QString FileName;
-	QPixmap Pixmap;
+	virtual int steps() const;
+	virtual QPixmap tile( int step ) const;
 };
-
-Q_DECLARE_METATYPE( ObjectTile )
-
-inline QDataStream& operator<<( QDataStream& stream, const ObjectTile& tile )
-{
-	stream << (qint8)tile.Type << tile.FileName << tile.Pixmap;
-	return stream;
-}
-
-inline QDataStream& operator>>( QDataStream& stream, ObjectTile& tile )
-{
-	qint8 type;
-	stream >> type >> tile.FileName >> tile.Pixmap;
-	tile.Type = (Globals::TypeObject)type;
-	return stream;
-}
 
 #endif // OBJECTTILE_H

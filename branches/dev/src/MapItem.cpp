@@ -121,7 +121,7 @@ bool MapItem::load( const QString& fileName )
 				}
 				
 				const uint id = parts.at( x ).toUInt();
-				const ObjectTile tile = mappedObjectTile( id );
+				ObjectTile* tile = mappedObjectTile( id );
 				ObjectItem* object = new ObjectItem( tile, this );
 				object->setZValue( layer );
 				mLayers[ layer ][ QPoint( x, y ) ] = object;
@@ -185,17 +185,17 @@ QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PlayerStroke stroke ) 
 			continue;
 		}
 		
-		const Globals::TypeObject type = object->objectTile().Type;
+		const Globals::TypeTile type = object->objectTile()->Type;
 		const QPoint pos = objectPos( object );
 		
 		switch ( type )
 		{
-			case Globals::FloorObject:
-			case Globals::BlockObject:
-			case Globals::BoxObject:
+			case Globals::FloorTile:
+			case Globals::BlockTile:
+			case Globals::BoxTile:
 				break;
-			case Globals::SkyObject:
-			case Globals::InvalidObject:
+			case Globals::SkyTile:
+			case Globals::InvalidTile:
 			default:
 				continue;
 				break;
@@ -204,14 +204,14 @@ QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PlayerStroke stroke ) 
 		if ( objects.contains( pos ) )
 		{
 			ObjectItem* curObject = objects[ pos ];
-			const Globals::TypeObject curType = curObject->objectTile().Type;
+			const Globals::TypeTile curType = curObject->objectTile()->Type;
 			
-			if ( curType == Globals::FloorObject )
+			if ( curType == Globals::FloorTile )
 			{
 				walkableObjects.remove( curObject );
 				objects[ pos ] = object;
 				
-				if ( type == Globals::FloorObject )
+				if ( type == Globals::FloorTile )
 				{
 					walkableObjects << object;
 				}
@@ -221,7 +221,7 @@ QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PlayerStroke stroke ) 
 		{
 			objects[ pos ] = object;
 			
-			if ( type == Globals::FloorObject )
+			if ( type == Globals::FloorTile )
 			{
 				walkableObjects << object;
 			}
@@ -307,10 +307,10 @@ QPoint MapItem::closestPos( const QPoint& pos ) const
 	return QPoint( point.x() *tileSize.width(), point.y() *tileSize.height() );
 }
 
-ObjectTile MapItem::mappedObjectTile( uint id ) const
+ObjectTile* MapItem::mappedObjectTile( uint id ) const
 {
 	const QString name = mMapping.value( id );
-	return mTiles ? mTiles->objectTile( name ) : ObjectTile();
+	return mTiles ? (ObjectTile*)mTiles->tile( name ) : 0;
 }
 
 QPoint MapItem::objectPos( ObjectItem* object ) const

@@ -3,7 +3,7 @@
 #include <QPainter>
 #include <QDebug>
 
-ObjectItem::ObjectItem( const ObjectTile& tile, QGraphicsItem* parent )
+ObjectItem::ObjectItem( AbstractTile* tile, QGraphicsItem* parent )
 	: QGraphicsPixmapItem( parent )
 {
 	setObjectTile( tile );
@@ -29,13 +29,13 @@ void ObjectItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* optio
 	QGraphicsPixmapItem::paint( painter, option, widget );
 }
 
-ObjectTile ObjectItem::objectTile() const
+AbstractTile* ObjectItem::objectTile() const
 {
 	return mObjectTile;
 }
 
-void ObjectItem::setObjectTile( const ObjectTile& tile )
+void ObjectItem::setObjectTile( AbstractTile* tile )
 {
 	mObjectTile = tile;
-	setPixmap( mObjectTile.Pixmap );
+	setPixmap( mObjectTile->tile( 0 ) );
 }

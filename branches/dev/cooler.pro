@@ -69,7 +69,9 @@ HEADERS	= src/PlayerItem.h \
 	src/BombItem.h \
 	src/tile/PlayerTile.h \
 	src/tile/ObjectTile.h \
-	src/tile/BombTile.h
+	src/tile/BombTile.h \
+	src/AbstractObjectItem.h \
+	src/tile/AbstractTile.h
 
 SOURCES	= src/main.cpp \
 	src/PlayerItem.cpp \
@@ -88,4 +90,6 @@ SOURCES	= src/main.cpp \
 	src/BombItem.cpp \
 	src/tile/PlayerTile.cpp \
 	src/tile/ObjectTile.cpp \
-	src/tile/BombTile.cpp
+	src/tile/BombTile.cpp \
+	src/AbstractObjectItem.cpp \
+	src/tile/AbstractTile.cpp

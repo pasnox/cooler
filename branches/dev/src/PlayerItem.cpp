@@ -149,6 +149,7 @@ void PlayerItem::handleAction( PadSettings::Action action )
 
 void PlayerItem::dropBomb()
 {
+	/*
 	const BombTile bombTile = TilesManager::instance()->bombTiles().values().first();
 	QPoint thisPos = mapRectToItem( map(), bodyBoundingRect() ).toRect().topLeft();
 	BombItem* bomb = new BombItem( bombTile, scene() );
@@ -157,6 +158,7 @@ void PlayerItem::dropBomb()
 	bomb->setParentItem( map() );
 	
 	//scene()->addItem( bomb );
+	*/
 }
 
 void PlayerItem::strokeTimer_timeout()

@@ -43,7 +43,7 @@ void MapEditorItem::setLayer( uint id, const LayerMap& layer )
 	updateMap();
 }
 
-void MapEditorItem::setLayerObjectTile( uint id, const QPoint& pos, const ObjectTile& tile )
+void MapEditorItem::setLayerTile( uint id, const QPoint& pos, AbstractTile* tile )
 {
 	const QSize tileSize = mTiles->tileSize();
 	ObjectItem* object = mLayers[ id ][ pos ];
@@ -92,6 +92,8 @@ void MapEditorItem::clearLayers()
 
 bool MapEditorItem::save( const QString& fileName )
 {
+return false;
+/*
 	QSettings settings( fileName, QSettings::IniFormat );
 	settings.clear();
 	
@@ -160,11 +162,12 @@ bool MapEditorItem::save( const QString& fileName )
 	settings.sync();
 	
 	return settings.status() == QSettings::NoError;
+*/
 }
 
-ObjectTile MapEditorItem::objectTile( const QString& name ) const
+ObjectTile* MapEditorItem::objectTile( const QString& name ) const
 {
-	return mTiles ? mTiles->objectTile( name ) : ObjectTile();
+	return mTiles ? (ObjectTile*)mTiles->tile( name ) : 0;
 }
 
 uint MapEditorItem::createMapping( const QString& name )

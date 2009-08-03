@@ -1,23 +1,18 @@
 #include "ObjectTile.h"
 
-ObjectTile::ObjectTile()
+ObjectTile::ObjectTile( const QFileInfo& fn, Globals::TypeTile type )
+	: AbstractTile( fn, type )
 {
-	Type = Globals::InvalidObject;
+	Pixmap = QPixmap( FileName.absoluteFilePath() );
 }
 
-ObjectTile::ObjectTile( Globals::TypeObject type, const QFileInfo& fn )
+int ObjectTile::steps() const
 {
-	Type = type;
-	FileName = fn.absoluteFilePath();
-	Pixmap = QPixmap( FileName );
+	return Pixmap.isNull() ? 0 : 1;
 }
 
-bool ObjectTile::operator==( const ObjectTile& other ) const
+QPixmap ObjectTile::tile( int step ) const
 {
-	return Type == other.Type && FileName == other.FileName;
-}
-
-bool ObjectTile::operator!=( const ObjectTile& other ) const
-{
-	return !operator==( other );
+	Q_UNUSED( step );
+	return Pixmap;
 }
