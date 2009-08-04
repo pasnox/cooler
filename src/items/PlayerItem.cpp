@@ -36,11 +36,6 @@ PlayerItem::~PlayerItem()
 {
 }
 
-int PlayerItem::type() const
-{
-	return Type;
-}
-
 QRectF PlayerItem::boundingRect() const
 {
 	return QRect( QPoint( 0, 0 ), pixmap().size() );

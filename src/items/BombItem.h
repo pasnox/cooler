@@ -3,21 +3,17 @@
 
 #include <QObject>
 
-#include <AbstractItem.h>
+#include <MapObjectItem.h>
 
 class QTimer;
 
-class BombItem : public QObject, public AbstractItem
+class BombItem : public QObject, public MapObjectItem
 {
 	Q_OBJECT
 	
 public:
-	enum { Type = Globals::BombItem };
-	
 	BombItem( AbstractTile* tile = 0, QGraphicsItem* parent = 0 );
 	virtual ~BombItem();
-	
-	virtual int type() const;
 
 protected:
 	int mAnimationStep;

@@ -4,7 +4,7 @@
 #include <QTimer>
 
 BombItem::BombItem( AbstractTile* tile, QGraphicsItem* parent )
-	: QObject( QApplication::instance() ), AbstractItem( tile, parent )
+	: QObject( QApplication::instance() ), MapObjectItem( tile, parent )
 {
 	mAnimationStep = -1;
 	mAnimationTimer = new QTimer( this );
@@ -18,11 +18,6 @@ BombItem::BombItem( AbstractTile* tile, QGraphicsItem* parent )
 
 BombItem::~BombItem()
 {
-}
-
-int BombItem::type() const
-{
-	return Type;
 }
 
 void BombItem::setTileStep( int step )
