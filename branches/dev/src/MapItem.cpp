@@ -180,7 +180,7 @@ QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PlayerStroke stroke ) 
 	{
 		MapObjectItem* object = qgraphicsitem_cast<MapObjectItem*>( item );
 		
-		if ( !object || !object->isValid() )
+		if ( !object || !object->isValid() || object == player )
 		{
 			continue;
 		}
