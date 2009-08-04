@@ -19,9 +19,7 @@ namespace Globals
 	enum TypeItem
 	{
 		MapItem = QGraphicsItem::UserType +1,
-		ObjectItem,
-		BombItem,
-		PlayerItem
+		MapObjectItem
 	};
 	
 	enum ObjectLayers

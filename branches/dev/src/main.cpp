@@ -1,7 +1,8 @@
 #include <QApplication>
 #include <QShortcut>
 
-#include "TilesManager.h"
+#include <TilesManager.h>
+
 #include "UIMain.h"
 #include "editor/UIMapEditor.h"
 

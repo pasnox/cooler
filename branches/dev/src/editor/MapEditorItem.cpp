@@ -46,12 +46,12 @@ void MapEditorItem::setLayer( uint id, const LayerMap& layer )
 void MapEditorItem::setLayerTile( uint id, const QPoint& pos, AbstractTile* tile )
 {
 	const QSize tileSize = mTiles->tileSize();
-	ObjectItem* object = mLayers[ id ][ pos ];
+	AbstractItem* object = mLayers[ id ][ pos ];
 	QPoint tilePos( pos.x() *tileSize.width(), pos.y() *tileSize.height() );
 	
 	if ( object )
 	{
-		object->setObjectTile( tile );
+		object->setTile( tile );
 	}
 	else
 	{
@@ -68,7 +68,7 @@ void MapEditorItem::setCurrentLayer( int _layer, bool exclusive )
 	{
 		foreach ( const QPoint& pos, mLayers[ layer ].keys() )
 		{
-			ObjectItem* object = mLayers[ layer ][ pos ];
+			AbstractItem* object = mLayers[ layer ][ pos ];
 			const bool visible = exclusive ? ( _layer == -1 || _layer == layer ) : true;
 			object->setVisible( visible );
 		}
