@@ -59,7 +59,6 @@ HEADERS	= src/tiles/AbstractTile.h \
 	src/tiles/ObjectTile.h \
 	src/tiles/PlayerTile.h \
 	src/items/BombItem.h \
-	src/items/ObjectItem.h \
 	src/items/PlayerItem.h \
 	src/BombInformations.h \
 	src/Globals.h \
@@ -72,14 +71,13 @@ HEADERS	= src/tiles/AbstractTile.h \
 	src/editor/TreeWidgetLayers.h \
 	src/editor/TreeWidgetTiles.h \
 	src/editor/UIMapEditor.h \
-	src/items/AbstractItem.h
+	src/items/MapObjectItem.h
 
 SOURCES	= src/tiles/AbstractTile.cpp \
 	src/tiles/BombTile.cpp \
 	src/tiles/ObjectTile.cpp \
 	src/tiles/PlayerTile.cpp \
 	src/items/BombItem.cpp \
-	src/items/ObjectItem.cpp \
 	src/items/PlayerItem.cpp \
 	src/BombInformations.cpp \
 	src/Globals.cpp \
@@ -93,4 +91,4 @@ SOURCES	= src/tiles/AbstractTile.cpp \
 	src/editor/TreeWidgetLayers.cpp \
 	src/editor/TreeWidgetTiles.cpp \
 	src/editor/UIMapEditor.cpp \
-	src/items/AbstractItem.cpp
+	src/items/MapObjectItem.cpp

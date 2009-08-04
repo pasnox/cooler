@@ -31,12 +31,9 @@ class PlayerItem : public QObject, public QGraphicsPixmapItem
 	friend class GraphicsView;
 	
 public:
-	enum { Type = Globals::PlayerItem };
-	
 	PlayerItem( const PlayerTile& playerTile, QObject* parent = 0 );
 	virtual ~PlayerItem();
 	
-	virtual int type() const;
 	virtual QRectF boundingRect() const;
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );
 	

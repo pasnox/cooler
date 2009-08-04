@@ -1,32 +1,32 @@
-#include "AbstractItem.h"
+#include "MapObjectItem.h"
 
-AbstractItem::AbstractItem( AbstractTile* tile, QGraphicsItem* parent )
+MapObjectItem::MapObjectItem( AbstractTile* tile, QGraphicsItem* parent )
 	: QGraphicsPixmapItem( parent )
 {
 	setTile( tile );
 }
 
-int AbstractItem::type() const
+int MapObjectItem::type() const
 {
 	return Globals::MapObjectItem;
 }
 
-QRectF AbstractItem::boundingRect() const
+QRectF MapObjectItem::boundingRect() const
 {
 	return QRectF( QPointF( 0, 0 ), mTile ? mTile->tile( 0 ).size() : QSize() );
 }
 
-void AbstractItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
+void MapObjectItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
 	QGraphicsPixmapItem::paint( painter, option, widget );
 }
 
-AbstractTile* AbstractItem::tile() const
+AbstractTile* MapObjectItem::tile() const
 {
 	return mTile;
 }
 
-void AbstractItem::setTile( AbstractTile* tile )
+void MapObjectItem::setTile( AbstractTile* tile )
 {
 	mTile = tile;
 	
@@ -40,7 +40,7 @@ void AbstractItem::setTile( AbstractTile* tile )
 	}
 }
 
-Globals::TypeTile AbstractItem::tileType() const
+Globals::TypeTile MapObjectItem::tileType() const
 {
 	return mTile ? Globals::InvalidTile : mTile->Type;
 }
