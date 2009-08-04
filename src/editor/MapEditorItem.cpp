@@ -1,5 +1,5 @@
 #include "MapEditorItem.h"
-#include "ObjectItem.h"
+#include "MapObjectItem.h"
 
 #include <QFile>
 #include <QPen>
@@ -46,7 +46,7 @@ void MapEditorItem::setLayer( uint id, const LayerMap& layer )
 void MapEditorItem::setLayerTile( uint id, const QPoint& pos, AbstractTile* tile )
 {
 	const QSize tileSize = mTiles->tileSize();
-	AbstractItem* object = mLayers[ id ][ pos ];
+	MapObjectItem* object = mLayers[ id ][ pos ];
 	QPoint tilePos( pos.x() *tileSize.width(), pos.y() *tileSize.height() );
 	
 	if ( object )
@@ -55,7 +55,7 @@ void MapEditorItem::setLayerTile( uint id, const QPoint& pos, AbstractTile* tile
 	}
 	else
 	{
-		object = new ObjectItem( tile, this );
+		object = new MapObjectItem( tile, this );
 		object->setPos( tilePos );
 		object->setZValue( id );
 		mLayers[ id ][ pos ] = object;
@@ -68,7 +68,7 @@ void MapEditorItem::setCurrentLayer( int _layer, bool exclusive )
 	{
 		foreach ( const QPoint& pos, mLayers[ layer ].keys() )
 		{
-			AbstractItem* object = mLayers[ layer ][ pos ];
+			MapObjectItem* object = mLayers[ layer ][ pos ];
 			const bool visible = exclusive ? ( _layer == -1 || _layer == layer ) : true;
 			object->setVisible( visible );
 		}

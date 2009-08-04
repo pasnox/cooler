@@ -7,11 +7,11 @@
 #include "Globals.h"
 #include "TilesManager.h"
 
-class AbstractItem;
+class MapObjectItem;
 class PlayerItem;
 
 typedef QMap<uint, QString> TilesMapping;
-typedef QMap<QPoint, AbstractItem*> LayerMap;
+typedef QMap<QPoint, MapObjectItem*> LayerMap;
 typedef QMap<uint, LayerMap> LayersMap;
 
 #define MAP_SPLIT_CHAR "|"
@@ -69,8 +69,8 @@ protected:
 	LayersMap mLayers;
 	
 	AbstractTile* mappedTile( uint id ) const;
-	QPoint objectPos( AbstractItem* object ) const;
-	AbstractItem* nearestObject( const QPoint& strokePoint, Globals::PlayerStroke stroke, const QSet<AbstractItem*>& objects ) const;
+	QPoint objectPos( MapObjectItem* object ) const;
+	MapObjectItem* nearestObject( const QPoint& strokePoint, Globals::PlayerStroke stroke, const QSet<MapObjectItem*>& objects ) const;
 	void updateMap();
 };
 
