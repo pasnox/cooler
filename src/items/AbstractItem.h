@@ -3,12 +3,23 @@
 
 #include <QGraphicsPixmapItem>
 
-class AbstractItem : public QGraphicsPixmapItem
+#include <AbstractTile.h>
+
+class AbstractItem : public QGraphicsPixmapItem // should be renamed MapObjectItem
 {
 public:
-	virtual int type() const = 0;
-	virtual QRectF boundingRect() const = 0;
-	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 ) = 0;
+	AbstractItem( AbstractTile* tile, QGraphicsItem* parent );
+	
+	virtual int type() const;
+	virtual QRectF boundingRect() const;
+	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );
+	
+	Globals::TypeTile tileType() const;
+	AbstractTile* tile() const;
+	void setTile( AbstractTile* tile );
+
+protected:
+	AbstractTile* mTile;
 };
 
 #endif // ABSTRACTITEM_H

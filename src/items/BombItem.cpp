@@ -1,11 +1,11 @@
 #include "BombItem.h"
 
+#include <QApplication>
 #include <QTimer>
 
-BombItem::BombItem( const BombTile& bombTile, QObject* parent )
-	: QObject( parent ), QGraphicsPixmapItem()
+BombItem::BombItem( AbstractTile* tile, QGraphicsItem* parent )
+	: QObject( QApplication::instance() ), AbstractItem( tile, parent )
 {
-	mBombTile = bombTile;
 	mAnimationStep = -1;
 	mAnimationTimer = new QTimer( this );
 	mExplodeTimer = new QTimer( this );
@@ -25,27 +25,17 @@ int BombItem::type() const
 	return Type;
 }
 
-QRectF BombItem::boundingRect() const
-{
-	return QRectF( QPointF( 0, 0 ), pixmap().size() );
-}
-
-void BombItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
-{
-	QGraphicsPixmapItem::paint( painter, option, widget );
-}
-
 void BombItem::setTileStep( int step )
 {
 	mAnimationStep = step;
-	setPixmap( mBombTile.tile( mAnimationStep ) );
+	setPixmap( mTile->tile( mAnimationStep ) );
 }
 
 void BombItem::animationTimer_timeout()
 {
 	mAnimationStep++;
 	
-	if ( mAnimationStep > mBombTile.steps() )
+	if ( mAnimationStep > mTile->steps() )
 	{
 		mAnimationStep = 0;
 	}

@@ -1,7 +1,7 @@
 #ifndef BOMBTILE_H
 #define BOMBTILE_H
 
-#include "AbstractTile.h"
+#include <AbstractTile.h>
 
 struct BombTile : AbstractTile
 {
