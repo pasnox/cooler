@@ -1,14 +1,14 @@
-#ifndef ABSTRACTITEM_H
-#define ABSTRACTITEM_H
+#ifndef MAPOBJECTITEM_H
+#define MAPOBJECTITEM_H
 
 #include <QGraphicsPixmapItem>
 
 #include <AbstractTile.h>
 
-class AbstractItem : public QGraphicsPixmapItem // should be renamed MapObjectItem
+class MapObjectItem : public QGraphicsPixmapItem
 {
 public:
-	AbstractItem( AbstractTile* tile, QGraphicsItem* parent );
+	MapObjectItem( AbstractTile* tile, QGraphicsItem* parent );
 	
 	virtual int type() const;
 	virtual QRectF boundingRect() const;
@@ -22,4 +22,4 @@ protected:
 	AbstractTile* mTile;
 };
 
-#endif // ABSTRACTITEM_H
+#endif // MAPOBJECTITEM_H
