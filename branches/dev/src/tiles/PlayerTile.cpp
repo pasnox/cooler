@@ -23,8 +23,7 @@ int PlayerTile::steps() const
 
 QPixmap PlayerTile::tile( int step ) const
 {
-	Q_UNUSED( step );
-	return QPixmap();
+	return tile( Globals::DownStroke, step );
 }
 
 QPixmap PlayerTile::tile( Globals::PlayerStroke stroke, int step ) const

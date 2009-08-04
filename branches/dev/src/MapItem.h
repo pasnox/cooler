@@ -56,6 +56,7 @@ public:
 	QPoint canStrokeTo( PlayerItem* player, Globals::PlayerStroke stroke ) const;
 	QPoint gridToPos( const QPoint& gridPos ) const;
 	QPoint posToGrid( const QPoint& pos ) const;
+	QPoint gridPos( MapObjectItem* object ) const;
 	QPoint closestPos( const QPoint& pos ) const;
 	
 	mutable QRectF mDebugRect;
@@ -69,7 +70,6 @@ protected:
 	LayersMap mLayers;
 	
 	AbstractTile* mappedTile( uint id ) const;
-	QPoint objectPos( MapObjectItem* object ) const;
 	MapObjectItem* nearestObject( const QPoint& strokePoint, Globals::PlayerStroke stroke, const QSet<MapObjectItem*>& objects ) const;
 	void updateMap();
 };

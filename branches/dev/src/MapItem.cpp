@@ -123,7 +123,6 @@ bool MapItem::load( const QString& fileName )
 				const uint id = parts.at( x ).toUInt();
 				AbstractTile* tile = mappedTile( id );
 				MapObjectItem* object = new MapObjectItem( tile, this );
-#warning fix me by a factory
 				object->setZValue( layer );
 				mLayers[ layer ][ QPoint( x, y ) ] = object;
 			}
@@ -181,38 +180,23 @@ QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PlayerStroke stroke ) 
 	{
 		MapObjectItem* object = qgraphicsitem_cast<MapObjectItem*>( item );
 		
-		if ( !object )
+		if ( !object || !object->isValid() )
 		{
 			continue;
 		}
 		
-		const Globals::TypeTile type = object->tileType();
-		const QPoint pos = objectPos( object );
-		
-		switch ( type )
-		{
-			case Globals::FloorTile:
-			case Globals::BlockTile:
-			case Globals::BoxTile:
-				break;
-			case Globals::SkyTile:
-			case Globals::InvalidTile:
-			default:
-				continue;
-				break;
-		}
+		const QPoint pos = gridPos( object );
 		
 		if ( objects.contains( pos ) )
 		{
 			MapObjectItem* curObject = objects[ pos ];
-			const Globals::TypeTile curType = curObject->tileType();
 			
-			if ( curType == Globals::FloorTile )
+			if ( curObject->isWalkable() )
 			{
 				walkableObjects.remove( curObject );
 				objects[ pos ] = object;
 				
-				if ( type == Globals::FloorTile )
+				if ( object->isWalkable() )
 				{
 					walkableObjects << object;
 				}
@@ -222,26 +206,20 @@ QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PlayerStroke stroke ) 
 		{
 			objects[ pos ] = object;
 			
-			if ( type == Globals::FloorTile )
+			if ( object->isWalkable() )
 			{
 				walkableObjects << object;
 			}
 		}
 	}
 	
-	// return if can't walk
-	if ( walkableObjects.isEmpty() )
-	{
-		return p;
-	}
-	
 	// determine the item to walk to
-	MapObjectItem* walkToObject = walkableObjects.count() == 1 ? *walkableObjects.begin() : 0;
+	MapObjectItem* walkToObject = nearestObject( sr.center(), stroke, walkableObjects );
 	
-	// determine nearest item if needed
+	// return if can't walk
 	if ( !walkToObject )
 	{
-		walkToObject = nearestObject( sr.center(), stroke, walkableObjects );
+		return p;
 	}
 	
 	// calculate the step to move to
@@ -301,20 +279,7 @@ QPoint MapItem::posToGrid( const QPoint& pos ) const
 	return QPoint( pos.x() /tileSize.width(), pos.y() /tileSize.height() );
 }
 
-QPoint MapItem::closestPos( const QPoint& pos ) const
-{
-	const QSize tileSize = mTiles->tileSize();
-	const QPoint point( pos.x() /tileSize.width(), pos.y() /tileSize.height() );
-	return QPoint( point.x() *tileSize.width(), point.y() *tileSize.height() );
-}
-
-AbstractTile* MapItem::mappedTile( uint id ) const
-{
-	const QString name = mMapping.value( id );
-	return mTiles ? mTiles->tile( name ) : 0;
-}
-
-QPoint MapItem::objectPos( MapObjectItem* object ) const
+QPoint MapItem::gridPos( MapObjectItem* object ) const
 {
 	const QPoint invalidPos( -1, -1 );
 	const int layer = object->zValue();
@@ -329,8 +294,30 @@ QPoint MapItem::objectPos( MapObjectItem* object ) const
 	return p;
 }
 
+QPoint MapItem::closestPos( const QPoint& pos ) const
+{
+	const QSize tileSize = mTiles->tileSize();
+	const QPoint point( pos.x() /tileSize.width(), pos.y() /tileSize.height() );
+	return QPoint( point.x() *tileSize.width(), point.y() *tileSize.height() );
+}
+
+AbstractTile* MapItem::mappedTile( uint id ) const
+{
+	const QString name = mMapping.value( id );
+	return mTiles ? mTiles->tile( name ) : 0;
+}
+
 MapObjectItem* MapItem::nearestObject( const QPoint& strokePoint, Globals::PlayerStroke stroke, const QSet<MapObjectItem*>& objects ) const
 {
+	if ( objects.isEmpty() )
+	{
+		return 0;
+	}
+	else if ( objects.count() == 1 )
+	{
+		return *objects.begin();
+	}
+	
 	QMap<int, MapObjectItem*> items;
 	
 	foreach ( MapObjectItem* object, objects )
