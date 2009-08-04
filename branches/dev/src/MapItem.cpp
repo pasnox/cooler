@@ -1,5 +1,5 @@
 #include "MapItem.h"
-#include "ObjectItem.h"
+#include "MapObjectItem.h"
 #include "PlayerItem.h"
 
 #include <QFile>
@@ -122,7 +122,7 @@ bool MapItem::load( const QString& fileName )
 				
 				const uint id = parts.at( x ).toUInt();
 				AbstractTile* tile = mappedTile( id );
-				AbstractItem* object = new ObjectItem( tile, this );
+				MapObjectItem* object = new MapObjectItem( tile, this );
 #warning fix me by a factory
 				object->setZValue( layer );
 				mLayers[ layer ][ QPoint( x, y ) ] = object;
@@ -173,20 +173,20 @@ QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PlayerStroke stroke ) 
 	}
 	
 	mDebugRect = sr;
-	QMap<QPoint, AbstractItem*> objects;
-	QSet<AbstractItem*> walkableObjects;
+	QMap<QPoint, MapObjectItem*> objects;
+	QSet<MapObjectItem*> walkableObjects;
 	
 	// minimized objects map
 	foreach ( QGraphicsItem* item, scene()->items( sr ) )
 	{
-		AbstractItem* object = qgraphicsitem_cast<AbstractItem*>( item );
+		MapObjectItem* object = qgraphicsitem_cast<MapObjectItem*>( item );
 		
 		if ( !object )
 		{
 			continue;
 		}
 		
-		const Globals::TypeTile type = object->tile()->Type;
+		const Globals::TypeTile type = object->tileType();
 		const QPoint pos = objectPos( object );
 		
 		switch ( type )
@@ -204,8 +204,8 @@ QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PlayerStroke stroke ) 
 		
 		if ( objects.contains( pos ) )
 		{
-			AbstractItem* curObject = objects[ pos ];
-			const Globals::TypeTile curType = curObject->tile()->Type;
+			MapObjectItem* curObject = objects[ pos ];
+			const Globals::TypeTile curType = curObject->tileType();
 			
 			if ( curType == Globals::FloorTile )
 			{
@@ -236,7 +236,7 @@ QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PlayerStroke stroke ) 
 	}
 	
 	// determine the item to walk to
-	AbstractItem* walkToObject = walkableObjects.count() == 1 ? *walkableObjects.begin() : 0;
+	MapObjectItem* walkToObject = walkableObjects.count() == 1 ? *walkableObjects.begin() : 0;
 	
 	// determine nearest item if needed
 	if ( !walkToObject )
@@ -314,7 +314,7 @@ AbstractTile* MapItem::mappedTile( uint id ) const
 	return mTiles ? mTiles->tile( name ) : 0;
 }
 
-QPoint MapItem::objectPos( AbstractItem* object ) const
+QPoint MapItem::objectPos( MapObjectItem* object ) const
 {
 	const QPoint invalidPos( -1, -1 );
 	const int layer = object->zValue();
@@ -329,11 +329,11 @@ QPoint MapItem::objectPos( AbstractItem* object ) const
 	return p;
 }
 
-AbstractItem* MapItem::nearestObject( const QPoint& strokePoint, Globals::PlayerStroke stroke, const QSet<AbstractItem*>& objects ) const
+MapObjectItem* MapItem::nearestObject( const QPoint& strokePoint, Globals::PlayerStroke stroke, const QSet<MapObjectItem*>& objects ) const
 {
-	QMap<int, AbstractItem*> items;
+	QMap<int, MapObjectItem*> items;
 	
-	foreach ( AbstractItem* object, objects )
+	foreach ( MapObjectItem* object, objects )
 	{
 		const QPoint center = object->mapToScene( object->boundingRect().center() ).toPoint();
 		int diff, min, max;
@@ -370,7 +370,7 @@ void MapItem::updateMap()
 	{
 		foreach ( const QPoint& pos, mLayers[ layer ].keys() )
 		{
-			AbstractItem* object = mLayers[ layer ][ pos ];
+			MapObjectItem* object = mLayers[ layer ][ pos ];
 			
 			if ( pos.x() >= mSize.width() || pos.y() >= mSize.height() )
 			{
