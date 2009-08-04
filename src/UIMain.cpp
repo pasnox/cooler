@@ -26,10 +26,8 @@ void UIMain::initialize()
 	
 	if ( gvView->map()->load( fn ) )
 	{
-		/*
-		const PlayerTile playerTile = TilesManager::instance()->playerTiles().values().first();
-		PlayerItem* player = new PlayerItem( playerTile, gvView );
-		gvView->addPlayer( playerTile.Name, player );
-		*/
+		PlayerTile* tile = static_cast<PlayerTile*>( TilesManager::instance()->tiles( Globals::PlayerTile ).values().first() );
+		PlayerItem* player = new PlayerItem( tile, 0 );
+		gvView->addPlayer( tile->Name, player );
 	}
 }

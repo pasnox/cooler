@@ -18,7 +18,7 @@ namespace Globals
 	
 	enum TypeItem
 	{
-		MapItem = QGraphicsItem::UserType +1,
+		MapItem = QGraphicsItem::UserType,
 		MapObjectItem
 	};
 	

@@ -1,7 +1,7 @@
 #include "PlayerItem.h"
-#include "MapItem.h"
-#include "TilesManager.h"
-#include "BombItem.h"
+
+#include <TilesManager.h>
+#include <MapItem.h>
 
 #include <QTimer>
 #include <QGraphicsScene>
@@ -9,11 +9,10 @@
 #include <QPainter>
 #include <QDebug>
 
-PlayerItem::PlayerItem( const PlayerTile& playerTile, QObject* parent )
-	: QObject( parent ), QGraphicsPixmapItem()
+PlayerItem::PlayerItem( AbstractTile* tile, QGraphicsItem* parent )
+	: QObject(), MapObjectItem( tile, parent )
 {
-	setZValue( Globals::PlayerLayer );
-	mPlayerTile = playerTile;
+	setTile( tile );
 	mStroke = Globals::DownStroke;
 	mStrokeStep = 0;
 	mStrokeSpeed = 10;
@@ -36,14 +35,9 @@ PlayerItem::~PlayerItem()
 {
 }
 
-QRectF PlayerItem::boundingRect() const
-{
-	return QRect( QPoint( 0, 0 ), pixmap().size() );
-}
-
 void PlayerItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
-	QGraphicsPixmapItem::paint( painter, option, widget );
+	MapObjectItem::paint( painter, option, widget );
 	
 	painter->setPen( Qt::NoPen );
 	
@@ -60,9 +54,12 @@ void PlayerItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* optio
 	painter->setBrush( Qt::SolidPattern );
 }
 
-MapItem* PlayerItem::map() const
+void PlayerItem::setTile( AbstractTile* tile )
 {
-	return qgraphicsitem_cast<MapItem*>( parentItem() );
+	Q_ASSERT( mTile->Type == Globals::PlayerTile );
+	MapObjectItem::setTile( tile );
+	mPlayerTile = static_cast<PlayerTile*>( tile );
+	setZValue( Globals::PlayerLayer );
 }
 
 QRect PlayerItem::bodyBoundingRect() const
@@ -79,7 +76,7 @@ const PadSettings& PlayerItem::padSettings() const
 void PlayerItem::setPosAt( qreal step, const QPoint& pos )
 {
 	mStrokeStep = step;
-	setPixmap( mPlayerTile.tile( mStroke, mStrokeStep ) );
+	setPixmap( mPlayerTile->tile( mStroke, mStrokeStep ) );
 	setPos( pos );
 	update();
 }
@@ -160,7 +157,7 @@ void PlayerItem::strokeTimer_timeout()
 {
 	mStrokeStep += 0.2;
 	
-	if ( mStrokeStep > mPlayerTile.steps() )
+	if ( mStrokeStep > mPlayerTile->steps() )
 	{
 		mStrokeStep = 0;
 	}
