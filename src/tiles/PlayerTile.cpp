@@ -23,10 +23,10 @@ int PlayerTile::steps() const
 
 QPixmap PlayerTile::tile( int step ) const
 {
-	return tile( Globals::DownStroke, step );
+	return tile( Globals::PadStrokeDown, step );
 }
 
-QPixmap PlayerTile::tile( Globals::PlayerStroke stroke, int step ) const
+QPixmap PlayerTile::tile( Globals::PadStroke stroke, int step ) const
 {
 	const QPoint point = QPoint( step *Size.width(), stroke *Size.height() );
 	return Pixmap.copy( QRect( point, Size ) );

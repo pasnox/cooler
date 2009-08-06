@@ -10,7 +10,7 @@ struct PlayerTile : AbstractTile
 	virtual int steps() const;
 	virtual QPixmap tile( int step ) const;
 	
-	QPixmap tile( Globals::PlayerStroke stroke, int step ) const;
+	QPixmap tile( Globals::PadStroke stroke, int step ) const;
 	
 	QString Name;
 	QSize Size;

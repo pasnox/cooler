@@ -13,20 +13,10 @@ PlayerItem::PlayerItem( AbstractTile* tile, QGraphicsItem* parent )
 	: QObject(), MapObjectItem( tile, parent )
 {
 	setTile( tile );
-	mStroke = Globals::DownStroke;
+	mStroke = Globals::PadStrokeDown;
 	mStrokeStep = 0;
 	mStrokeSpeed = 10;
 	mStrokeTimer = new QTimer( this );
-	
-	mPad.StrokeMapping[ Qt::Key_Up ] = Globals::UpStroke;
-	mPad.StrokeMapping[ Qt::Key_Down ] = Globals::DownStroke;
-	mPad.StrokeMapping[ Qt::Key_Left ] = Globals::LeftStroke;
-	mPad.StrokeMapping[ Qt::Key_Right ] = Globals::RightStroke;
-	
-	mPad.ActionMapping[ Qt::Key_Q ] = PadSettings::Action1;
-	mPad.ActionMapping[ Qt::Key_S ] = PadSettings::Action2;
-	mPad.ActionMapping[ Qt::Key_A ] = PadSettings::Action3;
-	mPad.ActionMapping[ Qt::Key_Z ] = PadSettings::Action4;
 	
 	connect( mStrokeTimer, SIGNAL( timeout() ), this, SLOT( strokeTimer_timeout() ) );
 }
@@ -86,9 +76,9 @@ void PlayerItem::handleKeyboard( QKeyEvent* event )
 	switch ( event->type() )
 	{
 		case QEvent::KeyPress:
-			if ( mPad.StrokeMapping.contains( event->key() ) )
+			if ( mPad.isStrokeKeyUsed( event->key() ) )
 			{
-				mStroke = mPad.StrokeMapping[ event->key() ];
+				mStroke = mPad.keyStroke( event->key() );
 				
 				if ( !mStrokeTimer->isActive() )
 				{
@@ -102,7 +92,7 @@ void PlayerItem::handleKeyboard( QKeyEvent* event )
 				return;
 			}
 			
-			if ( mPad.StrokeMapping.contains( event->key() ) )
+			if ( mPad.isStrokeKeyUsed( event->key() ) )
 			{
 				if ( mStrokeTimer->isActive() )
 				{
@@ -111,9 +101,9 @@ void PlayerItem::handleKeyboard( QKeyEvent* event )
 				
 				setPosAt( 0, pos().toPoint() );
 			}
-			else if ( mPad.ActionMapping.contains( event->key() ) )
+			else if ( mPad.isActionKeyUsed( event->key() ) )
 			{
-				PadSettings::Action action = mPad.ActionMapping[ event->key() ];
+				Globals::PadAction action = mPad.keyAction( event->key() );
 				handleAction( action );
 			}
 			break;
@@ -123,18 +113,18 @@ void PlayerItem::handleKeyboard( QKeyEvent* event )
 	}
 }
 
-void PlayerItem::handleAction( PadSettings::Action action )
+void PlayerItem::handleAction( Globals::PadAction action )
 {
 	switch ( action )
 	{
-		case PadSettings::Action1:
+		case Globals::PadAction1:
 			dropBomb();
 			break;
-		case PadSettings::Action2:
+		case Globals::PadAction2:
 			break;
-		case PadSettings::Action3:
+		case Globals::PadAction3:
 			break;
-		case PadSettings::Action4:
+		case Globals::PadAction4:
 			break;
 	}
 }

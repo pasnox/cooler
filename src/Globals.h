@@ -5,6 +5,8 @@
 
 namespace Globals
 {
+	const uint MaxPlayers = 4;
+	
 	enum TypeTile
 	{
 		InvalidTile,
@@ -31,13 +33,22 @@ namespace Globals
 		SkyLayer = 60000
 	};
 	
-	enum PlayerStroke
+	enum PadStroke
 	{
-		NoStroke = -1,
-		DownStroke,
-		RightStroke,
-		LeftStroke,
-		UpStroke
+		PadStrokeNo = -1,
+		PadStrokeDown,
+		PadStrokeRight,
+		PadStrokeLeft,
+		PadStrokeUp
+	};
+	
+	enum PadAction
+	{
+		PadActionNo = -1,
+		PadAction1,
+		PadAction2,
+		PadAction3,
+		PadAction4
 	};
 };
 

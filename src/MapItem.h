@@ -53,7 +53,7 @@ public:
 	virtual void clear();
 	bool load( const QString& fileName );
 	
-	QPoint canStrokeTo( PlayerItem* player, Globals::PlayerStroke stroke ) const;
+	QPoint canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) const;
 	QPoint gridToPos( const QPoint& gridPos ) const;
 	QPoint posToGrid( const QPoint& pos ) const;
 	QPoint gridPos( MapObjectItem* object ) const;
@@ -70,7 +70,7 @@ protected:
 	LayersMap mLayers;
 	
 	AbstractTile* mappedTile( uint id ) const;
-	MapObjectItem* nearestObject( const QPoint& strokePoint, Globals::PlayerStroke stroke, const QSet<MapObjectItem*>& objects ) const;
+	MapObjectItem* nearestObject( const QPoint& strokePoint, Globals::PadStroke stroke, const QSet<MapObjectItem*>& objects ) const;
 	void updateMap();
 };
 

@@ -52,7 +52,9 @@ INCLUDEPATH	= . \
 	src/include
 
 FORMS	= src/UIMain.ui \
-	src/editor/UIMapEditor.ui
+	src/editor/UIMapEditor.ui \
+	src/pads/UIPadSettings.ui \
+	src/pads/UIPadConfiguration.ui
 
 HEADERS	= src/tiles/AbstractTile.h \
 	src/tiles/BombTile.h \
@@ -71,7 +73,10 @@ HEADERS	= src/tiles/AbstractTile.h \
 	src/editor/TreeWidgetLayers.h \
 	src/editor/TreeWidgetTiles.h \
 	src/editor/UIMapEditor.h \
-	src/items/MapObjectItem.h
+	src/items/MapObjectItem.h \
+	src/pads/UIPadSettings.h \
+	src/pads/PadSettings.h \
+	src/pads/UIPadConfiguration.h
 
 SOURCES	= src/tiles/AbstractTile.cpp \
 	src/tiles/BombTile.cpp \
@@ -91,4 +96,7 @@ SOURCES	= src/tiles/AbstractTile.cpp \
 	src/editor/TreeWidgetLayers.cpp \
 	src/editor/TreeWidgetTiles.cpp \
 	src/editor/UIMapEditor.cpp \
-	src/items/MapObjectItem.cpp
+	src/items/MapObjectItem.cpp \
+	src/pads/UIPadSettings.cpp \
+	src/pads/PadSettings.cpp \
+	src/pads/UIPadConfiguration.cpp
