@@ -13,8 +13,8 @@
   <property name="windowTitle">
    <string>My Form Class</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="0">
     <property name="spacing">
      <number>0</number>
     </property>
@@ -22,31 +22,192 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="GraphicsView" name="gvView">
-      <property name="frameShape">
-       <enum>QFrame::NoFrame</enum>
+     <widget class="QStackedWidget" name="swPages">
+      <property name="currentIndex">
+       <number>3</number>
       </property>
-      <property name="lineWidth">
-       <number>0</number>
-      </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="backgroundBrush">
-       <brush brushstyle="SolidPattern">
-        <color alpha="126">
-         <red>155</red>
-         <green>155</green>
-         <blue>155</blue>
-        </color>
-       </brush>
-      </property>
-      <property name="renderHints">
-       <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
-      </property>
+      <widget class="QWidget" name="wWelcome">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QLabel" name="lWelcome">
+          <property name="text">
+           <string>Cooler
+
+Cooler is a bomberman clone entirely wrotten in C++/Qt4.
+It use QGraphicsView framework for drawing the game board.</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignHCenter|Qt::AlignTop</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pbWelcome">
+          <property name="text">
+           <string>Continue</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="wGameMode">
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="1">
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>202</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="1" column="0">
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>245</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="1" column="1">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QPushButton" name="pbStoryMode">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Story Mode</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pbMultiPlayerMode">
+            <property name="text">
+             <string>Multiplayer Mode</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pbSettingsMode">
+            <property name="text">
+             <string>Settings</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="2">
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>244</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="2" column="1">
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>202</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="wPlayersSettings">
+       <widget class="QListWidget" name="listWidget">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>591</width>
+          <height>231</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="wGameSettings">
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QGroupBox" name="groupBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="title">
+           <string>Game</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="title">
+           <string>Players Configuration</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="UIPadConfiguration" name="pcEditor" native="true"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="wPlayersChoice"/>
+      <widget class="GraphicsView" name="gvBoard">
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="lineWidth">
+        <number>0</number>
+       </property>
+       <property name="verticalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="backgroundBrush">
+        <brush brushstyle="SolidPattern">
+         <color alpha="126">
+          <red>155</red>
+          <green>155</green>
+          <blue>155</blue>
+         </color>
+        </brush>
+       </property>
+       <property name="renderHints">
+        <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
+       </property>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -57,6 +218,12 @@
    <class>GraphicsView</class>
    <extends>QGraphicsView</extends>
    <header>GraphicsView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>UIPadConfiguration</class>
+   <extends>QWidget</extends>
+   <header>UIPadConfiguration.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

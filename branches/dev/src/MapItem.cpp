@@ -135,7 +135,7 @@ bool MapItem::load( const QString& fileName )
 	return true;
 }
 
-QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PlayerStroke stroke ) const
+QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) const
 {
 	const int stepBy = 1;
 	const QRect bbr = player->mapRectToScene( player->bodyBoundingRect() ).toRect();
@@ -147,22 +147,22 @@ QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PlayerStroke stroke ) 
 	// check map bounding rect
 	switch ( stroke )
 	{
-		case Globals::UpStroke:
+		case Globals::PadStrokeUp:
 			if ( !( bbr.y() -stepBy >= y() ) )
 				return p;
 			sr = QRect( QPoint( bbr.left() +mw, bbr.top() -1 ), QSize( mw *6, 1 ) );
 			break;
-		case Globals::DownStroke:
+		case Globals::PadStrokeDown:
 			if ( !( bbr.y() +stepBy +bbr.height() <= boundingRect().height() ) )
 				return p;
 			sr = QRect( QPoint( bbr.left() +mw, bbr.bottom() +1 ), QSize( mw *6, 1 ) );
 			break;
-		case Globals::LeftStroke:
+		case Globals::PadStrokeLeft:
 			if ( !( bbr.x() -stepBy >= x() ) )
 				return p;
 			sr = QRect( QPoint( bbr.left() -1, bbr.top() +mh ), QSize( 1, mh *6 ) );
 			break;
-		case Globals::RightStroke:
+		case Globals::PadStrokeRight:
 			if ( !( bbr.x() +stepBy +bbr.width() <= boundingRect().width() ) )
 				return p;
 			sr = QRect( QPoint( bbr.right() +1, bbr.top() +mh ), QSize( 1, mh *6 ) );
@@ -225,8 +225,8 @@ QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PlayerStroke stroke ) 
 	// calculate the step to move to
 	switch ( stroke )
 	{
-		case Globals::UpStroke:
-		case Globals::DownStroke:
+		case Globals::PadStrokeUp:
+		case Globals::PadStrokeDown:
 			if ( bbr.x() != walkToObject->x() )
 			{
 				if ( bbr.x() < walkToObject->x() )
@@ -236,14 +236,14 @@ QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PlayerStroke stroke ) 
 			}
 			else
 			{
-				if ( stroke == Globals::UpStroke )
+				if ( stroke == Globals::PadStrokeUp )
 					p.ry() -= stepBy;
 				else
 					p.ry() += stepBy;
 			}
 			break;
-		case Globals::LeftStroke:
-		case Globals::RightStroke:
+		case Globals::PadStrokeLeft:
+		case Globals::PadStrokeRight:
 			if ( bbr.y() != walkToObject->y() )
 			{
 				if ( bbr.y() < walkToObject->y() )
@@ -253,7 +253,7 @@ QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PlayerStroke stroke ) 
 			}
 			else
 			{
-				if( stroke == Globals::LeftStroke )
+				if( stroke == Globals::PadStrokeLeft )
 					p.rx() -= stepBy;
 				else
 					p.rx() += stepBy;
@@ -307,7 +307,7 @@ AbstractTile* MapItem::mappedTile( uint id ) const
 	return mTiles ? mTiles->tile( name ) : 0;
 }
 
-MapObjectItem* MapItem::nearestObject( const QPoint& strokePoint, Globals::PlayerStroke stroke, const QSet<MapObjectItem*>& objects ) const
+MapObjectItem* MapItem::nearestObject( const QPoint& strokePoint, Globals::PadStroke stroke, const QSet<MapObjectItem*>& objects ) const
 {
 	if ( objects.isEmpty() )
 	{
@@ -327,13 +327,13 @@ MapObjectItem* MapItem::nearestObject( const QPoint& strokePoint, Globals::Playe
 		
 		switch ( stroke )
 		{
-			case Globals::UpStroke:
-			case Globals::DownStroke:
+			case Globals::PadStrokeUp:
+			case Globals::PadStrokeDown:
 				min = qMin( strokePoint.x(), center.x() );
 				max = qMax( strokePoint.x(), center.x() );
 				break;
-			case Globals::LeftStroke:
-			case Globals::RightStroke:
+			case Globals::PadStrokeLeft:
+			case Globals::PadStrokeRight:
 				min = qMin( strokePoint.y(), center.y() );
 				max = qMax( strokePoint.y(), center.y() );
 				break;

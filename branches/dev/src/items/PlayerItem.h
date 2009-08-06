@@ -5,26 +5,13 @@
 
 #include <MapObjectItem.h>
 #include <TilesManager.h>
+#include <PadSettings.h>
 
 #include "BombInformations.h"
 
 class QTimer;
 class MapItem;
 class PlayerTile;
-
-struct PadSettings
-{
-	enum Action
-	{
-		Action1,
-		Action2,
-		Action3,
-		Action4
-	};
-	
-	QMap<int, Globals::PlayerStroke> StrokeMapping;
-	QMap<int, PadSettings::Action> ActionMapping;
-};
 
 class PlayerItem : public QObject, public MapObjectItem
 {
@@ -49,13 +36,13 @@ protected:
 	QString mName;
 	BombInformations mBombInfos;
 	PadSettings mPad;
-	Globals::PlayerStroke mStroke;
+	Globals::PadStroke mStroke;
 	qreal mStrokeStep;
 	int mStrokeSpeed;
 	QTimer* mStrokeTimer;
 	
 	void handleKeyboard( QKeyEvent* event );
-	void handleAction( PadSettings::Action action );
+	void handleAction( Globals::PadAction action );
 	void dropBomb();
 
 protected slots:

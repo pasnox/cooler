@@ -58,7 +58,7 @@ void GraphicsView::keyPressEvent( QKeyEvent* event )
 	{
 		const PadSettings& pad = player->padSettings();
 		
-		if ( pad.StrokeMapping.contains( event->key() ) || pad.ActionMapping.contains( event->key() ) )
+		if ( pad.isKeyUsed( event->key() ) )
 		{
 			player->handleKeyboard( event );
 		}
@@ -78,7 +78,7 @@ void GraphicsView::keyReleaseEvent( QKeyEvent* event )
 		
 		const PadSettings& pad = player->padSettings();
 		
-		if ( pad.StrokeMapping.contains( event->key() ) || pad.ActionMapping.contains( event->key() ) )
+		if ( pad.isKeyUsed( event->key() ) )
 		{
 			player->handleKeyboard( event );
 		}
