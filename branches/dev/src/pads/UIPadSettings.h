@@ -14,12 +14,8 @@ class UIPadSettings : public QWidget, public Ui::UIPadSettings
 public:
 	UIPadSettings( QWidget* parent = 0 );
 	virtual ~UIPadSettings();
-	
-	PadSettings pad() const;
-	void setPad( const PadSettings& pad );
 
 protected:
-	PadSettings mPad;
 	QTimer* mSetupTimer;
 	int mKeyConfigurationStep;
 	QPalette mPalette;
@@ -31,10 +27,10 @@ protected:
 	
 	QLineEdit* lineEditForStep( int step ) const;
 	QString keyToString( int key ) const;
-	void updateGui();
 
 public slots:
 	void setup();
+	void updateGui( PadSettings* pad );
 
 protected slots:
 	void setupTimer_timeout();

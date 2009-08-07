@@ -21,7 +21,10 @@ protected:
 protected slots:
 	void on_pbWelcome_clicked();
 	void on_pbMultiPlayerMode_clicked();
-	void on_pbSettingsMode_clicked();
+	void on_sbPlayerNumber_valueChanged( int value );
+	void on_cbPlayers_currentIndexChanged( int index );
+	void on_lwPlayers_itemSelectionChanged();
+	void on_pbLetsGo_clicked();
 };
 
 #endif // UIMAIN_H

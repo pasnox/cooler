@@ -1,7 +1,9 @@
 #include "GraphicsView.h"
-#include "TilesManager.h"
-#include "MapItem.h"
-#include "PlayerItem.h"
+
+#include <TilesManager.h>
+#include <MapItem.h>
+#include <PlayerItem.h>
+#include <PadSettings.h>
 
 #include <QGraphicsScene>
 #include <QMouseEvent>
@@ -56,9 +58,9 @@ void GraphicsView::keyPressEvent( QKeyEvent* event )
 {
 	foreach ( PlayerItem* player, mPlayers.values() )
 	{
-		const PadSettings& pad = player->padSettings();
+		const PadSettings* pad = player->pad();
 		
-		if ( pad.isKeyUsed( event->key() ) )
+		if ( pad->isKeyUsed( event->key() ) )
 		{
 			player->handleKeyboard( event );
 		}
@@ -76,9 +78,9 @@ void GraphicsView::keyReleaseEvent( QKeyEvent* event )
 			continue;
 		}
 		
-		const PadSettings& pad = player->padSettings();
+		const PadSettings* pad = player->pad();
 		
-		if ( pad.isKeyUsed( event->key() ) )
+		if ( pad->isKeyUsed( event->key() ) )
 		{
 			player->handleKeyboard( event );
 		}

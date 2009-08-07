@@ -5,13 +5,13 @@
 
 #include <MapObjectItem.h>
 #include <TilesManager.h>
-#include <PadSettings.h>
 
 #include "BombInformations.h"
 
 class QTimer;
 class MapItem;
 class PlayerTile;
+class PadSettings;
 
 class PlayerItem : public QObject, public MapObjectItem
 {
@@ -28,14 +28,15 @@ public:
 	
 	QRect bodyBoundingRect() const;
 	
-	const PadSettings& padSettings() const;
+	PadSettings* pad() const;
+	void setPad( PadSettings* pad );
 	void setPosAt( qreal step, const QPoint& pos );
 
 protected:
 	PlayerTile* mPlayerTile;
+	PadSettings* mPad;
 	QString mName;
 	BombInformations mBombInfos;
-	PadSettings mPad;
 	Globals::PadStroke mStroke;
 	qreal mStrokeStep;
 	int mStrokeSpeed;

@@ -13,12 +13,12 @@ public:
 	UIPadConfiguration( QWidget* parent = 0 );
 	virtual ~UIPadConfiguration();
 	
-	void setPads( const PadSettingsList& pads, int maxPad );
+	void setPads( PadSettingsList& pads, int maxPad );
 	
 	int currentPadIndex() const;
 
 protected:
-	PadSettingsList mPads;
+	PadSettingsList* mPads;
 	int mMaxPad;
 
 public slots:

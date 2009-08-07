@@ -2,6 +2,7 @@
 #define GLOBALS_H
 
 #include <QGraphicsItem>
+#include <QDir>
 
 namespace Globals
 {
@@ -50,6 +51,11 @@ namespace Globals
 		PadAction3,
 		PadAction4
 	};
+	
+	QString relativeFilePath( const QString& path, const QString& fn );
+	QString relativeFilePath( const QFileInfo& path, const QFileInfo& fn );
+	QFileInfoList getFiles( QDir& path, const QStringList& filters = QStringList() );
+	QFileInfoList getFiles( const QString& path, const QStringList& filters = QStringList() );
 };
 
 #endif // GLOBALS_H
