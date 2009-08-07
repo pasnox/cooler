@@ -323,7 +323,7 @@ MapObjectItem* MapItem::nearestObject( const QPoint& strokePoint, Globals::PadSt
 	foreach ( MapObjectItem* object, objects )
 	{
 		const QPoint center = object->mapToScene( object->boundingRect().center() ).toPoint();
-		int diff, min, max;
+		int diff, min = 0, max = 0;
 		
 		switch ( stroke )
 		{
