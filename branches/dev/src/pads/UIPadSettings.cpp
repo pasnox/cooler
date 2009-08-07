@@ -158,7 +158,7 @@ QLineEdit* UIPadSettings::lineEditForStep( int step ) const
 
 QString UIPadSettings::keyToString( int key ) const
 {
-	return QKeySequence( key ).toString();
+	return QKeySequence( key ).toString( QKeySequence::NativeText );
 }
 
 void UIPadSettings::updateGui()

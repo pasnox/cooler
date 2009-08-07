@@ -27,6 +27,8 @@ public slots:
 protected slots:
 	void on_cbPads_currentIndexChanged( int index );
 	void on_pbConfigure_clicked();
+	void on_pbDefault_clicked();
+	void on_pbReset_clicked();
 	
 	void padSettings_aboutToChangeStrokeKey( Globals::PadStroke stroke, int key, bool& accept );
 	void padSettings_aboutToChangeActionKey( Globals::PadAction action, int key, bool& accept );

@@ -12,26 +12,6 @@ UIMain::UIMain( QWidget* parent )
 {
 	setupUi( this );
 	
-	// temporary pad configuration
-	PadSettings::StrokeKeys strokeKeys;
-	PadSettings::ActionKeys actionKeys;
-	
-	strokeKeys[ Qt::Key_Up ] = Globals::PadStrokeUp;
-	strokeKeys[ Qt::Key_Down ] = Globals::PadStrokeDown;
-	strokeKeys[ Qt::Key_Left ] = Globals::PadStrokeLeft;
-	strokeKeys[ Qt::Key_Right ] = Globals::PadStrokeRight;
-	
-	actionKeys[ Qt::Key_Q ] = Globals::PadAction1;
-	actionKeys[ Qt::Key_S ] = Globals::PadAction2;
-	actionKeys[ Qt::Key_A ] = Globals::PadAction3;
-	actionKeys[ Qt::Key_Z ] = Globals::PadAction4;
-	
-	PadSettings pad;
-	pad.setStrokeKeys( strokeKeys );
-	pad.setActionKeys( actionKeys );
-	
-	mPads << pad;
-	
 	pcEditor->setPads( mPads, Globals::MaxPlayers );
 }
 
