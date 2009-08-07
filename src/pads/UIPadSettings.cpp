@@ -22,17 +22,6 @@ UIPadSettings::~UIPadSettings()
 {
 }
 
-PadSettings UIPadSettings::pad() const
-{
-	return mPad;
-}
-
-void UIPadSettings::setPad( const PadSettings& pad )
-{
-	mPad = pad;
-	updateGui();
-}
-
 void UIPadSettings::keyPressEvent( QKeyEvent* event )
 {
 	QWidget::keyPressEvent( event );
@@ -161,16 +150,16 @@ QString UIPadSettings::keyToString( int key ) const
 	return QKeySequence( key ).toString( QKeySequence::NativeText );
 }
 
-void UIPadSettings::updateGui()
+void UIPadSettings::updateGui( PadSettings* pad )
 {
 	foreach ( QLineEdit* le, findChildren<QLineEdit*>() )
 	{
 		le->clear();
 	}
 	
-	foreach ( const int& key, mPad.keysStroke() )
+	foreach ( const int& key, pad->keysStroke() )
 	{
-		const Globals::PadStroke stroke = mPad.keyStroke( key );
+		const Globals::PadStroke stroke = pad->keyStroke( key );
 		
 		switch ( stroke )
 		{
@@ -192,9 +181,9 @@ void UIPadSettings::updateGui()
 		}
 	}
 	
-	foreach ( const int& key, mPad.keysAction() )
+	foreach ( const int& key, pad->keysAction() )
 	{
-		const Globals::PadAction action = mPad.keyAction( key );
+		const Globals::PadAction action = pad->keyAction( key );
 		
 		switch ( action )
 		{

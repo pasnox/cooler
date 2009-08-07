@@ -1,6 +1,7 @@
 #include "TilesManager.h"
 
-#include <QDir>
+#include <Globals.h>
+
 #include <QDebug>
 
 TilesManager::TilesManager( QObject* parent, const QString& datasPath )
@@ -124,39 +125,6 @@ AbstractTile* TilesManager::tile( const QString& key ) const
 	return 0;
 }
 
-QString TilesManager::relativeFilePath( const QString& fn ) const
-{
-	QDir dir( mDatasPath );
-	return dir.relativeFilePath( fn );
-}
-
-QString TilesManager::relativeFilePath( const QFileInfo& fn ) const
-{
-	return relativeFilePath( fn.absoluteFilePath() );
-}
-
-QFileInfoList TilesManager::getFiles( QDir& fromDir, const QStringList& filters ) const
-{
-	const QFileInfoList entries = fromDir.entryInfoList( QDir::AllEntries | QDir::NoDotAndDotDot, QDir::DirsFirst | QDir::Name );
-	QFileInfoList files;
-	
-	foreach ( const QFileInfo& file, entries )
-	{
-		if ( file.isFile() && ( filters.isEmpty() || QDir::match( filters, file.fileName() ) ) )
-		{
-			files << file;
-		}
-		else if ( file.isDir() )
-		{
-			fromDir.cd( file.filePath() );
-			files << getFiles( fromDir, filters );
-			fromDir.cdUp();
-		}
-	}
-	
-	return files;
-}
-
 void TilesManager::loadTiles( Globals::TypeTile type, const QString& path )
 {
 	QDir dir( path );
@@ -168,11 +136,11 @@ void TilesManager::loadTiles( Globals::TypeTile type, const QString& path )
 		case Globals::BoxTile:
 		case Globals::FloorTile:
 		case Globals::SkyTile:
-			files = getFiles( dir );
+			files = Globals::getFiles( dir );
 			break;
 		case Globals::PlayerTile:
 		case Globals::BombTile:
-			files = getFiles( dir, QStringList( "*.ini" ) );
+			files = Globals::getFiles( dir, QStringList( "*.ini" ) );
 			break;
 		case Globals::InvalidTile:
 			Q_ASSERT( 0 );
@@ -181,7 +149,7 @@ void TilesManager::loadTiles( Globals::TypeTile type, const QString& path )
 	
 	foreach ( const QFileInfo& file, files )
 	{
-		const QString key = relativeFilePath( file );
+		const QString key = Globals::relativeFilePath( mDatasPath, file.absoluteFilePath() );
 		AbstractTile* tile = 0;
 		
 		switch ( type )

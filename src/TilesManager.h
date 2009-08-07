@@ -33,9 +33,6 @@ protected:
 	TilesManager( QObject* parent = 0, const QString& datasPath = QApplication::applicationDirPath() +"/Graphics" );
 	virtual ~TilesManager();
 	
-	QString relativeFilePath( const QString& fn ) const;
-	QString relativeFilePath( const QFileInfo& fn ) const;
-	QFileInfoList getFiles( QDir& path, const QStringList& filters = QStringList() ) const;
 	void loadTiles( Globals::TypeTile type, const QString& path );
 
 signals:

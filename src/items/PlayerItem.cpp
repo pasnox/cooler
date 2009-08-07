@@ -1,6 +1,7 @@
 #include "PlayerItem.h"
 
 #include <TilesManager.h>
+#include <PadSettings.h>
 #include <MapItem.h>
 
 #include <QTimer>
@@ -12,6 +13,7 @@
 PlayerItem::PlayerItem( AbstractTile* tile, QGraphicsItem* parent )
 	: QObject(), MapObjectItem( tile, parent )
 {
+	mPad = 0;
 	setTile( tile );
 	mStroke = Globals::PadStrokeDown;
 	mStrokeStep = 0;
@@ -58,9 +60,14 @@ QRect PlayerItem::bodyBoundingRect() const
 	return QRect( br.x(), br.height() /2, br.width(), br.height() /2 );
 }
 
-const PadSettings& PlayerItem::padSettings() const
+PadSettings* PlayerItem::pad() const
 {
 	return mPad;
+}
+
+void PlayerItem::setPad( PadSettings* pad )
+{
+	mPad = pad;
 }
 
 void PlayerItem::setPosAt( qreal step, const QPoint& pos )
@@ -76,9 +83,9 @@ void PlayerItem::handleKeyboard( QKeyEvent* event )
 	switch ( event->type() )
 	{
 		case QEvent::KeyPress:
-			if ( mPad.isStrokeKeyUsed( event->key() ) )
+			if ( mPad->isStrokeKeyUsed( event->key() ) )
 			{
-				mStroke = mPad.keyStroke( event->key() );
+				mStroke = mPad->keyStroke( event->key() );
 				
 				if ( !mStrokeTimer->isActive() )
 				{
@@ -92,7 +99,7 @@ void PlayerItem::handleKeyboard( QKeyEvent* event )
 				return;
 			}
 			
-			if ( mPad.isStrokeKeyUsed( event->key() ) )
+			if ( mPad->isStrokeKeyUsed( event->key() ) )
 			{
 				if ( mStrokeTimer->isActive() )
 				{
@@ -101,9 +108,9 @@ void PlayerItem::handleKeyboard( QKeyEvent* event )
 				
 				setPosAt( 0, pos().toPoint() );
 			}
-			else if ( mPad.isActionKeyUsed( event->key() ) )
+			else if ( mPad->isActionKeyUsed( event->key() ) )
 			{
-				Globals::PadAction action = mPad.keyAction( event->key() );
+				Globals::PadAction action = mPad->keyAction( event->key() );
 				handleAction( action );
 			}
 			break;
