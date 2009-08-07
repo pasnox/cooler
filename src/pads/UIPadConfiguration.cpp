@@ -60,7 +60,23 @@ void UIPadConfiguration::on_pbConfigure_clicked()
 {
 	cbPads->setEnabled( false );
 	pbConfigure->setEnabled( false );
+	pbDefault->setEnabled( false );
+	pbReset->setEnabled( false );
 	psConfiguration->setup();
+}
+
+void UIPadConfiguration::on_pbDefault_clicked()
+{
+	const int index = currentPadIndex();
+	mPads[ index ] = PadSettings::defaultConfiguration( index );
+	psConfiguration->setPad( mPads.value( index ) );
+}
+
+void UIPadConfiguration::on_pbReset_clicked()
+{
+	const int index = currentPadIndex();
+	mPads[ index ].clear();
+	psConfiguration->setPad( mPads.value( index ) );
 }
 
 void UIPadConfiguration::padSettings_aboutToChangeStrokeKey( Globals::PadStroke stroke, int key, bool& accept )
@@ -123,5 +139,7 @@ void UIPadConfiguration::padSettings_editingFinished()
 {
 	cbPads->setEnabled( true );
 	pbConfigure->setEnabled( true );
+	pbDefault->setEnabled( true );
+	pbReset->setEnabled( true );
 }
 

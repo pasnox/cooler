@@ -25,7 +25,21 @@
      <item>
       <widget class="QPushButton" name="pbConfigure">
        <property name="text">
-        <string>Configure...</string>
+        <string>Configure</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pbDefault">
+       <property name="text">
+        <string>Default</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pbReset">
+       <property name="text">
+        <string>Reset</string>
        </property>
       </widget>
      </item>

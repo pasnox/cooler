@@ -28,9 +28,12 @@ public:
 	void setStrokeKey( Globals::PadStroke stroke, int key );
 	void setActionKey( Globals::PadAction action, int key );
 	
+	void clear();
+	
 	bool isStrokeKeyUsed( int key ) const;
 	bool isActionKeyUsed( int key ) const;
 	bool isKeyUsed( int key ) const;
+	bool isValid();
 	
 	Globals::PadStroke keyStroke( int key ) const;
 	Globals::PadAction keyAction( int key ) const;
@@ -39,6 +42,8 @@ public:
 	QList<int> keysAction() const;
 	
 	void debug() const;
+	
+	static PadSettings defaultConfiguration( int index );
 
 protected:
 	StrokeKeys mStrokeMapping;
