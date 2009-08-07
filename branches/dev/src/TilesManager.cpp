@@ -20,7 +20,11 @@ TilesManager* TilesManager::instance()
 	
 	if ( !_instance )
 	{
+#ifdef Q_OS_MAC
+		_instance = new TilesManager( qApp, qApp->applicationDirPath() +"/../../../Graphics" );
+#else
 		_instance = new TilesManager( qApp, qApp->applicationDirPath() +"/Graphics" );
+#endif
 	}
 	
 	return _instance;

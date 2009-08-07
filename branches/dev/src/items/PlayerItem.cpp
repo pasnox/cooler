@@ -126,6 +126,8 @@ void PlayerItem::handleAction( Globals::PadAction action )
 			break;
 		case Globals::PadAction4:
 			break;
+		case Globals::PadActionNo:
+			break;
 	}
 }
 
