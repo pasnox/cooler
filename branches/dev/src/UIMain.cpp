@@ -129,7 +129,7 @@ void UIMain::on_pbLetsGo_clicked()
 		if ( !mPads.at( i )->isValid() )
 		{
 			pcEditor->setCurrentPadIndex( i );
-			QMessageBox::information( this, "", tr( "Please set pad settings for player #%1." ).arg( i ) );
+			QMessageBox::information( this, "", tr( "Please set pad settings for player #%1." ).arg( i +1 ) );
 			return;
 		}
 	}
@@ -143,7 +143,8 @@ void UIMain::on_pbLetsGo_clicked()
 			QListWidgetItem* playerItem = lwPlayers->item( i );
 			AbstractTile* tile = playerItem->data( Qt::UserRole ).value<AbstractTile*>();
 			PlayerItem* player = new PlayerItem( tile, 0 );
-			gvBoard->addPlayer( playerItem->text().append( QString( " #%1" ).arg( i +1 ) ), player );
+			player->setPad( mPads.at( i ) );
+			gvBoard->addPlayer( playerItem->text().append( QString( " #%1" ).arg( i ) ), player );
 		}
 		
 		swPages->setCurrentWidget( gvBoard );
