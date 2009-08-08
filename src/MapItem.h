@@ -60,9 +60,6 @@ public:
 	QPoint posToGrid( const QPoint& pos ) const;
 	QPoint gridPos( MapObjectItem* object ) const;
 	QPoint closestPos( const QPoint& pos ) const;
-	
-	mutable QRectF mDebugRect;
-	mutable QLineF mDebugLine;
 
 protected:
 	TilesManager* mTiles;

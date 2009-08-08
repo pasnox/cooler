@@ -91,15 +91,4 @@ void GraphicsView::keyReleaseEvent( QKeyEvent* event )
 void GraphicsView::drawForeground( QPainter* painter, const QRectF& rect )
 {
 	QGraphicsView::drawForeground( painter, rect );
-	
-	if ( !mMap )
-	{
-		return;
-	}
-	
-	painter->setPen( Qt::NoPen );
-	painter->setBrush( Qt::blue );
-	QRectF r = mMap->mDebugRect;
-	
-	painter->drawRect( r );
 }
