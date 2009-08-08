@@ -49,6 +49,17 @@ void MapEditorItem::setLayerTile( uint id, const QPoint& pos, AbstractTile* tile
 	MapObjectItem* object = mLayers[ id ][ pos ];
 	QPoint tilePos( pos.x() *tileSize.width(), pos.y() *tileSize.height() );
 	
+	if ( !tile )
+	{
+		if ( object )
+		{
+			delete object;
+			mLayers[ id ].remove( pos );
+		}
+		
+		return;
+	}
+	
 	if ( object )
 	{
 		object->setTile( tile );
@@ -92,8 +103,6 @@ void MapEditorItem::clearLayers()
 
 bool MapEditorItem::save( const QString& fileName )
 {
-return false;
-/*
 	QSettings settings( fileName, QSettings::IniFormat );
 	settings.clear();
 	
@@ -113,12 +122,12 @@ return false;
 			
 			for ( int x = 0; x < mSize.width(); x++ )
 			{
-				ObjectItem* object = mLayers.value( layer ).value( QPoint( x, y ) );
+				MapObjectItem* object = mLayers.value( layer ).value( QPoint( x, y ) );
 				
 				if ( object )
 				{
-					const ObjectTile tile = object->objectTile();
-					const QString name = mTiles->objectTileName( tile );
+					AbstractTile* tile = object->tile();
+					const QString name = mTiles->tileKey( tile );
 					
 					if ( name.isEmpty() )
 					{
@@ -162,7 +171,6 @@ return false;
 	settings.sync();
 	
 	return settings.status() == QSettings::NoError;
-*/
 }
 
 ObjectTile* MapEditorItem::objectTile( const QString& name ) const

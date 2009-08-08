@@ -28,6 +28,7 @@ protected slots:
 	void on_twLayers_layerRemoved( int layer );
 	void on_twLayers_layersCleared();
 	void on_cbExclusiveLayer_toggled( bool checked );
+	void on_twTiles_itemSelectionChanged();
 	
 	void on_gvView_mouseTileMoved( const QPoint& pos );
 

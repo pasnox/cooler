@@ -14,10 +14,11 @@ UIMapEditor::UIMapEditor( QWidget* parent )
 	twLayers->addAction( aAddLayer );
 	twLayers->addAction( aRemoveLayer );
 	twLayers->addAction( aClearLayers );
-	
+	/*
 	gvView->addAction( aOpenMap );
 	gvView->addAction( aSaveMap );
 	gvView->addAction( aClearMap );
+	*/
 }
 
 UIMapEditor::~UIMapEditor()
@@ -116,6 +117,7 @@ void UIMapEditor::on_sbHeight_valueChanged( int value )
 void UIMapEditor::on_twLayers_currentLayerChanged( int layer )
 {
 	twTiles->setCurrentLayer( layer );
+	gvView->setCurrentLayer( layer );
 	gvView->editedMap()->setCurrentLayer( layer, cbExclusiveLayer->isChecked() );
 }
 
@@ -132,6 +134,13 @@ void UIMapEditor::on_twLayers_layersCleared()
 void UIMapEditor::on_cbExclusiveLayer_toggled( bool checked )
 {
 	gvView->editedMap()->setCurrentLayer( twLayers->currentLayer(), checked );
+}
+
+void UIMapEditor::on_twTiles_itemSelectionChanged()
+{
+	const QTreeWidgetItem* item = twTiles->selectedItems().value( 0 );
+	AbstractTile* tile = item ? item->data( 0, Qt::UserRole ).value<AbstractTile*>() : 0;
+	gvView->setCurrentTile( tile );
 }
 
 void UIMapEditor::on_gvView_mouseTileMoved( const QPoint& pos )

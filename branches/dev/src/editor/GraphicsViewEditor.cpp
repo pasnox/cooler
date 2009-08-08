@@ -10,6 +10,8 @@
 GraphicsViewEditor::GraphicsViewEditor( QWidget* parent )
 	: GraphicsView( parent )
 {
+	mLastDropLayer = -1;
+	mLastDropTile = 0;
 	delete mMap;
 	mMap = 0;
 	
@@ -44,12 +46,58 @@ bool GraphicsViewEditor::isMouseOnMap( const QPointF& pos ) const
 	return pos.x() >= 0 && pos.x() < mapSize.width() && pos.y() >= 0 && pos.y() < mapSize.height();
 }
 
+void GraphicsViewEditor::setCurrentLayer( int layer )
+{
+	mLastDropLayer = layer;
+}
+
+void GraphicsViewEditor::setCurrentTile( AbstractTile* tile )
+{
+	mLastDropTile = tile;
+}
+
+void GraphicsViewEditor::mousePressEvent( QMouseEvent* event )
+{
+	const QPointF globalPos = mousePos();
+	const bool onMap = isMouseOnMap( globalPos );
+	
+	if ( mLastDropLayer != -1 && onMap )
+	{
+		const QPoint gridPos = mouseTilePos( globalPos );
+		
+		if ( mLastDropTile && ( event->button() == Qt::LeftButton ) )
+		{
+			setLayerTile( mLastDropLayer, gridPos, mLastDropTile );
+		}
+		else if ( event->button() == Qt::RightButton )
+		{
+			setLayerTile( mLastDropLayer, gridPos, 0 );
+		}
+	}
+	
+	GraphicsView::mousePressEvent( event );
+}
+
 void GraphicsViewEditor::mouseMoveEvent( QMouseEvent* event )
 {
-	const QPointF pos = mousePos();
+	const QPointF globalPos = mousePos();
+	const QPoint gridPos = mouseTilePos( globalPos );
+	const bool onMap = isMouseOnMap( globalPos );
 	
-	emit mouseMoved( pos );
-	emit mouseTileMoved( isMouseOnMap( pos ) ? mouseTilePos( mousePos() ) : QPoint() );
+	emit mouseMoved( globalPos );
+	emit mouseTileMoved( onMap ? mouseTilePos( globalPos ) : QPoint() );
+	
+	if ( mLastDropLayer != -1 && onMap )
+	{
+		if ( mLastDropTile && ( event->buttons() & Qt::LeftButton ) )
+		{
+			setLayerTile( mLastDropLayer, gridPos, mLastDropTile );
+		}
+		else if ( event->buttons() & Qt::RightButton )
+		{
+			setLayerTile( mLastDropLayer, gridPos, 0 );
+		}
+	}
 	
 	GraphicsView::mouseMoveEvent( event );
 }
@@ -57,8 +105,9 @@ void GraphicsViewEditor::mouseMoveEvent( QMouseEvent* event )
 void GraphicsViewEditor::dragMoveEvent( QDragMoveEvent* event )
 {
 	const QMimeData* mimeData = event->mimeData();
+	const bool onMap = isMouseOnMap( mousePos() );
 	
-	if ( event->proposedAction() == Qt::CopyAction && isMouseOnMap( mousePos() ) &&
+	if ( ( event->proposedAction() == Qt::CopyAction ) && onMap &&
 		mimeData->hasFormat( "application/x-cooler-layer" ) &&
 		mimeData->hasFormat( "application/x-cooler-tile" ) )
 	{
@@ -80,10 +129,16 @@ void GraphicsViewEditor::dropEvent( QDropEvent* event )
 		return;
 	}
 	
-	const int layer = mimeData->data( "application/x-cooler-layer" ).toInt();
-	AbstractTile* tile = AbstractTile::fromByteArray( mimeData->data( "application/x-cooler-tile" ) );
+	const QPoint gridPos = mouseTilePos( mousePos() );
+	mLastDropLayer = mimeData->data( "application/x-cooler-layer" ).toInt();
+	mLastDropTile = AbstractTile::fromByteArray( mimeData->data( "application/x-cooler-tile" ) );
 	
-	mEditedMap->setLayerTile( layer, mouseTilePos( mousePos() ), tile );
+	setLayerTile( mLastDropLayer, gridPos, mLastDropTile );
 	
 	GraphicsView::dropEvent( event );
+}
+
+void GraphicsViewEditor::setLayerTile( int layer, const QPoint& gridPos, AbstractTile* tile )
+{
+	mEditedMap->setLayerTile( layer, gridPos, tile );
 }
