@@ -30,20 +30,6 @@ PlayerItem::~PlayerItem()
 void PlayerItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
 	MapObjectItem::paint( painter, option, widget );
-	
-	painter->setPen( Qt::NoPen );
-	
-	QRect br = boundingRect().toRect();
-	QRect bbr = bodyBoundingRect();
-	/*
-	painter->setBrush( Qt::red );
-	painter->drawRect( br );
-	
-	painter->setBrush( Qt::green );
-	painter->drawRect( bbr );
-	*/
-	painter->setPen( Qt::black );
-	painter->setBrush( Qt::SolidPattern );
 }
 
 void PlayerItem::setTile( AbstractTile* tile )
@@ -52,12 +38,6 @@ void PlayerItem::setTile( AbstractTile* tile )
 	MapObjectItem::setTile( tile );
 	mPlayerTile = static_cast<PlayerTile*>( tile );
 	setZValue( Globals::PlayerLayer );
-}
-
-QRect PlayerItem::bodyBoundingRect() const
-{
-	const QRect br = boundingRect().toRect();
-	return QRect( br.x(), br.height() /2, br.width(), br.height() /2 );
 }
 
 PadSettings* PlayerItem::pad() const
@@ -165,7 +145,6 @@ void PlayerItem::strokeTimer_timeout()
 	const QPoint strokablePos = map()->canStrokeTo( this, mStroke );
 	
 	newPos += strokablePos;
-	map()->mDebugRect.moveTopLeft( map()->mDebugRect.topLeft() +strokablePos );
 	
 	setPosAt( mStrokeStep, newPos );
 }

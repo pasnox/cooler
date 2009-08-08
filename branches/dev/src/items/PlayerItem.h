@@ -26,10 +26,9 @@ public:
 	
 	virtual void setTile( AbstractTile* tile );
 	
-	QRect bodyBoundingRect() const;
-	
 	PadSettings* pad() const;
 	void setPad( PadSettings* pad );
+	
 	void setPosAt( qreal step, const QPoint& pos );
 
 protected:

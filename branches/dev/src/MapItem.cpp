@@ -167,7 +167,7 @@ const PlayersPositionMap& MapItem::playersPosition() const
 QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) const
 {
 	const int stepBy = 1;
-	const QRect bbr = player->mapRectToScene( player->bodyBoundingRect() ).toRect();
+	const QRect bbr = player->mapRectToScene( player->boundingRect() ).toRect();
 	const int mw = bbr.width() /8;
 	const int mh = bbr.height() /8;
 	QPoint p;
@@ -200,7 +200,6 @@ QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) con
 			break;
 	}
 	
-	mDebugRect = sr;
 	QMap<QPoint, MapObjectItem*> objects;
 	QSet<MapObjectItem*> walkableObjects;
 	
