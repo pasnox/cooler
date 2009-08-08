@@ -24,6 +24,7 @@ public:
 	TypesTilesMap tiles() const;
 	TilesMap tiles( Globals::TypeTile type ) const;
 	AbstractTile* tile( const QString& key ) const;
+	QString tileKey( AbstractTile* tile ) const;
 	
 protected:
 	QString mDatasPath;

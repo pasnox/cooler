@@ -125,6 +125,22 @@ AbstractTile* TilesManager::tile( const QString& key ) const
 	return 0;
 }
 
+QString TilesManager::tileKey( AbstractTile* tile ) const
+{
+	foreach ( const Globals::TypeTile& type, mTiles.keys() )
+	{
+		const TilesMap& map = mTiles[ type ];
+		const QString key = map.key( tile );
+		
+		if ( !key.isNull() )
+		{
+			return key;
+		}
+	}
+	
+	return QString::null;
+}
+
 void TilesManager::loadTiles( Globals::TypeTile type, const QString& path )
 {
 	QDir dir( path );
