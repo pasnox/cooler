@@ -7,16 +7,21 @@
 namespace Globals
 {
 	const uint MaxPlayers = 4;
+	const QSize TilesSize = QSize( 64, 64 );
 	
 	enum TypeTile
 	{
 		InvalidTile,
 		BlockTile,
+		BombTile,
+		BombExplosionTile,
+		BonusTile,
 		BoxTile,
 		FloorTile,
-		SkyTile,
 		PlayerTile,
-		BombTile
+		PlayerExplosionTile,
+		SkyTile,
+		TextTile
 	};
 	
 	enum TypeItem

@@ -46,11 +46,10 @@ void GraphicsView::addPlayer( const QString& name, PlayerItem* player )
 {
 	Q_ASSERT( mMap );
 	Q_ASSERT( !mPlayers.contains( name ) );
-	const QPoint pos = QPoint( 1, 0 );
-	const QSize tileSize = mTiles->tileSize();
-	const QPoint itemPos( pos.x() *tileSize.width(), pos.y() *tileSize.height() );
+	const PlayersPositionMap& pos = mMap->playersPosition();
+	
 	player->setParentItem( mMap );
-	player->setPosAt( 0, itemPos );
+	player->setPosAt( 0, mMap->gridToPos( pos.value( player->tile()->name() ) ) );
 	mPlayers[ name ] = player;
 }
 

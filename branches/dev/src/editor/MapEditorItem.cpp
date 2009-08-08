@@ -46,7 +46,7 @@ void MapEditorItem::setLayer( uint id, const LayerMap& layer )
 void MapEditorItem::setLayerTile( uint id, const QPoint& pos, AbstractTile* tile )
 {
 	const QSize tileSize = mTiles->tileSize();
-	MapObjectItem* object = mLayers[ id ][ pos ];
+	MapObjectItem* object = mLayers.value( id ).value( pos );
 	QPoint tilePos( pos.x() *tileSize.width(), pos.y() *tileSize.height() );
 	
 	if ( !tile )
@@ -99,6 +99,105 @@ void MapEditorItem::clearLayers()
 {
 	qDeleteAll( childItems() );
 	mLayers.clear();
+}
+
+bool MapEditorItem::load( const QString& fileName )
+{
+	if ( !QFile::exists( fileName ) )
+	{
+		return false;
+	}
+	
+	QSettings settings( fileName, QSettings::IniFormat );
+	
+	if ( settings.status() == QSettings::FormatError )
+	{
+		return false;
+	}
+	
+	clear();
+	mName = settings.value( "Map/Name" ).toString();
+	mSize = settings.value( "Map/Size" ).toSize();
+	
+	// tiles
+	settings.beginGroup( "Tiles" );
+	const QStringList tiles = settings.childKeys();
+	foreach ( const QString& tile, tiles )
+	{
+		uint t = tile.toUInt();
+		mMapping[ t ] = settings.value( tile ).toString();
+	}
+	settings.endGroup();
+	
+	// layers
+	const QStringList groups = settings.childGroups();
+	foreach ( const QString& group, groups )
+	{
+		if ( !group.toLower().startsWith( "layer" ) )
+		{
+			continue;
+		}
+		
+		const uint layer = group.section( '_', 1, 1 ).toUInt();
+		
+		if ( layer < Globals::FirstLayer || layer > Globals::LastLayer )
+		{
+			if ( layer != Globals::SkyLayer )
+			{
+				Q_ASSERT( 0 );
+			}
+		}
+		
+		settings.beginGroup( group );
+		const QStringList keys = settings.childKeys();
+		foreach ( const QString& key, keys )
+		{
+			const int y = key.toInt();
+			const QString line = settings.value( key ).toString();
+			const QStringList parts = line.split( MAP_SPLIT_CHAR, QString::SkipEmptyParts );
+			
+			for ( int x = 0; x < parts.count(); x++ )
+			{
+				if ( parts.at( x ).toLower() == "x" )
+				{
+					continue;
+				}
+				
+				const uint id = parts.at( x ).toUInt();
+				AbstractTile* tile = mappedTile( id );
+				
+				switch ( tile->Type )
+				{
+					case Globals::InvalidTile:
+						Q_ASSERT( 0 );
+						continue;
+						break;
+					case Globals::BlockTile:
+					case Globals::BoxTile:
+					case Globals::FloorTile:
+					case Globals::SkyTile:
+					case Globals::BonusTile:
+					case Globals::PlayerTile:
+						break;
+					case Globals::BombTile:
+					case Globals::BombExplosionTile:
+					case Globals::PlayerExplosionTile:
+					case Globals::TextTile:
+						continue;
+						break;
+				}
+				
+				MapObjectItem* object = new MapObjectItem( tile, this );
+				object->setZValue( layer );
+				mLayers[ layer ][ QPoint( x, y ) ] = object;
+			}
+		}
+		settings.endGroup();
+	}
+	
+	updateMap();
+	
+	return true;
 }
 
 bool MapEditorItem::save( const QString& fileName )

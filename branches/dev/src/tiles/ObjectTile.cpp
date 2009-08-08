@@ -3,7 +3,6 @@
 ObjectTile::ObjectTile( const QFileInfo& fn, Globals::TypeTile type )
 	: AbstractTile( fn, type )
 {
-	Pixmap = QPixmap( FileName.absoluteFilePath() );
 }
 
 int ObjectTile::steps() const

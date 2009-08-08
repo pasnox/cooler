@@ -20,6 +20,7 @@ public:
 	void removeLayer( int layer );
 	void clearLayers();
 	
+	virtual bool load( const QString& fileName );
 	bool save( const QString& fileName );
 
 protected:

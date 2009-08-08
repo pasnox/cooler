@@ -13,6 +13,7 @@ class PlayerItem;
 typedef QMap<uint, QString> TilesMapping;
 typedef QMap<QPoint, MapObjectItem*> LayerMap;
 typedef QMap<uint, LayerMap> LayersMap;
+typedef QMap<QString, QPoint> PlayersPositionMap;
 
 #define MAP_SPLIT_CHAR "|"
 
@@ -51,8 +52,9 @@ public:
 	LayerMap layer( uint id ) const;
 	
 	virtual void clear();
-	bool load( const QString& fileName );
+	virtual bool load( const QString& fileName );
 	
+	const PlayersPositionMap& playersPosition() const;
 	QPoint canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) const;
 	QPoint gridToPos( const QPoint& gridPos ) const;
 	QPoint posToGrid( const QPoint& pos ) const;
@@ -68,6 +70,7 @@ protected:
 	QSize mSize;
 	TilesMapping mMapping;
 	LayersMap mLayers;
+	PlayersPositionMap mPlayersPosition;
 	
 	AbstractTile* mappedTile( uint id ) const;
 	MapObjectItem* nearestObject( const QPoint& strokePoint, Globals::PadStroke stroke, const QSet<MapObjectItem*>& objects ) const;
