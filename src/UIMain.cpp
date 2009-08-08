@@ -119,7 +119,7 @@ void UIMain::on_pbLetsGo_clicked()
 		if ( !playerItem->data( Qt::UserRole ).value<AbstractTile*>() )
 		{
 			lwPlayers->setCurrentItem( playerItem );
-			QMessageBox::information( this, "", tr( "Please defined each players." ) );
+			QMessageBox::information( this, "", tr( "Please define each players." ) );
 			return;
 		}
 	}

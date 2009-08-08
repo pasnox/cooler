@@ -7,7 +7,7 @@
 TilesManager::TilesManager( QObject* parent, const QString& datasPath )
 	: QObject( parent )
 {
-	mTileSize = QSize( 48, 48 );
+	mTileSize = Globals::TilesSize;
 	setDatasPath( datasPath );
 }
 
@@ -22,9 +22,9 @@ TilesManager* TilesManager::instance()
 	if ( !_instance )
 	{
 #ifdef Q_OS_MAC
-		_instance = new TilesManager( qApp, qApp->applicationDirPath() +"/../../../Graphics" );
+		_instance = new TilesManager( qApp, qApp->applicationDirPath() +"/../../../tiles" );
 #else
-		_instance = new TilesManager( qApp, qApp->applicationDirPath() +"/Graphics" );
+		_instance = new TilesManager( qApp, qApp->applicationDirPath() +"/tiles" );
 #endif
 	}
 	
@@ -67,14 +67,25 @@ bool TilesManager::loadDatas()
 	}
 	mTiles.clear();
 	
-	const QStringList filters = QStringList( "blocks" ) << "bombs" << "boxes" << "explosions" << "floors" << "players" << "sky";
-	const QFileInfoList folders = datas.entryInfoList( filters, QDir::Dirs );
+	const QFileInfoList folders = datas.entryInfoList( QStringList( "*" ), QDir::Dirs );
 	
 	foreach ( const QFileInfo& folder, folders )
 	{
 		if ( folder.fileName().toLower() == "blocks" )
 		{
 			loadTiles( Globals::BlockTile, folder.absoluteFilePath() );
+		}
+		else if ( folder.fileName().toLower() == "bombs" )
+		{
+			loadTiles( Globals::BombTile, folder.absoluteFilePath() );
+		}
+		else if ( folder.fileName().toLower() == "bombs explosions" )
+		{
+			loadTiles( Globals::BombExplosionTile, folder.absoluteFilePath() );
+		}
+		else if ( folder.fileName().toLower() == "bonus" )
+		{
+			loadTiles( Globals::BonusTile, folder.absoluteFilePath() );
 		}
 		else if ( folder.fileName().toLower() == "boxes" )
 		{
@@ -84,17 +95,21 @@ bool TilesManager::loadDatas()
 		{
 			loadTiles( Globals::FloorTile, folder.absoluteFilePath() );
 		}
-		else if ( folder.fileName().toLower() == "sky" )
-		{
-			loadTiles( Globals::SkyTile, folder.absoluteFilePath() );
-		}
 		else if ( folder.fileName().toLower() == "players" )
 		{
 			loadTiles( Globals::PlayerTile, folder.absoluteFilePath() );
 		}
-		else if ( folder.fileName().toLower() == "bombs" )
+		else if ( folder.fileName().toLower() == "players explosions" )
 		{
-			loadTiles( Globals::BombTile, folder.absoluteFilePath() );
+			loadTiles( Globals::PlayerExplosionTile, folder.absoluteFilePath() );
+		}
+		else if ( folder.fileName().toLower() == "sky" )
+		{
+			loadTiles( Globals::SkyTile, folder.absoluteFilePath() );
+		}
+		else if ( folder.fileName().toLower() == "texts" )
+		{
+			loadTiles( Globals::TextTile, folder.absoluteFilePath() );
 		}
 	}
 	
@@ -143,25 +158,7 @@ QString TilesManager::tileKey( AbstractTile* tile ) const
 
 void TilesManager::loadTiles( Globals::TypeTile type, const QString& path )
 {
-	QDir dir( path );
-	QFileInfoList files;
-	
-	switch ( type )
-	{
-		case Globals::BlockTile:
-		case Globals::BoxTile:
-		case Globals::FloorTile:
-		case Globals::SkyTile:
-			files = Globals::getFiles( dir );
-			break;
-		case Globals::PlayerTile:
-		case Globals::BombTile:
-			files = Globals::getFiles( dir, QStringList( "*.ini" ) );
-			break;
-		case Globals::InvalidTile:
-			Q_ASSERT( 0 );
-			break;
-	}
+	const QFileInfoList files = Globals::getFiles( path );
 	
 	foreach ( const QFileInfo& file, files )
 	{
@@ -170,17 +167,19 @@ void TilesManager::loadTiles( Globals::TypeTile type, const QString& path )
 		
 		switch ( type )
 		{
-			case Globals::BlockTile:
-			case Globals::BoxTile:
-			case Globals::FloorTile:
-			case Globals::SkyTile:
-				tile = new ObjectTile( file, type );
-				break;
 			case Globals::PlayerTile:
 				tile = new PlayerTile( file, type );
 				break;
+			case Globals::BlockTile:
 			case Globals::BombTile:
-				tile = new BombTile( file, type );
+			case Globals::BombExplosionTile:
+			case Globals::BonusTile:
+			case Globals::BoxTile:
+			case Globals::FloorTile:
+			case Globals::PlayerExplosionTile:
+			case Globals::SkyTile:
+			case Globals::TextTile:
+				tile = new ObjectTile( file, type );
 				break;
 			case Globals::InvalidTile:
 				Q_ASSERT( 0 );

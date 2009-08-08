@@ -80,35 +80,51 @@ void TreeWidgetTiles::datasLoaded( bool success )
 		clear();
 		mTypesItems.clear();
 		
-		const TypesTilesMap tiles = mTiles->tiles();
-		QTreeWidgetItem* item;
+		const TypesTilesMap& tiles = mTiles->tiles();
 		
 		foreach ( const Globals::TypeTile& type, tiles.keys() )
 		{
-			item = new QTreeWidgetItem( this, -1 );
+			QTreeWidgetItem* item = 0;
 			
 			switch ( type )
 			{
 				case Globals::BlockTile:
-					item->setText( 0, tr( "Blocks" ) );
-					break;
-				case Globals::BoxTile:
-					item->setText( 0, tr( "Boxes" ) );
-					break;
-				case Globals::FloorTile:
-					item->setText( 0, tr( "Floors" ) );
-					break;
-				case Globals::SkyTile:
-					item->setText( 0, tr( "Sky" ) );
-					break;
-				case Globals::PlayerTile:
-					item->setText( 0, tr( "Players" ) );
+					item = new QTreeWidgetItem( this, QStringList( tr( "Blocks" ) ), -1 );
 					break;
 				case Globals::BombTile:
-					item->setText( 0, tr( "Bombs" ) );
+					//item = new QTreeWidgetItem( this, QStringList( tr( "Bombs" ) ), -1 );
+					continue;
+					break;
+				case Globals::BombExplosionTile:
+					//item = new QTreeWidgetItem( this, QStringList( tr( "Bombs Explosions" ) ), -1 );
+					continue;
+					break;
+				case Globals::BonusTile:
+					item = new QTreeWidgetItem( this, QStringList( tr( "Bonuses" ) ), -1 );
+					break;
+				case Globals::BoxTile:
+					item = new QTreeWidgetItem( this, QStringList( tr( "Boxes" ) ), -1 );
+					break;
+				case Globals::FloorTile:
+					item = new QTreeWidgetItem( this, QStringList( tr( "Floors" ) ), -1 );
+					break;
+				case Globals::PlayerTile:
+					item = new QTreeWidgetItem( this, QStringList( tr( "Players" ) ), -1 );
+					break;
+				case Globals::PlayerExplosionTile:
+					//item = new QTreeWidgetItem( this, QStringList( tr( "Players Explosions" ) ), -1 );
+					continue;
+					break;
+				case Globals::SkyTile:
+					item = new QTreeWidgetItem( this, QStringList( tr( "Skies" ) ), -1 );
+					break;
+				case Globals::TextTile:
+					//item = new QTreeWidgetItem( this, QStringList( tr( "Texts" ) ), -1 );
+					continue;
 					break;
 				case Globals::InvalidTile:
 					Q_ASSERT( 0 );
+					continue;
 					break;
 			}
 			
@@ -118,12 +134,31 @@ void TreeWidgetTiles::datasLoaded( bool success )
 		// tiles
 		foreach ( const Globals::TypeTile& type, tiles.keys() )
 		{
-			const TilesMap typeTiles = tiles[ type ];
+			switch ( type )
+			{
+				case Globals::InvalidTile:
+					Q_ASSERT( 0 );
+				case Globals::BombTile:
+				case Globals::BombExplosionTile:
+				case Globals::PlayerExplosionTile:
+				case Globals::TextTile:
+					continue;
+					break;
+				case Globals::BlockTile:
+				case Globals::BonusTile:
+				case Globals::BoxTile:
+				case Globals::FloorTile:
+				case Globals::PlayerTile:
+				case Globals::SkyTile:
+					break;
+			}
+			
+			const TilesMap& typeTiles = tiles[ type ];
 			
 			foreach ( const QString& name, typeTiles.keys() )
 			{
 				AbstractTile* tile = typeTiles[ name ];
-				item = new QTreeWidgetItem( mTypesItems[ type ], tile->Type );
+				QTreeWidgetItem* item = new QTreeWidgetItem( mTypesItems[ type ], tile->Type );
 				
 				item->setIcon( 0, QIcon( tile->tile( 0 ) ) );
 				item->setText( 0, tile->name() );

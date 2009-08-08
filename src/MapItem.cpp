@@ -56,6 +56,7 @@ void MapItem::clear()
 	mSize = QSize();
 	mMapping.clear();
 	mLayers.clear();
+	mPlayersPosition.clear();
 }
 
 bool MapItem::load( const QString& fileName )
@@ -122,6 +123,29 @@ bool MapItem::load( const QString& fileName )
 				
 				const uint id = parts.at( x ).toUInt();
 				AbstractTile* tile = mappedTile( id );
+				
+				switch ( tile->Type )
+				{
+					case Globals::InvalidTile:
+						Q_ASSERT( 0 );
+						continue;
+						break;
+					case Globals::BlockTile:
+					case Globals::BoxTile:
+					case Globals::FloorTile:
+					case Globals::SkyTile:
+					case Globals::BonusTile:
+						break;
+					case Globals::PlayerTile:
+						mPlayersPosition[ tile->name() ] = QPoint( x, y );
+					case Globals::BombTile:
+					case Globals::BombExplosionTile:
+					case Globals::PlayerExplosionTile:
+					case Globals::TextTile:
+						continue;
+						break;
+				}
+				
 				MapObjectItem* object = new MapObjectItem( tile, this );
 				object->setZValue( layer );
 				mLayers[ layer ][ QPoint( x, y ) ] = object;
@@ -133,6 +157,11 @@ bool MapItem::load( const QString& fileName )
 	updateMap();
 	
 	return true;
+}
+
+const PlayersPositionMap& MapItem::playersPosition() const
+{
+	return mPlayersPosition;
 }
 
 QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) const

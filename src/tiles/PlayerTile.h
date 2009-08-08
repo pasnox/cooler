@@ -11,10 +11,6 @@ struct PlayerTile : AbstractTile
 	virtual QPixmap tile( int step ) const;
 	
 	QPixmap tile( Globals::PadStroke stroke, int step ) const;
-	
-	QString Name;
-	QSize Size;
-	QPixmap DeadPixmap;
 };
 
 #endif // PLAYERTILE_H

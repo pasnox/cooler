@@ -4,6 +4,7 @@ AbstractTile::AbstractTile( const QFileInfo& fn, Globals::TypeTile type )
 {
 	FileName = fn;
 	Type = type;
+	Pixmap = QPixmap( absoluteFilePath() );
 }
 
 AbstractTile::~AbstractTile()
