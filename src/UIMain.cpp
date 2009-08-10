@@ -22,7 +22,12 @@ UIMain::~UIMain()
 void UIMain::initialize()
 {
 	// maps
-	const QFileInfoList maps = Globals::getFiles( qApp->applicationDirPath().append( "/maps" ), QStringList( "*.ini" ) );
+	QFileInfoList maps;
+#ifdef Q_OS_MAC
+		maps = Globals::getFiles( qApp->applicationDirPath().append( "/../../../maps" ), QStringList( "*.ini" ) );
+#else
+		maps = Globals::getFiles( qApp->applicationDirPath().append( "/maps" ), QStringList( "*.ini" ) );
+#endif
 	foreach ( const QFileInfo& map, maps )
 	{
 		QListWidgetItem* item = new QListWidgetItem( map.baseName(), lwMaps );
