@@ -3,6 +3,8 @@
 
 #include "ui_UIMapEditor.h"
 
+class UITilesRipper;
+
 class UIMapEditor : public QMainWindow, public Ui::UIMapEditor
 {
 	Q_OBJECT
@@ -21,6 +23,8 @@ protected slots:
 	void on_aRemoveLayer_triggered();
 	void on_aClearLayers_triggered();
 	
+	void on_aTilesRipper_triggered();
+	
 	void on_leName_textChanged( const QString& text );
 	void on_sbWidth_valueChanged( int value );
 	void on_sbHeight_valueChanged( int value );
@@ -33,6 +37,8 @@ protected slots:
 	void on_gvView_mouseTileMoved( const QPoint& pos );
 
 protected:
+	UITilesRipper* mRipper;
+	
 	void clearGui();
 };
 

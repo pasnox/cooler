@@ -17,7 +17,7 @@
 XUPProjectSettings {
 	EDITOR	= QMake
 	EXECUTE_DEBUG	= cooler_debug
-	QT_VERSION	= Qt System (4.5.0)
+	QT_VERSION	= Qt System (4.5.2)
 }
 
 TEMPLATE	= app
@@ -54,7 +54,8 @@ INCLUDEPATH	= . \
 FORMS	= src/UIMain.ui \
 	src/editor/UIMapEditor.ui \
 	src/pads/UIPadSettings.ui \
-	src/pads/UIPadConfiguration.ui
+	src/pads/UIPadConfiguration.ui \
+	src/tilesripper/UITilesRipper.ui
 
 HEADERS	= src/tiles/AbstractTile.h \
 	src/tiles/BombTile.h \
@@ -76,7 +77,9 @@ HEADERS	= src/tiles/AbstractTile.h \
 	src/items/MapObjectItem.h \
 	src/pads/UIPadSettings.h \
 	src/pads/PadSettings.h \
-	src/pads/UIPadConfiguration.h
+	src/pads/UIPadConfiguration.h \
+	src/tilesripper/UITilesRipper.h \
+	src/tilesripper/TilesRipperPreview.h
 
 SOURCES	= src/tiles/AbstractTile.cpp \
 	src/tiles/BombTile.cpp \
@@ -99,4 +102,7 @@ SOURCES	= src/tiles/AbstractTile.cpp \
 	src/items/MapObjectItem.cpp \
 	src/pads/UIPadSettings.cpp \
 	src/pads/PadSettings.cpp \
-	src/pads/UIPadConfiguration.cpp
+	src/pads/UIPadConfiguration.cpp \
+	src/tilesripper/UITilesRipper.cpp \
+	src/tilesripper/TilesRipperPreview.cpp
+QT	= core gui opengl

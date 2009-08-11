@@ -164,6 +164,11 @@ const PlayersPositionMap& MapItem::playersPosition() const
 	return mPlayersPosition;
 }
 
+int MapItem::maxPlayers() const
+{
+	return mPlayersPosition.count();
+}
+
 QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) const
 {
 	const int stepBy = 1;

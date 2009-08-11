@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
+    <width>847</width>
     <height>480</height>
    </rect>
   </property>
@@ -156,6 +156,7 @@
    <addaction name="aAddSkyLayer"/>
    <addaction name="aRemoveLayer"/>
    <addaction name="aClearLayers"/>
+   <addaction name="aTilesRipper"/>
   </widget>
   <action name="aOpenMap">
    <property name="text">
@@ -190,6 +191,11 @@
   <action name="aAddSkyLayer">
    <property name="text">
     <string>Add Sky Layer</string>
+   </property>
+  </action>
+  <action name="aTilesRipper">
+   <property name="text">
+    <string>Tiles Ripper</string>
    </property>
   </action>
  </widget>

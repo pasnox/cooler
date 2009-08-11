@@ -24,7 +24,7 @@
     <item>
      <widget class="QStackedWidget" name="swPages">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="wWelcome">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -290,17 +290,11 @@ It use QGraphicsView framework for drawing the game board.</string>
        <property name="horizontalScrollBarPolicy">
         <enum>Qt::ScrollBarAlwaysOff</enum>
        </property>
-       <property name="backgroundBrush">
-        <brush brushstyle="SolidPattern">
-         <color alpha="126">
-          <red>155</red>
-          <green>155</green>
-          <blue>155</blue>
-         </color>
-        </brush>
-       </property>
        <property name="renderHints">
         <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
+       </property>
+       <property name="viewportUpdateMode">
+        <enum>QGraphicsView::FullViewportUpdate</enum>
        </property>
       </widget>
      </widget>
