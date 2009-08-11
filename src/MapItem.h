@@ -55,6 +55,7 @@ public:
 	virtual bool load( const QString& fileName );
 	
 	const PlayersPositionMap& playersPosition() const;
+	int maxPlayers() const;
 	QPoint canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) const;
 	QPoint gridToPos( const QPoint& gridPos ) const;
 	QPoint posToGrid( const QPoint& pos ) const;

@@ -5,6 +5,7 @@
 #include <PlayerItem.h>
 #include <PadSettings.h>
 
+#include <QGLWidget>
 #include <QGraphicsScene>
 #include <QMouseEvent>
 #include <QDebug>
@@ -14,6 +15,7 @@
 GraphicsView::GraphicsView( QWidget* parent )
 	: QGraphicsView( parent )
 {
+	setViewport( new QGLWidget );
 	mScene = new QGraphicsScene( this );
 	mTiles = TilesManager::instance();
 	mMap = new MapItem();

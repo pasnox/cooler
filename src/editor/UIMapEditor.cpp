@@ -1,6 +1,8 @@
 #include "UIMapEditor.h"
 #include "MapEditorItem.h"
 
+#include <UITilesRipper.h>
+
 #include <QFileDialog>
 #include <QMessageBox>
 
@@ -10,6 +12,7 @@ UIMapEditor::UIMapEditor( QWidget* parent )
 	: QMainWindow( parent )
 {
 	setupUi( this );
+	mRipper = 0;
 	
 	twLayers->addAction( aAddLayer );
 	twLayers->addAction( aRemoveLayer );
@@ -97,6 +100,16 @@ void UIMapEditor::on_aRemoveLayer_triggered()
 void UIMapEditor::on_aClearLayers_triggered()
 {
 	twLayers->clearLayers();
+}
+
+void UIMapEditor::on_aTilesRipper_triggered()
+{
+	if ( ! mRipper )
+	{
+		mRipper = new UITilesRipper( this );
+	}
+	
+	mRipper->show();
 }
 
 void UIMapEditor::on_leName_textChanged( const QString& text )
