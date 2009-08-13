@@ -2,8 +2,9 @@
 #include "MapObjectItem.h"
 #include "PlayerItem.h"
 
+#include <pXmlSettings.h>
+
 #include <QFile>
-#include <QSettings>
 #include <QGraphicsScene>
 #include <QPainter>
 #include <QDebug>
@@ -66,7 +67,7 @@ bool MapItem::load( const QString& fileName )
 		return false;
 	}
 	
-	QSettings settings( fileName, QSettings::IniFormat );
+	pXmlSettings settings( fileName );
 	
 	if ( settings.status() == QSettings::FormatError )
 	{

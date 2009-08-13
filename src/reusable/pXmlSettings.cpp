@@ -1,5 +1,6 @@
 #include "pXmlSettings.h"
 
+#include <QFileInfo>
 #include <QCoreApplication>
 #include <QDesktopServices>
 #include <QColor>
@@ -12,6 +13,8 @@
 #include <QSizePolicy>
 #include <QTextLength>
 #include <QUrl>
+#include <QBitmap>
+#include <QBuffer>
 #include <QDebug>
 
 const QSettings::Format pXmlSettings::XmlFormat = QSettings::registerFormat( "xml", pXmlSettings::readXmlFile, pXmlSettings::writeXmlFile );
@@ -28,6 +31,11 @@ pXmlSettings::~pXmlSettings()
 
 QString pXmlSettings::fileName( const QString& name )
 {
+	if ( QFileInfo( name ).isAbsolute() )
+	{
+		return name;
+	}
+	
 	Q_ASSERT( !QCoreApplication::organizationName().isEmpty() );
 	Q_ASSERT( !QCoreApplication::applicationName().isEmpty() );
 	
@@ -154,6 +162,30 @@ QVariant pXmlSettings::elementToVariant( const QDomElement& element )
 			return value.toULongLong();
 		case QVariant::Url:
 			return QUrl( value );
+		case QVariant::ByteArray:
+			return qUncompress( QByteArray::fromBase64( value.toAscii() ) );
+			break;
+		case QVariant::Pixmap:
+		{
+			QByteArray data = QByteArray::fromBase64( value.toAscii() );
+			QPixmap pixmap;
+			pixmap.loadFromData( data, "png" );
+			return pixmap;
+		}
+		case QVariant::Bitmap:
+		{
+			QByteArray data = QByteArray::fromBase64( value.toAscii() );
+			QBitmap pixmap;
+			pixmap.loadFromData( data, "png" );
+			return pixmap;
+		}
+		case QVariant::Image:
+		{
+			QByteArray data = QByteArray::fromBase64( value.toAscii() );
+			QImage pixmap;
+			pixmap.loadFromData( data, "png" );
+			return pixmap;
+		}
 		
 		case QVariant::Matrix:
 		case QVariant::Transform:
@@ -165,15 +197,12 @@ QVariant pXmlSettings::elementToVariant( const QDomElement& element )
 		case QVariant::Polygon:
 		
 		case QVariant::BitArray:
-		case QVariant::Bitmap:
+		
 		case QVariant::Brush:
-		case QVariant::ByteArray:
 		case QVariant::Char:
 		case QVariant::Cursor:
 		case QVariant::Hash:
 		case QVariant::Icon:
-		case QVariant::Image:
-		case QVariant::Pixmap:
 		case QVariant::Map:
 		case QVariant::List:
 		case QVariant::Region:
@@ -181,7 +210,11 @@ QVariant pXmlSettings::elementToVariant( const QDomElement& element )
 		case QVariant::UserType:
 		case QVariant::Invalid:
 		case QVariant::LastType:
-			Q_ASSERT( !element.hasAttributes() );
+		{
+			const bool ok = element.attributes().count() == 1;
+			Q_ASSERT( ok );
+			return ok;
+		}
 	}
 	
 	return QVariant();
@@ -326,6 +359,52 @@ bool pXmlSettings::variantToElement( const QVariant& variant, QDomElement& eleme
 		case QVariant::Url:
 			element.setAttribute( valueKey, variant.toUrl().toString() );
 			break;
+		case QVariant::ByteArray:
+		{
+			QByteArray data = qCompress( variant.toByteArray(), 9 ).toBase64();
+			QString value = QString::fromAscii( data.constData(), data.length() );
+			element.setAttribute( valueKey, value );
+			break;
+		}
+		case QVariant::Pixmap:
+		{
+			QPixmap pixmap = variant.value<QPixmap>();
+			QByteArray data;
+			QBuffer buffer( &data );
+			buffer.open( QIODevice::WriteOnly );
+			pixmap.save( &buffer, "png" );
+			buffer.close();
+			data = data.toBase64();
+			QString value = QString::fromAscii( data.constData(), data.length() );
+			element.setAttribute( valueKey, value );
+			break;
+		}
+		case QVariant::Bitmap:
+		{
+			QBitmap pixmap = variant.value<QBitmap>();
+			QByteArray data;
+			QBuffer buffer( &data );
+			buffer.open( QIODevice::WriteOnly );
+			pixmap.save( &buffer, "png" );
+			buffer.close();
+			data = data.toBase64();
+			QString value = QString::fromAscii( data.constData(), data.length() );
+			element.setAttribute( valueKey, value );
+			break;
+		}
+		case QVariant::Image:
+		{
+			QImage pixmap = variant.value<QImage>();
+			QByteArray data;
+			QBuffer buffer( &data );
+			buffer.open( QIODevice::WriteOnly );
+			pixmap.save( &buffer, "png" );
+			buffer.close();
+			data = data.toBase64();
+			QString value = QString::fromAscii( data.constData(), data.length() );
+			element.setAttribute( valueKey, value );
+			break;
+		}
 		
 		case QVariant::Matrix:
 		case QVariant::Transform:
@@ -337,15 +416,11 @@ bool pXmlSettings::variantToElement( const QVariant& variant, QDomElement& eleme
 		case QVariant::Polygon:
 		
 		case QVariant::BitArray:
-		case QVariant::Bitmap:
 		case QVariant::Brush:
-		case QVariant::ByteArray:
 		case QVariant::Char:
 		case QVariant::Cursor:
 		case QVariant::Hash:
 		case QVariant::Icon:
-		case QVariant::Image:
-		case QVariant::Pixmap:
 		case QVariant::Map:
 		case QVariant::List:
 		case QVariant::Region:
@@ -353,8 +428,11 @@ bool pXmlSettings::variantToElement( const QVariant& variant, QDomElement& eleme
 		case QVariant::UserType:
 		case QVariant::Invalid:
 		case QVariant::LastType:
-			Q_ASSERT( !element.hasAttributes() );
-			return !element.hasAttributes();
+		{
+			const bool ok = element.attributes().count() == 1;
+			Q_ASSERT( ok );
+			return ok;
+		}
 	}
 	
 	element.setAttribute( "metatype", type );
@@ -369,7 +447,7 @@ bool pXmlSettings::recursiveNodeReader( const QString& path, const QDomElement& 
 	for ( int i = 0; i < nodes.count(); i++ )
 	{
 		const QDomElement el = nodes.at( i ).toElement();
-		QString curPath = path +"/" +el.tagName();
+		QString curPath = path +"/" +el.attribute( "name" );
 		
 		if ( curPath.startsWith( "/" ) )
 		{
@@ -440,7 +518,8 @@ bool pXmlSettings::writeXmlFile( QIODevice& device, const QSettings::SettingsMap
 			}
 			else
 			{
-				QDomElement element = document.createElement( part );
+				QDomElement element = document.createElement( "node" );
+				element.setAttribute( "name", part );
 				parent.appendChild( element );
 				parent = element;
 				elements[ path ] = element;

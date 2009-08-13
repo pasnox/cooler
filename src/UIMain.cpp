@@ -24,9 +24,9 @@ void UIMain::initialize()
 	// maps
 	QFileInfoList maps;
 #ifdef Q_OS_MAC
-		maps = Globals::getFiles( qApp->applicationDirPath().append( "/../../../maps" ), QStringList( "*.ini" ) );
+		maps = Globals::getFiles( qApp->applicationDirPath().append( "/../../../maps" ), QStringList( "*.xml" ) );
 #else
-		maps = Globals::getFiles( qApp->applicationDirPath().append( "/maps" ), QStringList( "*.ini" ) );
+		maps = Globals::getFiles( qApp->applicationDirPath().append( "/maps" ), QStringList( "*.xml" ) );
 #endif
 	foreach ( const QFileInfo& map, maps )
 	{

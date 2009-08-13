@@ -1,6 +1,8 @@
 #include "MapEditorItem.h"
 #include "MapObjectItem.h"
 
+#include <pXmlSettings.h>
+
 #include <QFile>
 #include <QPen>
 #include <QSettings>
@@ -108,7 +110,7 @@ bool MapEditorItem::load( const QString& fileName )
 		return false;
 	}
 	
-	QSettings settings( fileName, QSettings::IniFormat );
+	pXmlSettings settings( fileName );
 	
 	if ( settings.status() == QSettings::FormatError )
 	{
@@ -202,7 +204,7 @@ bool MapEditorItem::load( const QString& fileName )
 
 bool MapEditorItem::save( const QString& fileName )
 {
-	QSettings settings( fileName, QSettings::IniFormat );
+	pXmlSettings settings( fileName );
 	settings.clear();
 	
 	
