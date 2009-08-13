@@ -1,0 +1,80 @@
+<!DOCTYPE pXmlSettings>
+<Settings>
+    <node name="Layer_30000" >
+        <node metatype="10" value="0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0" name="0" />
+        <node metatype="10" value="X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X" name="1" />
+        <node metatype="10" value="X|1|2|2|2|2|2|2|2|2|2|2|2|2|2|3|X" name="2" />
+        <node metatype="10" value="X|15|X|15|X|15|X|15|X|15|X|15|X|15|X|4|X" name="3" />
+        <node metatype="10" value="X|15|2|2|2|2|2|2|2|2|2|2|2|2|2|4|X" name="4" />
+        <node metatype="10" value="X|15|X|15|X|15|X|15|X|15|X|15|X|15|X|4|X" name="5" />
+        <node metatype="10" value="X|15|2|2|2|2|2|2|2|2|2|2|2|2|2|4|X" name="6" />
+        <node metatype="10" value="X|15|X|15|X|15|X|15|X|15|X|15|X|15|X|4|X" name="7" />
+        <node metatype="10" value="X|5|2|2|2|2|2|2|2|2|2|2|2|2|2|6|X" name="8" />
+        <node metatype="10" value="X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X" name="9" />
+    </node>
+    <node name="Layer_30010" >
+        <node metatype="10" value="X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X" name="0" />
+        <node metatype="10" value="7|8|8|8|8|8|8|8|8|8|8|8|8|8|8|8|8" name="1" />
+        <node metatype="10" value="7|X|X|X|X|X|X|X|16|X|X|X|X|X|X|X|9" name="2" />
+        <node metatype="10" value="7|X|10|X|10|17|10|X|10|X|10|17|10|X|10|X|9" name="3" />
+        <node metatype="10" value="7|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|9" name="4" />
+        <node metatype="10" value="7|16|10|X|10|X|10|X|10|X|10|X|10|X|10|16|9" name="5" />
+        <node metatype="10" value="7|X|X|X|X|X|17|X|X|X|17|X|X|X|X|X|9" name="6" />
+        <node metatype="10" value="7|X|10|X|10|X|10|X|10|X|10|X|10|X|10|X|9" name="7" />
+        <node metatype="10" value="7|X|X|X|X|X|X|X|16|X|X|X|X|X|X|X|9" name="8" />
+        <node metatype="10" value="7|9|9|9|9|9|9|9|9|9|9|9|9|9|9|9|9" name="9" />
+    </node>
+    <node name="Layer_30030" >
+        <node metatype="10" value="X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X" name="0" />
+        <node metatype="10" value="X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X" name="1" />
+        <node metatype="10" value="X|19|X|X|X|X|X|X|X|X|X|X|X|X|X|20|X" name="2" />
+        <node metatype="10" value="X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X" name="3" />
+        <node metatype="10" value="X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X" name="4" />
+        <node metatype="10" value="X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X" name="5" />
+        <node metatype="10" value="X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X" name="6" />
+        <node metatype="10" value="X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X" name="7" />
+        <node metatype="10" value="X|21|X|X|X|X|X|X|X|X|X|X|X|X|X|22|X" name="8" />
+        <node metatype="10" value="X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X" name="9" />
+    </node>
+    <node name="Layer_60000" >
+        <node metatype="10" value="13|11|11|11|11|11|11|11|11|11|11|11|11|11|11|11|11" name="0" />
+        <node metatype="10" value="13|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|12" name="1" />
+        <node metatype="10" value="13|X|14|X|14|X|14|X|14|X|14|X|14|X|14|X|12" name="2" />
+        <node metatype="10" value="13|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|12" name="3" />
+        <node metatype="10" value="13|X|14|X|14|X|14|X|14|X|14|X|14|X|14|X|12" name="4" />
+        <node metatype="10" value="13|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|12" name="5" />
+        <node metatype="10" value="13|X|14|X|14|X|14|X|14|X|14|X|14|X|14|X|12" name="6" />
+        <node metatype="10" value="13|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|12" name="7" />
+        <node metatype="10" value="13|12|12|12|12|12|12|12|12|12|12|12|12|12|12|12|12" name="8" />
+        <node metatype="10" value="X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X" name="9" />
+    </node>
+    <node name="Map" >
+        <node metatype="10" value="Central Park 2" name="Name" />
+        <node width="17" metatype="21" height="10" name="Size" />
+    </node>
+    <node name="Tiles" >
+        <node metatype="10" value="floors/Grass.png" name="0" />
+        <node metatype="10" value="floors/Top Left Corner Road.png" name="1" />
+        <node metatype="10" value="blocks/Statue Bottom.png" name="10" />
+        <node metatype="10" value="sky/Orange House Top.png" name="11" />
+        <node metatype="10" value="sky/Fuschia House Top.png" name="12" />
+        <node metatype="10" value="sky/Green House Top.png" name="13" />
+        <node metatype="10" value="sky/Statue Top.png" name="14" />
+        <node metatype="10" value="floors/Vertical Road.png" name="15" />
+        <node metatype="10" value="bonus/Fire.png" name="16" />
+        <node metatype="10" value="bonus/Bomb.png" name="17" />
+        <node metatype="10" value="boxes/Box.png" name="18" />
+        <node metatype="10" value="players/Black.png" name="19" />
+        <node metatype="10" value="floors/Horizontal Road.png" name="2" />
+        <node metatype="10" value="players/Blue.png" name="20" />
+        <node metatype="10" value="players/Gray.png" name="21" />
+        <node metatype="10" value="players/Red.png" name="22" />
+        <node metatype="10" value="floors/Top Right Corner Shadow Road.png" name="3" />
+        <node metatype="10" value="floors/Vertical Shadow Road.png" name="4" />
+        <node metatype="10" value="floors/Bottom Left Corner Road.png" name="5" />
+        <node metatype="10" value="floors/Bottom Right Corner Shadow Road.png" name="6" />
+        <node metatype="10" value="blocks/Green House Bottom.png" name="7" />
+        <node metatype="10" value="blocks/Orange House Bottom.png" name="8" />
+        <node metatype="10" value="blocks/Fuschia House Bottom.png" name="9" />
+    </node>
+</Settings>
