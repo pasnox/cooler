@@ -80,6 +80,11 @@ bool MapObjectItem::isExplosive() const
 	return false;
 }
 
+QRectF MapObjectItem::explosiveBoundingRect() const
+{
+	return boundingRect();
+}
+
 MapItem* MapObjectItem::map() const
 {
 	return qgraphicsitem_cast<MapItem*>( parentItem() );

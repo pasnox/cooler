@@ -79,7 +79,8 @@ HEADERS	= src/tiles/AbstractTile.h \
 	src/pads/PadSettings.h \
 	src/pads/UIPadConfiguration.h \
 	src/tilesripper/UITilesRipper.h \
-	src/tilesripper/TilesRipperPreview.h
+	src/tilesripper/TilesRipperPreview.h \
+	src/reusable/pXmlSettings.h
 
 SOURCES	= src/tiles/AbstractTile.cpp \
 	src/tiles/BombTile.cpp \
@@ -104,5 +105,6 @@ SOURCES	= src/tiles/AbstractTile.cpp \
 	src/pads/PadSettings.cpp \
 	src/pads/UIPadConfiguration.cpp \
 	src/tilesripper/UITilesRipper.cpp \
-	src/tilesripper/TilesRipperPreview.cpp
-QT	= core gui opengl
+	src/tilesripper/TilesRipperPreview.cpp \
+	src/reusable/pXmlSettings.cpp
+QT	= core gui opengl xml

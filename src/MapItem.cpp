@@ -173,8 +173,9 @@ QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) con
 {
 	const int stepBy = 1;
 	const QRect bbr = player->mapRectToScene( player->boundingRect() ).toRect();
-	const int mw = bbr.width() /8;
-	const int mh = bbr.height() /8;
+	const QRect ebr = player->mapRectToScene( player->explosiveBoundingRect() ).toRect();
+	const int mw = ebr.width() /8;
+	const int mh = ebr.height() /8;
 	QPoint p;
 	QRect sr;
 	
@@ -184,22 +185,22 @@ QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) con
 		case Globals::PadStrokeUp:
 			if ( !( bbr.y() -stepBy >= y() ) )
 				return p;
-			sr = QRect( QPoint( bbr.left() +mw, bbr.top() -1 ), QSize( mw *6, 1 ) );
+			sr = QRect( QPoint( ebr.left() +mw, ebr.top() -1 ), QSize( mw *6, 1 ) );
 			break;
 		case Globals::PadStrokeDown:
 			if ( !( bbr.y() +stepBy +bbr.height() <= boundingRect().height() ) )
 				return p;
-			sr = QRect( QPoint( bbr.left() +mw, bbr.bottom() +1 ), QSize( mw *6, 1 ) );
+			sr = QRect( QPoint( ebr.left() +mw, ebr.bottom() +1 ), QSize( mw *6, 1 ) );
 			break;
 		case Globals::PadStrokeLeft:
 			if ( !( bbr.x() -stepBy >= x() ) )
 				return p;
-			sr = QRect( QPoint( bbr.left() -1, bbr.top() +mh ), QSize( 1, mh *6 ) );
+			sr = QRect( QPoint( ebr.left() -1, ebr.top() +mh ), QSize( 1, mh *6 ) );
 			break;
 		case Globals::PadStrokeRight:
 			if ( !( bbr.x() +stepBy +bbr.width() <= boundingRect().width() ) )
 				return p;
-			sr = QRect( QPoint( bbr.right() +1, bbr.top() +mh ), QSize( 1, mh *6 ) );
+			sr = QRect( QPoint( ebr.right() +1, ebr.top() +mh ), QSize( 1, mh *6 ) );
 			break;
 		default:
 			break;

@@ -1,0 +1,1 @@
+#include "../reusable/pXmlSettings.h"

@@ -24,6 +24,7 @@ public:
 	
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );
 	
+	virtual QRectF explosiveBoundingRect() const;
 	virtual void setTile( AbstractTile* tile );
 	
 	PadSettings* pad() const;
