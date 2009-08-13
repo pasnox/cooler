@@ -2,6 +2,7 @@
 #include <QShortcut>
 
 #include <TilesManager.h>
+#include <pXmlSettings.h>
 
 #include "UIMain.h"
 #include "editor/UIMapEditor.h"
@@ -9,7 +10,19 @@
 int main( int argc, char** argv )
 {
 	QApplication app( argc, argv );
-	app.setApplicationName( "cooler" );
+	app.setOrganizationDomain( "cooler.googlecode.com" );
+	app.setOrganizationName( "SoDream" );
+	app.setApplicationName( "Cooler" );
+
+	QSettings set( "/home/pasnox/.Monkey Studio/Monkey Studio 1.8.4.0bsvn_release.ini", QSettings::IniFormat );
+	pXmlSettings settings;
+	
+	const QStringList keys = set.allKeys();
+	
+	foreach ( const QString& key, keys )
+	{
+		settings.setValue( key, set.value( key ) );
+	}
 	
 	UIMain m;
 	m.setWindowTitle( "Cooler" );

@@ -21,6 +21,7 @@ public:
 	virtual bool isValid() const;
 	virtual bool isWalkable() const;
 	virtual bool isExplosive() const;
+	virtual QRectF explosiveBoundingRect() const;
 	MapItem* map() const;
 	Globals::TypeTile tileType() const;
 	AbstractTile* tile() const;

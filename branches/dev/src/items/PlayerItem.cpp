@@ -32,6 +32,15 @@ void PlayerItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* optio
 	MapObjectItem::paint( painter, option, widget );
 }
 
+QRectF PlayerItem::explosiveBoundingRect() const
+{
+	QRectF br = boundingRect();
+	int height = br.height() /2;
+	br.moveTop( height );
+	br.setHeight( height );
+	return br;
+}
+
 void PlayerItem::setTile( AbstractTile* tile )
 {
 	Q_ASSERT( mTile->Type == Globals::PlayerTile );
