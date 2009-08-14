@@ -238,6 +238,7 @@ void UIMain::on_pbLetsGo_clicked()
 		}
 		
 		swPages->setCurrentWidget( gvBoard );
+		showFullScreen();
 	}
 	else
 	{
