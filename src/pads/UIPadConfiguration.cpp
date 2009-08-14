@@ -41,6 +41,11 @@ void UIPadConfiguration::setPads( PadSettingsList& pads, int maxPad )
 	}
 }
 
+void UIPadConfiguration::updateGui()
+{
+	on_cbPads_currentIndexChanged( cbPads->currentIndex() );
+}
+
 int UIPadConfiguration::currentPadIndex() const
 {
 	return cbPads->currentIndex();

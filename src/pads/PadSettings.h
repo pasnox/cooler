@@ -5,6 +5,8 @@
 
 #include <Globals.h>
 
+class QSettings;
+
 class PadSettings
 {
 public:
@@ -33,13 +35,16 @@ public:
 	bool isStrokeKeyUsed( int key ) const;
 	bool isActionKeyUsed( int key ) const;
 	bool isKeyUsed( int key ) const;
-	bool isValid();
+	bool isValid() const;
 	
 	Globals::PadStroke keyStroke( int key ) const;
 	Globals::PadAction keyAction( int key ) const;
 	
 	QList<int> keysStroke() const;
 	QList<int> keysAction() const;
+	
+	void loadMapping( QSettings* settings );
+	void saveMapping( QSettings* settings ) const;
 	
 	void debug() const;
 	

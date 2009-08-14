@@ -14,6 +14,7 @@ public:
 	virtual ~UIPadConfiguration();
 	
 	void setPads( PadSettingsList& pads, int maxPad );
+	void updateGui();
 	
 	int currentPadIndex() const;
 

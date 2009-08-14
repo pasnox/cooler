@@ -1,5 +1,6 @@
 #include "PadSettings.h"
 
+#include <QSettings>
 #include <QDebug>
 
 PadSettings::PadSettings()
@@ -82,7 +83,7 @@ bool PadSettings::isKeyUsed( int key ) const
 	return mStrokeMapping.contains( key ) || mActionMapping.contains( key );
 }
 
-bool PadSettings::isValid()
+bool PadSettings::isValid() const
 {
 	return mStrokeMapping.count() == 4 && mActionMapping.count() == 4;
 }
@@ -105,6 +106,44 @@ QList<int> PadSettings::keysStroke() const
 QList<int> PadSettings::keysAction() const
 {
 	return mActionMapping.keys();
+}
+
+void PadSettings::loadMapping( QSettings* settings )
+{
+	if ( !settings->contains( "Stroke" ) || !settings->contains( "Action" ) )
+	{
+		return;
+	}
+	
+	clear();
+	
+	mStrokeMapping[ settings->value( QString( "Stroke/%1" ).arg( Globals::PadStrokeUp ) ).toInt() ] = Globals::PadStrokeUp;
+	mStrokeMapping[ settings->value( QString( "Stroke/%1" ).arg( Globals::PadStrokeDown ) ).toInt() ] = Globals::PadStrokeDown;
+	mStrokeMapping[ settings->value( QString( "Stroke/%1" ).arg( Globals::PadStrokeLeft ) ).toInt() ] = Globals::PadStrokeLeft;
+	mStrokeMapping[ settings->value( QString( "Stroke/%1" ).arg( Globals::PadStrokeRight ) ).toInt() ] = Globals::PadStrokeRight;
+	
+	mActionMapping[ settings->value( QString( "Action/%1" ).arg( Globals::PadAction1 ) ).toInt() ] = Globals::PadAction1;
+	mActionMapping[ settings->value( QString( "Action/%1" ).arg( Globals::PadAction2 ) ).toInt() ] = Globals::PadAction2;
+	mActionMapping[ settings->value( QString( "Action/%1" ).arg( Globals::PadAction3 ) ).toInt() ] = Globals::PadAction3;
+	mActionMapping[ settings->value( QString( "Action/%1" ).arg( Globals::PadAction4 ) ).toInt() ] = Globals::PadAction4;
+}
+
+void PadSettings::saveMapping( QSettings* settings ) const
+{
+	if ( !isValid() )
+	{
+		return;
+	}
+	
+	settings->setValue( QString( "Stroke/%1" ).arg( Globals::PadStrokeUp ), QString::number( mStrokeMapping.key( Globals::PadStrokeUp ) ) );
+	settings->setValue( QString( "Stroke/%1" ).arg( Globals::PadStrokeDown ), QString::number( mStrokeMapping.key( Globals::PadStrokeDown ) ) );
+	settings->setValue( QString( "Stroke/%1" ).arg( Globals::PadStrokeLeft ), QString::number( mStrokeMapping.key( Globals::PadStrokeLeft ) ) );
+	settings->setValue( QString( "Stroke/%1" ).arg( Globals::PadStrokeRight ), QString::number( mStrokeMapping.key( Globals::PadStrokeRight ) ) );
+	
+	settings->setValue( QString( "Action/%1" ).arg( Globals::PadAction1 ), QString::number( mActionMapping.key( Globals::PadAction1 ) ) );
+	settings->setValue( QString( "Action/%1" ).arg( Globals::PadAction2 ), QString::number( mActionMapping.key( Globals::PadAction2 ) ) );
+	settings->setValue( QString( "Action/%1" ).arg( Globals::PadAction3 ), QString::number( mActionMapping.key( Globals::PadAction3 ) ) );
+	settings->setValue( QString( "Action/%1" ).arg( Globals::PadAction4 ), QString::number( mActionMapping.key( Globals::PadAction4 ) ) );
 }
 
 void PadSettings::debug() const

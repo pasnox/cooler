@@ -19,6 +19,12 @@
 
 const QSettings::Format pXmlSettings::XmlFormat = QSettings::registerFormat( "xml", pXmlSettings::readXmlFile, pXmlSettings::writeXmlFile );
 
+pXmlSettings::pXmlSettings( QObject* parent )
+	: QSettings( pXmlSettings::fileName( QString::null ), pXmlSettings::XmlFormat, parent )
+{
+	setIniCodec( "UTF-8" );
+}
+
 pXmlSettings::pXmlSettings( const QString& name, QObject* parent )
 	: QSettings( pXmlSettings::fileName( name ), pXmlSettings::XmlFormat, parent )
 {
@@ -459,7 +465,10 @@ bool pXmlSettings::recursiveNodeReader( const QString& path, const QDomElement& 
 			continue;
 		}
 		
-		map[ curPath ] = elementToVariant( el );
+		if ( el.hasAttribute( "value" ) || el.hasAttribute( "metatype" ) )
+		{
+			map[ curPath ] = elementToVariant( el );
+		}
 		
 		if ( el.hasChildNodes() )
 		{

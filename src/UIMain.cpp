@@ -3,6 +3,7 @@
 #include "PlayerItem.h"
 
 #include <TilesManager.h>
+#include <pXmlSettings.h>
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -11,6 +12,7 @@
 UIMain::UIMain( QWidget* parent )
 	: QMainWindow( parent )
 {
+	mSettings = new pXmlSettings( this );
 	setupUi( this );
 	swPages->setCurrentIndex( 0 );
 }
@@ -36,12 +38,15 @@ void UIMain::initialize()
 	
 	// players
 	const TilesMap tiles = TilesManager::instance()->tiles( Globals::PlayerTile );
+	const QStringList playersKeys = tiles.keys();
 	const bool playersLocked = cbPlayers->blockSignals( true );
 	
-	foreach ( const QString& name, tiles.keys() )
+	for ( int i = 0; i < playersKeys.count(); i++ )
 	{
+		const QString& name = playersKeys.at( i );
 		AbstractTile* tile = tiles[ name ];
-		cbPlayers->addItem( tile->tile( 0 ), QFileInfo( name ).baseName(), QVariant::fromValue( tile ) );
+		cbPlayers->addItem( tile->tile( 0 ), tile->name(), QVariant::fromValue( tile ) );
+		mPlayersNameMapping[ tile->name() ] = i;
 	}
 	
 	cbPlayers->blockSignals( playersLocked );
@@ -50,6 +55,86 @@ void UIMain::initialize()
 	sbPlayerNumber->setMaximum( Globals::MaxPlayers );
 	
 	pcEditor->setPads( mPads, Globals::MaxPlayers );
+	loadSettings();
+}
+
+void UIMain::loadSettings()
+{
+	// selected map
+	const QString selectedMap = mSettings->value( "LastSelectedMap" ).toString();
+	if ( !selectedMap.isEmpty() )
+	{
+		for ( int i = 0; i < lwMaps->count(); i++ )
+		{
+			QListWidgetItem* mapItem = lwMaps->item( i );
+			
+			if ( mapItem->text() == selectedMap )
+			{
+				lwMaps->setCurrentItem( mapItem );
+				break;
+			}
+		}
+	}
+	// player number
+	sbPlayerNumber->setValue( mSettings->value( "PlayerNumber", "2" ).toInt() );
+	// players definition
+	mSettings->beginReadArray( "Players" );
+	for ( int i = 0; i < lwPlayers->count(); i++ )
+	{
+		mSettings->setArrayIndex( i );
+		QListWidgetItem* playerItem = lwPlayers->item( i );
+		const QString name = mSettings->value( "Tile" ).toString();
+		const int playerIndex = mPlayersNameMapping.value( name );
+		AbstractTile* tile = cbPlayers->itemData( playerIndex, Qt::UserRole ).value<AbstractTile*>();
+		
+		playerItem->setIcon( tile->tile( 0 ) );
+		playerItem->setText( cbPlayers->itemText( playerIndex ) );
+		playerItem->setData( Qt::UserRole, QVariant::fromValue( tile ) );
+	}
+	mSettings->endArray();
+	// pad settings
+	mSettings->beginReadArray( "Pads" );
+	for ( uint i = 0; i < Globals::MaxPlayers; i++ )
+	{
+		mSettings->setArrayIndex( i );
+		PadSettings* pad = mPads.at( i );
+		pad->loadMapping( mSettings );
+		
+		if ( !pad->isValid() )
+		{
+			*pad = PadSettings::defaultConfiguration( i );
+		}
+	}
+	mSettings->endArray();
+	pcEditor->updateGui();
+}
+
+void UIMain::saveSettings()
+{
+	// selected map
+	QListWidgetItem* mapItem = lwMaps->selectedItems().value( 0 );
+	mSettings->setValue( "LastSelectedMap", mapItem ? mapItem->text() : QString::null );
+	// player number
+	mSettings->setValue( "PlayerNumber", sbPlayerNumber->value() );
+	// players definition
+	mSettings->beginWriteArray( "Players", lwPlayers->count() );
+	for ( int i = 0; i < lwPlayers->count(); i++ )
+	{
+		mSettings->setArrayIndex( i );
+		QListWidgetItem* playerItem = lwPlayers->item( i );
+		AbstractTile* tile = playerItem->data( Qt::UserRole ).value<AbstractTile*>();
+		mSettings->setValue( "Tile", tile ? tile->name() : QString::null );
+	}
+	mSettings->endArray();
+	// pad settings
+	mSettings->beginWriteArray( "Pads", mPads.count() );
+	for ( int i = 0; i < mPads.count(); i++ )
+	{
+		PadSettings* pad = mPads.at( i );
+		mSettings->setArrayIndex( i );
+		pad->saveMapping( mSettings );
+	}
+	mSettings->endArray();
 }
 
 void UIMain::on_pbWelcome_clicked()
