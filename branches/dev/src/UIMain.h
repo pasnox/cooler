@@ -5,6 +5,8 @@
 
 #include <PadSettings.h>
 
+class pXmlSettings;
+
 class UIMain : public QMainWindow, public Ui::UIMain
 {
 	Q_OBJECT
@@ -14,8 +16,13 @@ public:
 	virtual ~UIMain();
 	
 	void initialize();
+	
+	void loadSettings();
+	void saveSettings();
 
 protected:
+	pXmlSettings* mSettings;
+	QMap<QString, int> mPlayersNameMapping;
 	PadSettingsList mPads;
 
 protected slots:

@@ -9,7 +9,8 @@ class pXmlSettings : public QSettings
 	Q_OBJECT
 	
 public:
-	pXmlSettings( const QString& name = QString(), QObject* parent = 0 );
+	pXmlSettings( QObject* parent = 0 );
+	pXmlSettings( const QString& name, QObject* parent = 0 );
 	virtual ~pXmlSettings();
 	
 	static QString fileName( const QString& name );

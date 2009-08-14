@@ -30,5 +30,8 @@ int main( int argc, char** argv )
 	QObject::connect( &s, SIGNAL( activated() ), &me, SLOT( show() ) );
 	
 	QObject::connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
-	return app.exec();
+	bool result = app.exec();
+	
+	m.saveSettings();
+	return result;
 }
