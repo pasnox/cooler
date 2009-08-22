@@ -10,6 +10,7 @@ public:
 	typedef QPair<QColor, QColor> BrushColors;
 	
 	GSMenuItem( const QString& text, Qt::Alignment align = Qt::AlignCenter, int pixelSize = 20 );
+	GSMenuItem( const QString& text, QGraphicsItem* parent, Qt::Alignment align = Qt::AlignCenter, int pixelSize = 20 );
 	virtual ~GSMenuItem();
 	
 	void setActive( bool active );
@@ -53,6 +54,8 @@ protected:
 	QColor mPenColor;
 	BrushColors mBrushColors;
 	BrushColors mBrushDisabledColors;
+	
+	void init();
 	
 	virtual QSizeF sizeHint( Qt::SizeHint which, const QSizeF& constraint = QSizeF() ) const;
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );

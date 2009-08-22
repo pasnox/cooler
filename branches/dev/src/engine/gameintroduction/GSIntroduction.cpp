@@ -1,7 +1,7 @@
 #include "GSIntroduction.h"
 #include "GSMode.h"
+#include "GSMenuItem.h"
 
-#include <QGraphicsTextItem>
 #include <QPainter>
 
 GSIntroduction* GSIntroduction::mInstance = 0;
@@ -21,25 +21,20 @@ void GSIntroduction::Init( const QSizeF& size )
 	AbstractGameState::Init( size );
 	
 	mTiles = TilesManager::instance()->tiles( Globals::GameScreenTile );
-	mGameScreen = mTiles.values().first()->tile( 0 );
+	mGameScreen = mTiles.value( "game screens/bomberman.png" )->tile( 0 );
 	
-	mTextItem = new QGraphicsTextItem( this );
-	mTextItem->setDefaultTextColor( Qt::red );
-	mTextItem->setHtml( tr( "<h1>P r e s s&nbsp;&nbsp;A n y&nbsp;&nbsp;K e y</h1>" ) );
-	mTextItem->setPos( ( rect().width() -mTextItem->boundingRect().width() ) /2, rect().bottom() -mTextItem->boundingRect().height() );
+	mElapsedTime.restart();
 	
-	mPressStartTimer = startTimer( 700 );
+	mPressAnyKey = new GSMenuItem( tr( "Press Any Key" ), this, Qt::AlignCenter, 28 );
+	mPressAnyKey->setPos( ( rect().width() -mPressAnyKey->boundingRect().width() ) /2, rect().bottom() -mPressAnyKey->boundingRect().height() );
 }
 
 void GSIntroduction::Cleanup()
 {
 	AbstractGameState::Cleanup();
 	
-	killTimer( mPressStartTimer );
-	mPressStartTimer = -1;
-	delete mTextItem;
-	mTextItem = 0;
 	mGameScreen = QPixmap();
+	Q_CLEANUP( mPressAnyKey );
 }
 
 void GSIntroduction::Pause()
@@ -96,23 +91,19 @@ void GSIntroduction::HandleEvents( GameEngine* game )
 void GSIntroduction::Update( GameEngine* game )
 {
 	Q_UNUSED( game );
+	
+	int elapsed = mElapsedTime.elapsed() /1000.0;
+	mPressAnyKey->setVisible( elapsed %2 == 0 );
 }
 
 void GSIntroduction::Draw( GameEngine* game )
 {
 	Q_UNUSED( game );
-}
-
-void GSIntroduction::timerEvent( QTimerEvent* event )
-{
-	if ( event->timerId() == mPressStartTimer )
-	{
-		mTextItem->setVisible( !mTextItem->isVisible() );
-	}
+	update();
 }
 
 void GSIntroduction::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
-	painter->drawPixmap( rect().topLeft(), mGameScreen );
 	AbstractGameState::paint( painter, option, widget );
+	painter->drawPixmap( rect().topLeft(), mGameScreen );
 }

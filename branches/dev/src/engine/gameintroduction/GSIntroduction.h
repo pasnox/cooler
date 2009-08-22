@@ -1,12 +1,11 @@
 #ifndef GSINTRODUCTION_H
 #define GSINTRODUCTION_H
 
-#include <QKeyEvent>
-#include <QGraphicsSceneMouseEvent>
-
 #include "AbstractGameState.h"
 
-class QGraphicsTextItem;
+#include <QTime>
+
+class GSMenuItem;
 
 class GSIntroduction : public AbstractGameState
 {
@@ -26,10 +25,9 @@ public:
 protected:
 	static GSIntroduction* mInstance;
 	QPixmap mGameScreen;
-	int mPressStartTimer;
-	QGraphicsTextItem* mTextItem;
+	QTime mElapsedTime;
+	GSMenuItem* mPressAnyKey;
 	
-	virtual void timerEvent( QTimerEvent* event );
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );
 };
 
