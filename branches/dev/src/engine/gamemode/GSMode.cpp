@@ -30,16 +30,13 @@ void GSMode::Init( const QSizeF& size )
 	mBombers = new QGraphicsPixmapItem( mTiles.value( "game screens/mode_bombers.png" )->tile( 0 ), this );
 	
 	mTitle->setZValue( 1 );
-	mTitle->scale( 2.8, 2.8 );
 	mFrame->setZValue( 1 );
-	mFrame->scale( 2, 2 );
 	mBombers->setZValue( 2 );
-	mBombers->scale( 2, 2 );
 	
 	const QPointF center = rect().center();
-	QRectF titleRect = QRectF( QPointF(), QSizeF( mTitle->boundingRect().size() *2.8 ) );
-	QRectF frameRect = QRectF( QPointF(), QSizeF( mFrame->boundingRect().size() *2 ) );
-	QRectF bombersRect = QRectF( QPointF(), QSizeF( mBombers->boundingRect().size() *2 ) );
+	QRectF titleRect = QRectF( QPointF(), mTitle->boundingRect().size() );
+	QRectF frameRect = QRectF( QPointF(), mFrame->boundingRect().size() );
+	QRectF bombersRect = QRectF( QPointF(), mBombers->boundingRect().size() );
 	
 	titleRect.moveCenter( center );
 	titleRect.moveTop( 10 );
