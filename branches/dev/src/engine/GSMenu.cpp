@@ -19,6 +19,16 @@ GSMenu::~GSMenu()
 	mItems.clear();
 }
 
+void GSMenu::setSpacing( int spacing )
+{
+	mLayout->setSpacing( spacing );
+}
+
+int GSMenu::spacing() const
+{
+	return mLayout->spacing();
+}
+
 void GSMenu::setSelectedItem( GSMenuItem* item )
 {
 	foreach ( GSMenuItem* it, mItems )

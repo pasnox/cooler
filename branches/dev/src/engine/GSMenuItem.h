@@ -41,7 +41,7 @@ public:
 	GSMenuItem::BrushColors brushDisabledColors() const;
 	
 	QString cacheKey() const;
-	void updateCachePixmap();
+	virtual void updateCachePixmap();
 
 protected:
 	QString mCacheKey;
