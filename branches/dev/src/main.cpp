@@ -22,7 +22,7 @@ int main( int argc, char** argv )
 	
 	// initialize game engine
 	GameEngine engine;
-	engine.Init( "Cooler" );
+	engine.Init( "Cooler", QSize( 1024, 768 ) );
 
 	// load the intro
 	engine.ChangeState( GSIntroduction::instance() );

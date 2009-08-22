@@ -36,11 +36,8 @@ protected:
 	QColor mActiveBadColor;
 	GSMenuItem::BrushColors mKeyBrushColors;
 	
-	TilesMap mTiles;
-	QPixmap mBackground;
 	int mBackgroundValue;
-	int mBackgroundTimer;
-	int mUpdateTimer;
+	QPixmap mBackground;
 	
 	QGraphicsLinearLayout* mMainLayout;
 	GSMenuItem* mTitle;
@@ -55,7 +52,6 @@ protected:
 	bool canChangeStrokeKey( Globals::PadStroke stroke, int key );
 	bool canChangeActionKey( Globals::PadAction action, int key );
 	
-	virtual void timerEvent( QTimerEvent* event );
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );
 };
 

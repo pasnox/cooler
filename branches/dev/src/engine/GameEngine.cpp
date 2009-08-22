@@ -36,7 +36,7 @@ void GameEngine::Init( const QString& title, const QSize& size, int bpp, bool fu
 	setGeometry( geometry );
 	setScene( mScene );
 	
-	// pad structures
+	// load pad structures
 	mSettings->beginReadArray( "Pads" );
 	for ( uint i = 0; i < Globals::MaxPlayers; i++ )
 	{
@@ -68,9 +68,21 @@ void GameEngine::Cleanup()
 {
 	while ( !mStates.isEmpty() )
 	{
+		mScene->removeItem( mStates.last() );
 		mStates.last()->Cleanup();
 		mStates.erase( mStates.end() -1 );
 	}
+	
+	// save pad structures
+	mSettings->beginWriteArray( "Pads", Globals::MaxPlayers );
+	for ( uint i = 0; i < Globals::MaxPlayers; i++ )
+	{
+		mSettings->setArrayIndex( i );
+		
+		PadSettings& pad = mPads[ i ];
+		pad.saveMapping( mSettings );
+	}
+	mSettings->endArray();
 }
 
 void GameEngine::ChangeState( AbstractGameState* state ) 

@@ -30,9 +30,11 @@ void GSMode::Init( const QSizeF& size )
 	mFrame = new QGraphicsPixmapItem( mTiles.value( "game screens/mode_frame.png" )->tile( 0 ), this );
 	mBombers = new QGraphicsPixmapItem( mTiles.value( "game screens/mode_bombers.png" )->tile( 0 ), this );
 	
-	mBombers->setZValue( 1 );
+	mTitle->setZValue( 2 );
+	mFrame->setZValue( 1 );
+	mBombers->setZValue( 3 );
 	
-	const QPointF center = rect().center();
+	const QPointF center = boundingRect().center();
 	QRectF titleRect = QRectF( QPointF(), mTitle->boundingRect().size() );
 	QRectF frameRect = QRectF( QPointF(), mFrame->boundingRect().size() );
 	QRectF bombersRect = QRectF( QPointF(), mBombers->boundingRect().size() );
@@ -47,6 +49,7 @@ void GSMode::Init( const QSizeF& size )
 	mBombers->setPos( bombersRect.topLeft() );
 	
 	mMenu = new GSMenu( Qt::Vertical, this );
+	mMenu->setZValue( 4 );
 	mMenu->addItem( tr( "STORY MODE" ) )->setEnabled( false );
 	mMenu->addItem( tr( "MULTIPLAYER MODE" ) );
 	mMenu->addItem( tr( "SETTINGS" ) );
@@ -54,9 +57,8 @@ void GSMode::Init( const QSizeF& size )
 	
 	QRectF menuRect = mMenu->boundingRect();
 	menuRect.moveCenter( center );
-	menuRect.moveBottom( size.height() -( menuRect.height() /2 ) );
+	menuRect.moveBottom( boundingRect().bottom() -20 );
 	mMenu->setPos( menuRect.topLeft() );
-	mMenu->update();
 }
 
 void GSMode::Cleanup()
