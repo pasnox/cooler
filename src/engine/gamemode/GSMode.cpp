@@ -23,15 +23,14 @@ void GSMode::Init( const QSizeF& size )
 	AbstractGameState::Init( size );
 	
 	mTiles = TilesManager::instance()->tiles( Globals::GameScreenTile );
+	mBackgroundValue = 0;
 	
 	mBackground = mTiles.value( "game screens/mode_background.png" )->tile( 0 );
 	mTitle = new QGraphicsPixmapItem( mTiles.value( "game screens/mode_title.png" )->tile( 0 ), this );
 	mFrame = new QGraphicsPixmapItem( mTiles.value( "game screens/mode_frame.png" )->tile( 0 ), this );
 	mBombers = new QGraphicsPixmapItem( mTiles.value( "game screens/mode_bombers.png" )->tile( 0 ), this );
 	
-	mTitle->setZValue( 1 );
-	mFrame->setZValue( 1 );
-	mBombers->setZValue( 2 );
+	mBombers->setZValue( 1 );
 	
 	const QPointF center = rect().center();
 	QRectF titleRect = QRectF( QPointF(), mTitle->boundingRect().size() );
@@ -47,13 +46,7 @@ void GSMode::Init( const QSizeF& size )
 	mFrame->setPos( frameRect.topLeft() );
 	mBombers->setPos( bombersRect.topLeft() );
 	
-	mBackgroundValue = 0;
-	
-	mBackgroundTimer = startTimer( 20 );
-	mUpdateTimer = startTimer( 20 );
-	
 	mMenu = new GSMenu( Qt::Vertical, this );
-	mMenu->setZValue( 3 );
 	mMenu->addItem( tr( "STORY MODE" ) )->setEnabled( false );
 	mMenu->addItem( tr( "MULTIPLAYER MODE" ) );
 	mMenu->addItem( tr( "SETTINGS" ) );
@@ -70,25 +63,12 @@ void GSMode::Cleanup()
 {
 	AbstractGameState::Cleanup();
 	
-	killTimer( mUpdateTimer );
-	mUpdateTimer = -1;
-	killTimer( mBackgroundTimer );
-	//delete mStory;
-	//mStory = 0;
-	//delete mMultiplayer;
-	//mMultiplayer = 0;
-	//delete mOptions;
-	//mOptions = 0;
-	delete mMenu;
-	mMenu = 0;
-	mBackgroundTimer = -1;
-	delete mBombers;
-	mBombers = 0;
-	delete mFrame;
-	mFrame = 0;
-	delete mTitle;
-	mTitle = 0;
+	mBackgroundValue = 0;
 	mBackground = QPixmap();
+	Q_CLEANUP( mTitle );
+	Q_CLEANUP( mFrame );
+	Q_CLEANUP( mBombers );
+	Q_CLEANUP( mMenu );
 }
 
 void GSMode::Pause()
@@ -157,32 +137,17 @@ void GSMode::HandleEvents( GameEngine* game )
 void GSMode::Update( GameEngine* game )
 {
 	Q_UNUSED( game );
-}
-
-void GSMode::Draw( GameEngine* game )
-{
-	Q_UNUSED( game );
-}
-
-void GSMode::timerEvent( QTimerEvent* event )
-{
-	if ( event->timerId() == mBackgroundTimer )
-	{
-		mBackgroundValue++;
 	
-		if ( mBackgroundValue > mBackground.height() )
-		{
-			mBackgroundValue = 0;
-		}
-	}
-	else if ( event->timerId() == mUpdateTimer )
+	mBackgroundValue++;
+	
+	if ( mBackgroundValue > mBackground.height() )
 	{
-		update();
+		mBackgroundValue = 0;
 	}
 }
 
 void GSMode::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
-	painter->drawTiledPixmap( rect(), mBackground, QPointF( -mBackgroundValue, mBackgroundValue ) );
 	AbstractGameState::paint( painter, option, widget );
+	painter->drawTiledPixmap( rect(), mBackground, QPointF( -mBackgroundValue, mBackgroundValue ) );
 }

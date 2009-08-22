@@ -25,21 +25,16 @@ public:
 
 	virtual void HandleEvents( GameEngine* game );
 	virtual void Update( GameEngine* game );
-	virtual void Draw( GameEngine* game );
 
 protected:
 	static GSMode* mInstance;
+	int mBackgroundValue;
 	QPixmap mBackground;
 	QGraphicsPixmapItem* mTitle;
 	QGraphicsPixmapItem* mFrame;
 	QGraphicsPixmapItem* mBombers;
-	int mBackgroundValue;
-	int mBackgroundTimer;
-	int mUpdateTimer;
-	
 	GSMenu* mMenu;
 	
-	virtual void timerEvent( QTimerEvent* event );
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );
 };
 
