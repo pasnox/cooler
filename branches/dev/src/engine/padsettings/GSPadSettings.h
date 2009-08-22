@@ -15,7 +15,7 @@ class QGraphicsPixmapItem;
 class GSPadSettings : public AbstractGameState
 {
 public:
-	static GSPadSettings* instance( PadSettingsMap* pads );
+	static GSPadSettings* instance( const PadSettingsMap& pads );
 	
 	virtual void Init( const QSizeF& size );
 	virtual void Cleanup();
@@ -29,14 +29,19 @@ public:
 
 protected:
 	static GSPadSettings* mInstance;
-	PadSettingsMap* mPads;
+	PadSettingsMap mPads;
+	uint mCurrentPadIndex;
+	bool mIsWaitingInput;
+	QColor mActiveColor;
+	QColor mActiveGoodColor;
+	QColor mActiveBadColor;
+	GSMenuItem::BrushColors mKeyBrushColors;
 	
 	TilesMap mTiles;
 	QPixmap mBackground;
 	int mBackgroundValue;
 	int mBackgroundTimer;
 	int mUpdateTimer;
-	uint mCurrentPadIndex;
 	
 	QGraphicsLinearLayout* mMainLayout;
 	GSMenuItem* mTitle;
@@ -45,9 +50,11 @@ protected:
 	GSMenu* mKeysMenu;
 	GSMenu* mFormMenu;
 	
-	GSPadSettings( PadSettingsMap* pads );
+	GSPadSettings( const PadSettingsMap& pads );
 	
 	void loadPadSettings( int index );
+	bool canChangeStrokeKey( Globals::PadStroke stroke, int key );
+	bool canChangeActionKey( Globals::PadAction action, int key );
 	
 	virtual void timerEvent( QTimerEvent* event );
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );

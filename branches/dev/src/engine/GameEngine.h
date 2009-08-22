@@ -35,7 +35,8 @@ public:
 	virtual bool Running() { return mRunning; }
 	virtual void Quit() { mRunning = false; }
 	
-	PadSettingsMap* padsSettings();
+	void setPadSettings( const PadSettingsMap& pads );
+	PadSettingsMap padsSettings() const;
 
 protected:
 	pXmlSettings* mSettings;
