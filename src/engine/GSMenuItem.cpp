@@ -10,14 +10,17 @@
 GSMenuItem::GSMenuItem( const QString& text, Qt::Alignment align, int pixelSize )
 	: QGraphicsWidget()
 {
-	mMargin = 5;
-	mIsActive = false;
+	init();
 	
-	mActiveColor = QColor( 0, 0, 255, 70 );
-	mActiveDisabledColor = QColor( 255, 0, 0, 70 );
-	mPenColor = QColor( Qt::black );
-	mBrushColors = qMakePair( QColor( Qt::red ), QColor( Qt::yellow ) );
-	mBrushDisabledColors = qMakePair( QColor( Qt::darkGray ), QColor( Qt::gray ) );
+	setText( text );
+	setAlignment( align );
+	setPixelSize( pixelSize );
+}
+
+GSMenuItem::GSMenuItem( const QString& text, QGraphicsItem* parent, Qt::Alignment align, int pixelSize )
+	: QGraphicsWidget( parent )
+{
+	init();
 	
 	setText( text );
 	setAlignment( align );
@@ -27,6 +30,18 @@ GSMenuItem::GSMenuItem( const QString& text, Qt::Alignment align, int pixelSize 
 GSMenuItem::~GSMenuItem()
 {
 	//qWarning( "Deleting %s", mText.toLocal8Bit().constData() );
+}
+
+void GSMenuItem::init()
+{
+	mMargin = 5;
+	mIsActive = false;
+	
+	mActiveColor = QColor( 0, 0, 255, 70 );
+	mActiveDisabledColor = QColor( 255, 0, 0, 70 );
+	mPenColor = QColor( Qt::black );
+	mBrushColors = qMakePair( QColor( Qt::red ), QColor( Qt::yellow ) );
+	mBrushDisabledColors = qMakePair( QColor( Qt::darkGray ), QColor( Qt::gray ) );
 }
 
 void GSMenuItem::setActive( bool active )
@@ -166,11 +181,11 @@ QString GSMenuItem::cacheKey() const
 
 void GSMenuItem::updateCachePixmap()
 {
-	const QRectF br = boundingRect();
+	QRectF br = boundingRect();
 	
 	if ( br.isNull() )
 	{
-		return;
+		br = QRectF( QPointF(), sizeHint( Qt::PreferredSize ) );
 	}
 	
 	prepareGeometryChange();
@@ -284,9 +299,5 @@ void GSMenuItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* optio
 		{
 			painter->drawPixmap( 0, 0, pixmap );
 		}
-	}
-	else if ( !sizeHint( Qt::PreferredSize ).isNull() )
-	{
-		updateCachePixmap();
 	}
 }

@@ -181,13 +181,6 @@ protected:
 	
 	virtual void mouseReleaseEvent( QGraphicsSceneMouseEvent* event )
 	{ mEvents << new MouseEvent( event ); }
-	/*
-	virtual QSizeF sizeHint( Qt::SizeHint which, const QSizeF& constraint = QSizeF() ) const
-	{
-	qWarning() << "kk" << mSize << constraint;
-		return mSize;
-	}
-	*/
 	
 	template <class T>
 	static T* qCleanup( T* pointer )
