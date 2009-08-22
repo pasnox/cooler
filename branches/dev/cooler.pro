@@ -24,6 +24,7 @@ TEMPLATE	= app
 LANGUAGE	= C++/Qt4
 TARGET	= $$quote(cooler)
 CONFIG	+= debug_and_release
+QT	= core gui opengl xml
 BUILD_PATH	= ./build
 
 CONFIG(debug, debug|release) {
@@ -49,7 +50,11 @@ CONFIG(debug, debug|release) {
 
 INCLUDEPATH	= . \
 	src \
-	src/include
+	src/include \
+	src/engine \
+	src/engine/gameintroduction \
+	src/engine/gamemode \
+	src/engine/padsettings
 
 FORMS	= src/UIMain.ui \
 	src/editor/UIMapEditor.ui \
@@ -80,7 +85,14 @@ HEADERS	= src/tiles/AbstractTile.h \
 	src/pads/UIPadConfiguration.h \
 	src/tilesripper/UITilesRipper.h \
 	src/tilesripper/TilesRipperPreview.h \
-	src/reusable/pXmlSettings.h
+	src/reusable/pXmlSettings.h \
+	src/engine/AbstractGameState.h \
+	src/engine/GameEngine.h \
+	src/engine/gameintroduction/GSIntroduction.h \
+	src/engine/gamemode/GSMode.h \
+	src/engine/GSMenuItem.h \
+	src/engine/GSMenu.h \
+	src/engine/padsettings/GSPadSettings.h
 
 SOURCES	= src/tiles/AbstractTile.cpp \
 	src/tiles/BombTile.cpp \
@@ -106,5 +118,10 @@ SOURCES	= src/tiles/AbstractTile.cpp \
 	src/pads/UIPadConfiguration.cpp \
 	src/tilesripper/UITilesRipper.cpp \
 	src/tilesripper/TilesRipperPreview.cpp \
-	src/reusable/pXmlSettings.cpp
-QT	= core gui opengl xml
+	src/reusable/pXmlSettings.cpp \
+	src/engine/GameEngine.cpp \
+	src/engine/gameintroduction/GSIntroduction.cpp \
+	src/engine/gamemode/GSMode.cpp \
+	src/engine/GSMenuItem.cpp \
+	src/engine/GSMenu.cpp \
+	src/engine/padsettings/GSPadSettings.cpp
