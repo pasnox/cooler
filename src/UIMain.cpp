@@ -102,6 +102,7 @@ void UIMain::loadSettings()
 		
 		if ( !pad->isValid() )
 		{
+		qWarning() << "yo";
 			*pad = PadSettings::defaultConfiguration( i );
 		}
 	}

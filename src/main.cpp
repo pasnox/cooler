@@ -3,6 +3,10 @@
 
 #include <TilesManager.h>
 
+#include "GameEngine.h"
+#include "GSIntroduction.h"
+
+
 #include "UIMain.h"
 #include "editor/UIMapEditor.h"
 
@@ -13,6 +17,26 @@ int main( int argc, char** argv )
 	app.setOrganizationName( "SoDream" );
 	app.setApplicationName( "Cooler" );
 	
+	// initialize tiles
+	TilesManager::instance()->loadDatas();
+	
+	// initialize game engine
+	GameEngine engine;
+	engine.Init( "Cooler" );
+
+	// load the intro
+	engine.ChangeState( GSIntroduction::instance() );
+	
+	// run engine
+	engine.start();
+	QObject::connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
+	int result = app.exec();
+
+	// cleanup the engine
+	engine.Cleanup();
+	return result;
+	
+	/*
 	UIMain m;
 	m.setWindowTitle( "Cooler" );
 	
@@ -34,4 +58,5 @@ int main( int argc, char** argv )
 	
 	m.saveSettings();
 	return result;
+	*/
 }
