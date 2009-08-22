@@ -18,6 +18,7 @@ namespace Globals
 		BonusTile,
 		BoxTile,
 		FloorTile,
+		GameScreenTile,
 		PlayerTile,
 		PlayerExplosionTile,
 		SkyTile,
@@ -61,6 +62,8 @@ namespace Globals
 	QString relativeFilePath( const QFileInfo& path, const QFileInfo& fn );
 	QFileInfoList getFiles( QDir& path, const QStringList& filters = QStringList() );
 	QFileInfoList getFiles( const QString& path, const QStringList& filters = QStringList() );
+	
+	QString keyToString( int key );
 };
 
 #endif // GLOBALS_H

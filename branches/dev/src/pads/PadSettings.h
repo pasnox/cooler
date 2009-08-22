@@ -5,7 +5,7 @@
 
 #include <Globals.h>
 
-class QSettings;
+class pXmlSettings;
 
 class PadSettings
 {
@@ -40,11 +40,14 @@ public:
 	Globals::PadStroke keyStroke( int key ) const;
 	Globals::PadAction keyAction( int key ) const;
 	
+	int strokeKey( Globals::PadStroke stroke ) const;
+	int actionKey( Globals::PadAction action ) const;
+	
 	QList<int> keysStroke() const;
 	QList<int> keysAction() const;
 	
-	void loadMapping( QSettings* settings );
-	void saveMapping( QSettings* settings ) const;
+	void loadMapping( pXmlSettings* settings );
+	void saveMapping( pXmlSettings* settings ) const;
 	
 	void debug() const;
 	
@@ -56,6 +59,7 @@ protected:
 };
 
 typedef QList<PadSettings*> PadSettingsList;
+typedef QMap<int, PadSettings> PadSettingsMap;
 
 Q_DECLARE_METATYPE( PadSettings* );
 

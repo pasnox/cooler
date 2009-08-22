@@ -95,6 +95,10 @@ bool TilesManager::loadDatas()
 		{
 			loadTiles( Globals::FloorTile, folder.absoluteFilePath() );
 		}
+		else if ( folder.fileName().toLower() == "game screens" )
+		{
+			loadTiles( Globals::GameScreenTile, folder.absoluteFilePath() );
+		}
 		else if ( folder.fileName().toLower() == "players" )
 		{
 			loadTiles( Globals::PlayerTile, folder.absoluteFilePath() );
@@ -176,6 +180,7 @@ void TilesManager::loadTiles( Globals::TypeTile type, const QString& path )
 			case Globals::BonusTile:
 			case Globals::BoxTile:
 			case Globals::FloorTile:
+			case Globals::GameScreenTile:
 			case Globals::PlayerExplosionTile:
 			case Globals::SkyTile:
 			case Globals::TextTile:

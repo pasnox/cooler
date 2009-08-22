@@ -1,5 +1,7 @@
 #include "Globals.h"
 
+#include <QKeySequence>
+
 QString Globals::relativeFilePath( const QString& path, const QString& fn )
 {
 	QDir dir( path );
@@ -37,4 +39,14 @@ QFileInfoList Globals::getFiles( const QString& path, const QStringList& filters
 {
 	QDir dir( path );
 	return getFiles( dir, filters );
+}
+
+QString Globals::keyToString( int key )
+{
+	if ( key == -1 )
+	{
+		return QObject::tr( "Undefined" );
+	}
+	
+	return QKeySequence( key ).toString( QKeySequence::NativeText );
 }

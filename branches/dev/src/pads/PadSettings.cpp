@@ -1,6 +1,7 @@
 #include "PadSettings.h"
 
-#include <QSettings>
+#include <pXmlSettings.h>
+
 #include <QDebug>
 
 PadSettings::PadSettings()
@@ -98,6 +99,16 @@ Globals::PadAction PadSettings::keyAction( int key ) const
 	return mActionMapping.value( key, Globals::PadActionNo );
 }
 
+int PadSettings::strokeKey( Globals::PadStroke stroke ) const
+{
+	return mStrokeMapping.key( stroke, Globals::PadStrokeNo );
+}
+
+int PadSettings::actionKey( Globals::PadAction action ) const
+{
+	return mActionMapping.key( action, Globals::PadActionNo );
+}
+
 QList<int> PadSettings::keysStroke() const
 {
 	return mStrokeMapping.keys();
@@ -108,9 +119,11 @@ QList<int> PadSettings::keysAction() const
 	return mActionMapping.keys();
 }
 
-void PadSettings::loadMapping( QSettings* settings )
+void PadSettings::loadMapping( pXmlSettings* settings )
 {
-	if ( !settings->contains( "Stroke" ) || !settings->contains( "Action" ) )
+	const QStringList groups = settings->childGroups();
+	
+	if ( !groups.contains( "Stroke" ) || !groups.contains( "Action" ) )
 	{
 		return;
 	}
@@ -128,7 +141,7 @@ void PadSettings::loadMapping( QSettings* settings )
 	mActionMapping[ settings->value( QString( "Action/%1" ).arg( Globals::PadAction4 ) ).toInt() ] = Globals::PadAction4;
 }
 
-void PadSettings::saveMapping( QSettings* settings ) const
+void PadSettings::saveMapping( pXmlSettings* settings ) const
 {
 	if ( !isValid() )
 	{

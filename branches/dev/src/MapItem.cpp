@@ -141,6 +141,7 @@ bool MapItem::load( const QString& fileName )
 						mPlayersPosition[ tile->name() ] = QPoint( x, y );
 					case Globals::BombTile:
 					case Globals::BombExplosionTile:
+					case Globals::GameScreenTile:
 					case Globals::PlayerExplosionTile:
 					case Globals::TextTile:
 						continue;
