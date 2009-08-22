@@ -19,8 +19,6 @@ class GameEngine : public QGraphicsView
 	Q_OBJECT
 	
 public:
-	GameEngine();
-	
 	virtual void Init( const QString& title, const QSize& size = QSize( 1024, 768 ), int bpp = 0, bool fullscreen = false );
 	virtual void Cleanup();
 

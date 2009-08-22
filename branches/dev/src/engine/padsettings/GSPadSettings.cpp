@@ -416,11 +416,6 @@ void GSPadSettings::Update( GameEngine* game )
 	Q_UNUSED( game );
 }
 
-void GSPadSettings::Draw( GameEngine* game )
-{
-	Q_UNUSED( game );
-}
-
 void GSPadSettings::loadPadSettings( int index )
 {
 	mCurrentPadIndex = index;

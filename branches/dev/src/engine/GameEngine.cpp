@@ -3,14 +3,38 @@
 
 #include <pXmlSettings.h>
 
+#include <QGLWidget>
 #include <QGraphicsScene>
 #include <QApplication>
 #include <QDesktopWidget>
 
-GameEngine::GameEngine()
+void GameEngine::Init( const QString& title, const QSize& size, int bpp, bool fullscreen )
 {
 	// settings
 	mSettings = new pXmlSettings( this );
+	
+	// geometry
+	QRect geometry = QRect( QPoint( 0, 0 ), size );
+	geometry.moveCenter( QApplication::desktop()->availableGeometry().center() );
+	
+	// scene
+	mScene = new QGraphicsScene( this );
+	mScene->setSceneRect( QRectF( QPointF( 0, 0 ), QSizeF( size ) ) );
+	
+	// variables
+	mIDLETimer = -1;
+	mRunning = true;
+	mFullScreen = fullscreen;
+	mSize = size;
+	
+	// view properties
+	//setViewport( new QGLWidget );
+	setViewportUpdateMode( /*QGraphicsView::FullViewportUpdate |*/ QGraphicsView::NoViewportUpdate );
+	setWindowTitle( title );
+	setFrameStyle( QFrame::NoFrame | QFrame::Plain );
+	setAlignment( Qt::AlignCenter );
+	setGeometry( geometry );
+	setScene( mScene );
 	
 	// pad structures
 	mSettings->beginReadArray( "Pads" );
@@ -27,26 +51,8 @@ GameEngine::GameEngine()
 		}
 	}
 	mSettings->endArray();
-}
-
-void GameEngine::Init( const QString& title, const QSize& size, int bpp, bool fullscreen )
-{
-	QRect geometry = QRect( QPoint( 0, 0 ), size );
-	geometry.moveCenter( QApplication::desktop()->availableGeometry().center() );
 	
-	mScene = new QGraphicsScene( this );
-	mScene->setSceneRect( QRectF( QPointF( 0, 0 ), QSizeF( size ) ) );
-	mIDLETimer = -1;
-	mRunning = true;
-	mFullScreen = fullscreen;
-	mSize = size;
-	
-	setWindowTitle( title );
-	setFrameStyle( QFrame::NoFrame | QFrame::Plain );
-	setAlignment( Qt::AlignCenter );
-	setGeometry( geometry );
-	setScene( mScene );
-	
+	// show
 	if ( fullscreen )
 	{
 		showFullScreen();
@@ -133,12 +139,7 @@ void GameEngine::Update()
 
 void GameEngine::Draw() 
 {
-	if ( mStates.isEmpty() )
-	{
-		return;
-	}
-	
-	mStates.last()->Draw( this );
+	mScene->update();
 }
 
 void GameEngine::setPadSettings( const PadSettingsMap& pads )

@@ -25,7 +25,6 @@ public:
 
 	virtual void HandleEvents( GameEngine* game );
 	virtual void Update( GameEngine* game );
-	virtual void Draw( GameEngine* game );
 
 protected:
 	static GSPadSettings* mInstance;

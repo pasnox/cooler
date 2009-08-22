@@ -96,12 +96,6 @@ void GSIntroduction::Update( GameEngine* game )
 	mPressAnyKey->setVisible( elapsed %2 == 0 );
 }
 
-void GSIntroduction::Draw( GameEngine* game )
-{
-	Q_UNUSED( game );
-	update();
-}
-
 void GSIntroduction::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
 	AbstractGameState::paint( painter, option, widget );
