@@ -141,9 +141,14 @@ void GameEngine::Draw()
 	mStates.last()->Draw( this );
 }
 
-PadSettingsMap* GameEngine::padsSettings()
+void GameEngine::setPadSettings( const PadSettingsMap& pads )
 {
-	return &mPads;
+	mPads = pads;
+}
+
+PadSettingsMap GameEngine::padsSettings() const
+{
+	return mPads;
 }
 
 void GameEngine::closeEvent( QCloseEvent* event )

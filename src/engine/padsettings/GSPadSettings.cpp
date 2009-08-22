@@ -9,7 +9,7 @@
 
 GSPadSettings* GSPadSettings::mInstance = 0;
 
-GSPadSettings* GSPadSettings::instance( PadSettingsMap* pads )
+GSPadSettings* GSPadSettings::instance( const PadSettingsMap& pads )
 {
 	if ( !mInstance )
 	{
@@ -19,7 +19,7 @@ GSPadSettings* GSPadSettings::instance( PadSettingsMap* pads )
 	return mInstance;
 }
 
-GSPadSettings::GSPadSettings( PadSettingsMap* pads )
+GSPadSettings::GSPadSettings( const PadSettingsMap& pads )
 {
 	mPads = pads;
 }
@@ -27,6 +27,13 @@ GSPadSettings::GSPadSettings( PadSettingsMap* pads )
 void GSPadSettings::Init( const QSizeF& size )
 {
 	AbstractGameState::Init( size );
+	
+	mCurrentPadIndex = 1;
+	mIsWaitingInput = false;
+	mActiveColor = QColor( Qt::yellow );
+	mActiveGoodColor = QColor( 117, 247, 88 );
+	mActiveBadColor = QColor( 250, 115, 118 );
+	mKeyBrushColors = qMakePair( QColor( Qt::yellow ), QColor( Qt::red ).lighter( 150 ) );
 	
 	mTiles = TilesManager::instance()->tiles( Globals::GameScreenTile );
 	
@@ -74,16 +81,35 @@ void GSPadSettings::Init( const QSizeF& size )
 	mMenuLayout->addItem( mLabelsMenu );
 	
 	// right menu
+	GSMenuItem* item = 0;
 	mKeysMenu = new GSMenu;
-	mKeysMenu->addItem( QString::null );
-	mKeysMenu->addItem( QString::null );
-	mKeysMenu->addItem( QString::null );
-	mKeysMenu->addItem( QString::null );
-	mKeysMenu->addItem( QString::null );
-	mKeysMenu->addItem( QString::null );
-	mKeysMenu->addItem( QString::null );
-	mKeysMenu->addItem( QString::null );
-	mKeysMenu->addItem( QString::null );
+	item = mKeysMenu->addItem( QString::null );
+	item->setActiveColor( mActiveColor );
+	item->setBrushColors( mKeyBrushColors );
+	item = mKeysMenu->addItem( QString::null );
+	item->setActiveColor( mActiveColor );
+	item->setBrushColors( mKeyBrushColors );
+	item = mKeysMenu->addItem( QString::null );
+	item->setActiveColor( mActiveColor );
+	item->setBrushColors( mKeyBrushColors );
+	item = mKeysMenu->addItem( QString::null );
+	item->setActiveColor( mActiveColor );
+	item->setBrushColors( mKeyBrushColors );
+	item = mKeysMenu->addItem( QString::null );
+	item->setActiveColor( mActiveColor );
+	item->setBrushColors( mKeyBrushColors );
+	item = mKeysMenu->addItem( QString::null );
+	item->setActiveColor( mActiveColor );
+	item->setBrushColors( mKeyBrushColors );
+	item = mKeysMenu->addItem( QString::null );
+	item->setActiveColor( mActiveColor );
+	item->setBrushColors( mKeyBrushColors );
+	item = mKeysMenu->addItem( QString::null );
+	item->setActiveColor( mActiveColor );
+	item->setBrushColors( mKeyBrushColors );
+	item = mKeysMenu->addItem( QString::null );
+	item->setActiveColor( mActiveColor );
+	item->setBrushColors( mKeyBrushColors );
 	mMenuLayout->addItem( mKeysMenu );
 	
 	// right menu spacer
@@ -148,11 +174,117 @@ void GSPadSettings::HandleEvents( GameEngine* game )
 				const int keyIndex = mKeysMenu->selectedIndex();
 				const int formIndex = mFormMenu->selectedIndex();
 				
+				if ( mIsWaitingInput )
+				{
+					PadSettings& pad = mPads[ mCurrentPadIndex -1 ];
+					
+					switch ( ke->key )
+					{
+						case Qt::Key_Escape:
+						{
+							mIsWaitingInput = false;
+							mKeysMenu->item( keyIndex )->setActiveColor( mActiveColor );
+							break;
+						}
+						default:
+						{
+							if ( keyIndex >= 1 && keyIndex <= 4 )
+							{
+								Globals::PadStroke stroke = Globals::PadStrokeNo;
+								
+								switch ( keyIndex )
+								{
+									case 1:
+										stroke = Globals::PadStrokeUp;
+										break;
+									case 2:
+										stroke = Globals::PadStrokeDown;
+										break;
+									case 3:
+										stroke = Globals::PadStrokeLeft;
+										break;
+									case 4:
+										stroke = Globals::PadStrokeRight;
+										break;
+								}
+								
+								if ( canChangeStrokeKey( stroke, ke->key ) )
+								{
+									pad.setStrokeKey( stroke, ke->key );
+									mKeysMenu->item( keyIndex )->setText( Globals::keyToString( ke->key ) );
+									mKeysMenu->item( keyIndex )->setActiveColor( mActiveColor );
+									mIsWaitingInput = false;
+								}
+								else
+								{
+									mKeysMenu->item( keyIndex )->setActiveColor( mActiveBadColor );
+								}
+							}
+							else if ( keyIndex >= 5 && keyIndex <= 8 )
+							{
+								Globals::PadAction action = Globals::PadActionNo;
+								
+								switch ( keyIndex )
+								{
+									case 5:
+										action = Globals::PadAction1;
+										break;
+									case 6:
+										action = Globals::PadAction2;
+										break;
+									case 7:
+										action = Globals::PadAction3;
+										break;
+									case 8:
+										action = Globals::PadAction4;
+										break;
+								}
+								
+								if ( canChangeActionKey( action, ke->key ) )
+								{
+									pad.setActionKey( action, ke->key );
+									mKeysMenu->item( keyIndex )->setText( Globals::keyToString( ke->key ) );
+									mKeysMenu->item( keyIndex )->setActiveColor( mActiveColor );
+									mIsWaitingInput = false;
+								}
+								else
+								{
+									mKeysMenu->item( keyIndex )->setActiveColor( mActiveBadColor );
+								}
+							}
+							break;
+						}
+					}
+					
+					continue;
+				}
+				
 				switch ( ke->key )
 				{
 					case Qt::Key_Escape:
+					{
 						game->ChangeState( GSMode::instance() );
 						break;
+					}
+					case Qt::Key_Return:
+					case Qt::Key_Enter:
+					{
+						if ( keyIndex >= 1 && keyIndex <= 8 )
+						{
+							mIsWaitingInput = true;
+							mKeysMenu->item( keyIndex )->setActiveColor( mActiveGoodColor );
+						}
+						else if ( formIndex == 0 )
+						{
+							game->ChangeState( GSMode::instance() );
+						}
+						else if ( formIndex == 1 )
+						{
+							game->setPadSettings( mPads );
+							game->ChangeState( GSMode::instance() );
+						}
+						break;
+					}
 					case Qt::Key_Up:
 					{
 						if ( keyIndex != -1 )
@@ -292,7 +424,7 @@ void GSPadSettings::Draw( GameEngine* game )
 void GSPadSettings::loadPadSettings( int index )
 {
 	mCurrentPadIndex = index;
-	PadSettings& pad = (*mPads)[ index -1 ];
+	PadSettings& pad = mPads[ index -1 ];
 	
 	mKeysMenu->item( 0 )->setText( QString( "#%1" ).arg( index ) );
 	mKeysMenu->item( 1 )->setText( Globals::keyToString( pad.strokeKey( Globals::PadStrokeUp ) ) );
@@ -303,6 +435,52 @@ void GSPadSettings::loadPadSettings( int index )
 	mKeysMenu->item( 6 )->setText( Globals::keyToString( pad.actionKey( Globals::PadAction2 ) ) );
 	mKeysMenu->item( 7 )->setText( Globals::keyToString( pad.actionKey( Globals::PadAction3 ) ) );
 	mKeysMenu->item( 8 )->setText( Globals::keyToString( pad.actionKey( Globals::PadAction4 ) ) );
+}
+
+bool GSPadSettings::canChangeStrokeKey( Globals::PadStroke stroke, int key )
+{
+	for ( int i = 0; i < mPads.count(); i++ )
+	{
+		const PadSettings& pad = mPads[ i ];
+		
+		if ( pad.isKeyUsed( key ) )
+		{
+			if ( mCurrentPadIndex -1 == (uint)i )
+			{
+				if ( pad.keyStroke( key ) == stroke )
+				{
+					return true;
+				}
+			}
+			
+			return false;;
+		}
+	}
+	
+	return true;
+}
+
+bool GSPadSettings::canChangeActionKey( Globals::PadAction action, int key )
+{
+	for ( int i = 0; i < mPads.count(); i++ )
+	{
+		const PadSettings& pad = mPads[ i ];
+		
+		if ( pad.isKeyUsed( key ) )
+		{			
+			if ( mCurrentPadIndex -1 == (uint)i )
+			{
+				if ( pad.keyAction( key ) == action )
+				{
+					return true;
+				}
+			}
+			
+			return false;
+		}
+	}
+	
+	return true;
 }
 
 void GSPadSettings::timerEvent( QTimerEvent* event )
