@@ -1,14 +1,9 @@
 #ifndef GSPADSETTINGS_H
 #define GSPADSETTINGS_H
 
-#include <QKeyEvent>
-#include <QGraphicsSceneMouseEvent>
-
 #include <AbstractGameState.h>
-#include <TilesManager.h>
 
 #include "GSMenu.h"
-#include "GSMenuItem.h"
 
 class QGraphicsPixmapItem;
 

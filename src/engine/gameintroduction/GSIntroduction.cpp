@@ -99,5 +99,5 @@ void GSIntroduction::Update( GameEngine* game )
 void GSIntroduction::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
 	AbstractGameState::paint( painter, option, widget );
-	painter->drawPixmap( rect().topLeft(), mGameScreen );
+	painter->drawPixmap( boundingRect().topLeft(), mGameScreen );
 }

@@ -13,6 +13,9 @@ public:
 	GSMenu( Qt::Orientation orientation = Qt::Vertical, QGraphicsItem* parent = 0 );
 	virtual ~GSMenu();
 	
+	void setSpacing( int spacing );
+	int spacing() const;
+	
 	void setSelectedItem( GSMenuItem* item );
 	GSMenuItem* selectedItem() const;
 	

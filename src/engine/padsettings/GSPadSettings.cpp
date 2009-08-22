@@ -1,9 +1,7 @@
 #include "GSPadSettings.h"
 #include "GSMode.h"
 
-#include <QGraphicsGridLayout>
 #include <QGraphicsLinearLayout>
-#include <QGraphicsTextItem>
 #include <QPainter>
 #include <QGraphicsPixmapItem>
 
@@ -488,5 +486,5 @@ bool GSPadSettings::canChangeActionKey( Globals::PadAction action, int key )
 void GSPadSettings::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
 	AbstractGameState::paint( painter, option, widget );
-	painter->drawTiledPixmap( rect(), mBackground, QPointF( -mBackgroundValue, mBackgroundValue ) );
+	painter->drawTiledPixmap( boundingRect(), mBackground, QPointF( -mBackgroundValue, mBackgroundValue ) );
 }
