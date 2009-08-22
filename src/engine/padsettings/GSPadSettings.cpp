@@ -15,6 +15,10 @@ GSPadSettings* GSPadSettings::instance( const PadSettingsMap& pads )
 	{
 		mInstance = new GSPadSettings( pads );
 	}
+	else
+	{
+		mInstance->mPads = pads;
+	}
 	
 	return mInstance;
 }
@@ -36,12 +40,9 @@ void GSPadSettings::Init( const QSizeF& size )
 	mKeyBrushColors = qMakePair( QColor( Qt::yellow ), QColor( Qt::red ).lighter( 150 ) );
 	
 	mTiles = TilesManager::instance()->tiles( Globals::GameScreenTile );
-	
-	mBackground = mTiles.value( "game screens/padsettings_background.png" )->tile( 0 );
 	mBackgroundValue = 0;
 	
-	mBackgroundTimer = startTimer( 20 );
-	mUpdateTimer = startTimer( 20 );
+	mBackground = mTiles.value( "game screens/padsettings_background.png" )->tile( 0 );
 	
 	// main layout
 	mMainLayout = new QGraphicsLinearLayout( Qt::Vertical, this );
@@ -138,14 +139,13 @@ void GSPadSettings::Cleanup()
 {
 	AbstractGameState::Cleanup();
 	
-	killTimer( mUpdateTimer );
-	mUpdateTimer = -1;
-	killTimer( mBackgroundTimer );
-	mBackgroundTimer = -1;
+	mBackgroundValue = 0;
 	mBackground = QPixmap();
-	
-	Q_CLEANUP( mMenuLayout );
-	Q_CLEANUP( mMainLayout );
+	setLayout( 0 );
+	mMainLayout = 0;
+	mMenuLayout = 0;
+	//Q_CLEANUP( mMainLayout );
+	//Q_CLEANUP( mMenuLayout );
 	Q_CLEANUP( mTitle );
 	Q_CLEANUP( mLabelsMenu );
 	Q_CLEANUP( mKeysMenu );
@@ -414,6 +414,13 @@ void GSPadSettings::HandleEvents( GameEngine* game )
 void GSPadSettings::Update( GameEngine* game )
 {
 	Q_UNUSED( game );
+	
+	mBackgroundValue++;
+	
+	if ( mBackgroundValue > mBackground.height() )
+	{
+		mBackgroundValue = 0;
+	}
 }
 
 void GSPadSettings::loadPadSettings( int index )
@@ -478,25 +485,8 @@ bool GSPadSettings::canChangeActionKey( Globals::PadAction action, int key )
 	return true;
 }
 
-void GSPadSettings::timerEvent( QTimerEvent* event )
-{
-	if ( event->timerId() == mBackgroundTimer )
-	{
-		mBackgroundValue++;
-	
-		if ( mBackgroundValue > mBackground.height() )
-		{
-			mBackgroundValue = 0;
-		}
-	}
-	else if ( event->timerId() == mUpdateTimer )
-	{
-		update();
-	}
-}
-
 void GSPadSettings::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
-	painter->drawTiledPixmap( rect(), mBackground, QPointF( -mBackgroundValue, mBackgroundValue ) );
 	AbstractGameState::paint( painter, option, widget );
+	painter->drawTiledPixmap( rect(), mBackground, QPointF( -mBackgroundValue, mBackgroundValue ) );
 }
