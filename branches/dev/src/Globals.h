@@ -6,7 +6,7 @@
 
 namespace Globals
 {
-	const uint MaxPlayers = 4;
+	const uint MaxPlayers = 5;
 	const QSize TilesSize = QSize( 64, 64 );
 	
 	enum TypeTile
