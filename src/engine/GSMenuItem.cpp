@@ -300,4 +300,8 @@ void GSMenuItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* optio
 			painter->drawPixmap( 0, 0, pixmap );
 		}
 	}
+	else
+	{
+		updateCachePixmap();
+	}
 }

@@ -23,6 +23,7 @@ public:
 
 protected:
 	static GSMultiPlayerChoice* mInstance;
+	TilesMap mPlayerTiles;
 	
 	int mBackgroundValue;
 	QPixmap mBackground;

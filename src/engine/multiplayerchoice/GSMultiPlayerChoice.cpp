@@ -23,24 +23,25 @@ void GSMultiPlayerChoice::Init( const QSizeF& size )
 {
 	AbstractGameState::Init( size );
 	
-	mTiles = TilesManager::instance()->tiles( Globals::PlayerTile );
+	mTiles = TilesManager::instance()->tiles( Globals::GameScreenTile );
+	mPlayerTiles = TilesManager::instance()->tiles( Globals::PlayerTile );
 	mBackgroundValue = 0;
 	
-	//mBackground = mTiles.value( "game screens/padsettings_background.png" )->tile( 0 );
+	mBackground = mTiles.value( "game screens/multiplayerchoice_background.png" )->tile( 0 );
 	
 	// right menu
 	mFacesMenu = new GSMenu( Qt::Horizontal, this );
-	mFacesMenu->setSpacing( 2 );
-	
-	foreach ( const QString& key, mTiles.keys() )
-	{
-		GSFaceItem* item = new GSFaceItem( mTiles.value( key ) );
-		mFacesMenu->addItem( item );
-	}
+	mFacesMenu->setSpacing( 5 );
 	
 	for ( uint i = 0; i < Globals::MaxPlayers; i++ )
 	{
+		GSFaceItem* item = new GSFaceItem( *mPlayerTiles.begin(), i );
+		mFacesMenu->addItem( item );
 	}
+	
+	QRectF r = mFacesMenu->boundingRect();
+	r.moveCenter( boundingRect().center() );
+	mFacesMenu->setPos( r.topLeft() );
 }
 
 void GSMultiPlayerChoice::Cleanup()
