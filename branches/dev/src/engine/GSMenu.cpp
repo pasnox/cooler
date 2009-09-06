@@ -124,11 +124,16 @@ void GSMenu::addItem( GSMenuItem* item )
 	updateGeometry();
 }
 
-GSMenuItem* GSMenu::addItem( const QString& text, Qt::Alignment align, int pixelSize )
+GSMenuItem* GSMenu::addTextItem( const QPixmap& icon, const QString& text, Qt::Alignment align, int pixelSize )
 {
-	GSMenuItem* item = new GSMenuItem( text, align, pixelSize );
+	GSMenuItem* item = new GSMenuItem( icon, text, align, pixelSize );
 	addItem( item );
 	return item;
+}
+
+GSMenuItem* GSMenu::addTextItem( const QString& text, Qt::Alignment align, int pixelSize )
+{
+	return addTextItem( QPixmap(), text, align, pixelSize );
 }
 
 void GSMenu::removeItem( GSMenuItem* item )

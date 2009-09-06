@@ -18,6 +18,7 @@ XUPProjectSettings {
 	EDITOR	= QMake
 	EXECUTE_DEBUG	= cooler_debug
 	QT_VERSION	= Qt System (4.5.2)
+	EXECUTE_RELEASE	= cooler
 }
 
 TEMPLATE	= app
@@ -95,7 +96,9 @@ HEADERS	= src/tiles/AbstractTile.h \
 	src/engine/GSMenu.h \
 	src/engine/padsettings/GSPadSettings.h \
 	src/engine/multiplayerchoice/GSMultiPlayerChoice.h \
-	src/engine/GSFaceItem.h
+	src/engine/GSFaceItem.h \
+	src/engine/Player.h \
+	src/engine/GSStateItem.h
 
 SOURCES	= src/tiles/AbstractTile.cpp \
 	src/tiles/BombTile.cpp \
@@ -129,4 +132,6 @@ SOURCES	= src/tiles/AbstractTile.cpp \
 	src/engine/GSMenu.cpp \
 	src/engine/padsettings/GSPadSettings.cpp \
 	src/engine/multiplayerchoice/GSMultiPlayerChoice.cpp \
-	src/engine/GSFaceItem.cpp
+	src/engine/GSFaceItem.cpp \
+	src/engine/Player.cpp \
+	src/engine/GSStateItem.cpp

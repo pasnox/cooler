@@ -1,6 +1,6 @@
 #include "GSMultiPlayerChoice.h"
 #include "GSMode.h"
-#include "GSFaceItem.h"
+#include "GSStateItem.h"
 
 #include <QGraphicsGridLayout>
 #include <QGraphicsLinearLayout>
@@ -28,20 +28,64 @@ void GSMultiPlayerChoice::Init( const QSizeF& size )
 	mBackgroundValue = 0;
 	
 	mBackground = mTiles.value( "game screens/multiplayerchoice_background.png" )->tile( 0 );
+	const QPixmap cursor = mTiles.value( "game screens/cursor_head.png" )->tile( 0 );
 	
-	// right menu
-	mFacesMenu = new GSMenu( Qt::Horizontal, this );
-	mFacesMenu->setSpacing( 5 );
+	// main layout
+	mMainLayout = new QGraphicsLinearLayout( Qt::Vertical, this );
+	mMainLayout->setContentsMargins( 10, 10, 10, 10 );
+	mMainLayout->setSpacing( 10 );
+	
+	// title
+	mTitle = new GSMenuItem( tr( "Select Player" ), Qt::AlignCenter, 38 );
+	mTitle->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Maximum ) );
+	mMainLayout->addItem( mTitle );
+	
+	// vertical spacer 1
+	mMainLayout->insertStretch( 1, 100 );
+	
+	// menus layout
+	mMenuLayout = new QGraphicsLinearLayout( Qt::Horizontal );
+	mMenuLayout->setContentsMargins( 10, 10, 10, 10 );
+	mMenuLayout->setSpacing( 10 );
+	
+	// left menu spacer
+	mMenuLayout->insertStretch( 0, 100 );
+	
+	// properties
+	const Qt::Alignment playersAlignFlags = Qt::AlignLeft | Qt::AlignVCenter;
+	const int pixelSize = 28;
+	
+	// left menu
+	mPlayersMenu = new GSMenu;
 	
 	for ( uint i = 0; i < Globals::MaxPlayers; i++ )
 	{
-		GSFaceItem* item = new GSFaceItem( *mPlayerTiles.begin(), i );
-		mFacesMenu->addItem( item );
+		GSMenuItem* item = mPlayersMenu->addTextItem( cursor, tr( "%1 Player" ).arg( i+1 ), playersAlignFlags, pixelSize );
+		item->setActiveColor( QColor( Qt::transparent ) );
+		item->setActiveDisabledColor( QColor( Qt::transparent ) );
 	}
 	
-	QRectF r = mFacesMenu->boundingRect();
-	r.moveCenter( boundingRect().center() );
-	mFacesMenu->setPos( r.topLeft() );
+	mPlayersMenu->setSelectedIndex( 0 );
+	
+	mMenuLayout->addItem( mPlayersMenu );
+	
+	// right menu
+	mStatesMenu = new GSMenu;
+	
+	for ( uint i = 0; i < Globals::MaxPlayers; i++ )
+	{
+		mStatesMenu->addItem( new GSStateItem( Globals::PlayerStateOff, pixelSize ) );
+	}
+	
+	mMenuLayout->addItem( mStatesMenu );
+	
+	// right menu spacer
+	mMenuLayout->insertStretch( 3, 100 );
+	
+	mMainLayout->addItem( mMenuLayout );
+	
+	// vertical spacer 2
+	mMainLayout->insertStretch( 3, 100 );
 }
 
 void GSMultiPlayerChoice::Cleanup()
@@ -50,7 +94,14 @@ void GSMultiPlayerChoice::Cleanup()
 	
 	mBackgroundValue = 0;
 	mBackground = QPixmap();
-	Q_CLEANUP( mFacesMenu );
+	setLayout( 0 );
+	mMainLayout = 0;
+	mMenuLayout = 0;
+	//Q_CLEANUP( mMainLayout );
+	//Q_CLEANUP( mMenuLayout );
+	Q_CLEANUP( mTitle );
+	Q_CLEANUP( mPlayersMenu );
+	Q_CLEANUP( mStatesMenu );
 }
 
 void GSMultiPlayerChoice::Pause()
@@ -87,19 +138,26 @@ void GSMultiPlayerChoice::HandleEvents( GameEngine* game )
 					}
 					case Qt::Key_Up:
 					{
+						mPlayersMenu->selectPreviousItem();
 						break;
 					}
 					case Qt::Key_Down:
 					{
+						mPlayersMenu->selectNextItem();
 						break;
 					}
 					case Qt::Key_Left:
 					{
-						
+						const int index = mPlayersMenu->selectedIndex();
+						GSStateItem* item = static_cast<GSStateItem*>( mStatesMenu->item( index ) );
+						item->previousState();
 						break;
 					}
 					case Qt::Key_Right:
 					{
+						const int index = mPlayersMenu->selectedIndex();
+						GSStateItem* item = static_cast<GSStateItem*>( mStatesMenu->item( index ) );
+						item->nextState();
 						break;
 					}
 					default:

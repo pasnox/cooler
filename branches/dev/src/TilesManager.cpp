@@ -172,7 +172,7 @@ void TilesManager::loadTiles( Globals::TypeTile type, const QString& path )
 		switch ( type )
 		{
 			case Globals::PlayerTile:
-				tile = new PlayerTile( file, type );
+				tile = new PlayerTile( file );
 				break;
 			case Globals::BlockTile:
 			case Globals::BombTile:

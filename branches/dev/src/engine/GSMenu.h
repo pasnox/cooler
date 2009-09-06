@@ -30,7 +30,8 @@ public:
 	GSMenuItemList items() const;
 	GSMenuItem* item( int index ) const;
 	void addItem( GSMenuItem* item );
-	GSMenuItem* addItem( const QString& text, Qt::Alignment align = Qt::AlignCenter, int pixelSize = 20 );
+	GSMenuItem* addTextItem( const QPixmap& icon, const QString& text, Qt::Alignment align = Qt::AlignCenter, int pixelSize = 20 );
+	GSMenuItem* addTextItem( const QString& text, Qt::Alignment align = Qt::AlignCenter, int pixelSize = 20 );
 	void removeItem( GSMenuItem* item );
 
 protected:

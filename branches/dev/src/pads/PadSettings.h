@@ -58,9 +58,9 @@ protected:
 	ActionKeys mActionMapping;
 };
 
-typedef QList<PadSettings*> PadSettingsList;
-typedef QMap<int, PadSettings> PadSettingsMap;
+typedef QList<PadSettings> PadSettingsList;
 
 Q_DECLARE_METATYPE( PadSettings* );
+Q_DECLARE_METATYPE( PadSettings );
 
 #endif // PADSETTINGS_H

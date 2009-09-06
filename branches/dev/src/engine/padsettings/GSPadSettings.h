@@ -10,7 +10,7 @@ class QGraphicsPixmapItem;
 class GSPadSettings : public AbstractGameState
 {
 public:
-	static GSPadSettings* instance( const PadSettingsMap& pads );
+	static GSPadSettings* instance( const PadSettingsList& pads );
 	
 	virtual void Init( const QSizeF& size );
 	virtual void Cleanup();
@@ -23,7 +23,7 @@ public:
 
 protected:
 	static GSPadSettings* mInstance;
-	PadSettingsMap mPads;
+	PadSettingsList mPads;
 	uint mCurrentPadIndex;
 	bool mIsWaitingInput;
 	QColor mActiveColor;
@@ -41,7 +41,7 @@ protected:
 	GSMenu* mKeysMenu;
 	GSMenu* mFormMenu;
 	
-	GSPadSettings( const PadSettingsMap& pads );
+	GSPadSettings( const PadSettingsList& pads );
 	
 	void loadPadSettings( int index );
 	bool canChangeStrokeKey( Globals::PadStroke stroke, int key );

@@ -7,7 +7,7 @@
 
 GSPadSettings* GSPadSettings::mInstance = 0;
 
-GSPadSettings* GSPadSettings::instance( const PadSettingsMap& pads )
+GSPadSettings* GSPadSettings::instance( const PadSettingsList& pads )
 {
 	if ( !mInstance )
 	{
@@ -21,7 +21,7 @@ GSPadSettings* GSPadSettings::instance( const PadSettingsMap& pads )
 	return mInstance;
 }
 
-GSPadSettings::GSPadSettings( const PadSettingsMap& pads )
+GSPadSettings::GSPadSettings( const PadSettingsList& pads )
 {
 	mPads = pads;
 }
@@ -68,45 +68,45 @@ void GSPadSettings::Init( const QSizeF& size )
 	
 	// left menu
 	mLabelsMenu = new GSMenu;
-	mLabelsMenu->addItem( tr( "PLAYER" ), alignFlags );
-	mLabelsMenu->addItem( tr( "UP" ), alignFlags );
-	mLabelsMenu->addItem( tr( "DOWN" ), alignFlags );
-	mLabelsMenu->addItem( tr( "LEFT" ), alignFlags );
-	mLabelsMenu->addItem( tr( "RIGHT" ), alignFlags );
-	mLabelsMenu->addItem( tr( "BUTTON 1" ), alignFlags );
-	mLabelsMenu->addItem( tr( "BUTTON 2" ), alignFlags );
-	mLabelsMenu->addItem( tr( "BUTTON 3" ), alignFlags );
-	mLabelsMenu->addItem( tr( "BUTTON 4" ), alignFlags );
+	mLabelsMenu->addTextItem( tr( "PLAYER" ), alignFlags );
+	mLabelsMenu->addTextItem( tr( "UP" ), alignFlags );
+	mLabelsMenu->addTextItem( tr( "DOWN" ), alignFlags );
+	mLabelsMenu->addTextItem( tr( "LEFT" ), alignFlags );
+	mLabelsMenu->addTextItem( tr( "RIGHT" ), alignFlags );
+	mLabelsMenu->addTextItem( tr( "BUTTON 1" ), alignFlags );
+	mLabelsMenu->addTextItem( tr( "BUTTON 2" ), alignFlags );
+	mLabelsMenu->addTextItem( tr( "BUTTON 3" ), alignFlags );
+	mLabelsMenu->addTextItem( tr( "BUTTON 4" ), alignFlags );
 	mMenuLayout->addItem( mLabelsMenu );
 	
 	// right menu
 	GSMenuItem* item = 0;
 	mKeysMenu = new GSMenu;
-	item = mKeysMenu->addItem( QString::null );
+	item = mKeysMenu->addTextItem( QString::null );
 	item->setActiveColor( mActiveColor );
 	item->setBrushColors( mKeyBrushColors );
-	item = mKeysMenu->addItem( QString::null );
+	item = mKeysMenu->addTextItem( QString::null );
 	item->setActiveColor( mActiveColor );
 	item->setBrushColors( mKeyBrushColors );
-	item = mKeysMenu->addItem( QString::null );
+	item = mKeysMenu->addTextItem( QString::null );
 	item->setActiveColor( mActiveColor );
 	item->setBrushColors( mKeyBrushColors );
-	item = mKeysMenu->addItem( QString::null );
+	item = mKeysMenu->addTextItem( QString::null );
 	item->setActiveColor( mActiveColor );
 	item->setBrushColors( mKeyBrushColors );
-	item = mKeysMenu->addItem( QString::null );
+	item = mKeysMenu->addTextItem( QString::null );
 	item->setActiveColor( mActiveColor );
 	item->setBrushColors( mKeyBrushColors );
-	item = mKeysMenu->addItem( QString::null );
+	item = mKeysMenu->addTextItem( QString::null );
 	item->setActiveColor( mActiveColor );
 	item->setBrushColors( mKeyBrushColors );
-	item = mKeysMenu->addItem( QString::null );
+	item = mKeysMenu->addTextItem( QString::null );
 	item->setActiveColor( mActiveColor );
 	item->setBrushColors( mKeyBrushColors );
-	item = mKeysMenu->addItem( QString::null );
+	item = mKeysMenu->addTextItem( QString::null );
 	item->setActiveColor( mActiveColor );
 	item->setBrushColors( mKeyBrushColors );
-	item = mKeysMenu->addItem( QString::null );
+	item = mKeysMenu->addTextItem( QString::null );
 	item->setActiveColor( mActiveColor );
 	item->setBrushColors( mKeyBrushColors );
 	mMenuLayout->addItem( mKeysMenu );
@@ -121,8 +121,8 @@ void GSPadSettings::Init( const QSizeF& size )
 	
 	// form menu
 	mFormMenu = new GSMenu( Qt::Horizontal );
-	mFormMenu->addItem( tr( "Cancel" ) )->setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Preferred ) );
-	mFormMenu->addItem( tr( "Accept" ) )->setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Preferred ) );
+	mFormMenu->addTextItem( tr( "Cancel" ) )->setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Preferred ) );
+	mFormMenu->addTextItem( tr( "Accept" ) )->setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Preferred ) );
 	mMainLayout->addItem( mFormMenu );
 	mMainLayout->setAlignment( mFormMenu, Qt::AlignRight );
 	

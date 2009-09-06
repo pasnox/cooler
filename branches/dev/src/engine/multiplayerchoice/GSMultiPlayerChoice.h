@@ -28,7 +28,11 @@ protected:
 	int mBackgroundValue;
 	QPixmap mBackground;
 	
-	GSMenu* mFacesMenu;
+	QGraphicsLinearLayout* mMainLayout;
+	GSMenuItem* mTitle;
+	QGraphicsLinearLayout* mMenuLayout;
+	GSMenu* mPlayersMenu;
+	GSMenu* mStatesMenu;
 	
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );
 };

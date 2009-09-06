@@ -9,35 +9,39 @@ class GSMenuItem : public QGraphicsWidget
 public:
 	typedef QPair<QColor, QColor> BrushColors;
 	
+	GSMenuItem( const QPixmap& cursor = QPixmap(), const QString& text = QString::null, Qt::Alignment align = Qt::AlignCenter, int pixelSize = 20 );
 	GSMenuItem( const QString& text, Qt::Alignment align = Qt::AlignCenter, int pixelSize = 20 );
 	GSMenuItem( const QString& text, QGraphicsItem* parent, Qt::Alignment align = Qt::AlignCenter, int pixelSize = 20 );
 	virtual ~GSMenuItem();
 	
-	void setActive( bool active );
+	virtual void setActive( bool active );
 	bool isActive() const;
 	
-	void setText( const QString& text );
+	virtual void setCursor( const QPixmap& cursor );
+	QPixmap cursor() const;
+	
+	virtual void setText( const QString& text );
 	QString text() const;
 	
-	void setAlignment( Qt::Alignment align = Qt::AlignCenter );
+	virtual void setAlignment( Qt::Alignment align = Qt::AlignCenter );
 	Qt::Alignment alignment() const;
 	
-	void setPixelSize( int pixelSize = 20 );
+	virtual void setPixelSize( int pixelSize = 20 );
 	int pixelSize() const;
 	
-	void setActiveColor( const QColor& enabled );
+	virtual void setActiveColor( const QColor& enabled );
 	QColor activeColor() const;
 	
-	void setActiveDisabledColor( const QColor& disabled );
+	virtual void setActiveDisabledColor( const QColor& disabled );
 	QColor activeDisabledColor() const;
 	
-	void setPenColor( const QColor& color );
+	virtual void setPenColor( const QColor& color );
 	QColor penColor() const;
 	
-	void setBrushColors( const GSMenuItem::BrushColors& colors );
+	virtual void setBrushColors( const GSMenuItem::BrushColors& colors );
 	GSMenuItem::BrushColors brushColors() const;
 	
-	void setBrushDisabledColors( const GSMenuItem::BrushColors& colors );
+	virtual void setBrushDisabledColors( const GSMenuItem::BrushColors& colors );
 	GSMenuItem::BrushColors brushDisabledColors() const;
 	
 	QString cacheKey() const;
@@ -54,6 +58,7 @@ protected:
 	QColor mPenColor;
 	BrushColors mBrushColors;
 	BrushColors mBrushDisabledColors;
+	QPixmap mCursor;
 	
 	void init();
 	

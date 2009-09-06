@@ -17,6 +17,7 @@ int main( int argc, char** argv )
 	app.setOrganizationName( "SoDream" );
 	app.setApplicationName( "Cooler" );
 	
+	
 	// initialize tiles
 	TilesManager::instance()->loadDatas();
 	
@@ -35,6 +36,9 @@ int main( int argc, char** argv )
 	// cleanup the engine
 	engine.Cleanup();
 	return result;
+	
+	
+	// ----
 	
 	/*
 	UIMain m;

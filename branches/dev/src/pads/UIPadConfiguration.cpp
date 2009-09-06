@@ -27,12 +27,12 @@ void UIPadConfiguration::setPads( PadSettingsList& pads, int maxPad )
 	
 	while ( mPads->count() > mMaxPad )
 	{
-		delete mPads->takeLast();
+		mPads->removeLast();
 	}
 	
 	while ( mPads->count() < mMaxPad )
 	{
-		(*mPads) << new PadSettings();
+		(*mPads) << PadSettings();
 	}
 	
 	for ( int i = 0; i < mMaxPad; i++ )
@@ -58,8 +58,8 @@ void UIPadConfiguration::setCurrentPadIndex( int index )
 
 void UIPadConfiguration::on_cbPads_currentIndexChanged( int index )
 {
-	PadSettings* pad = mPads->at( index );
-	psConfiguration->updateGui( pad );
+	PadSettings& pad = (*mPads)[ index ];
+	psConfiguration->updateGui( &pad );
 }
 
 void UIPadConfiguration::on_pbConfigure_clicked()
@@ -74,31 +74,31 @@ void UIPadConfiguration::on_pbConfigure_clicked()
 void UIPadConfiguration::on_pbDefault_clicked()
 {
 	const int index = currentPadIndex();
-	PadSettings* pad = mPads->at( index );
-	*pad = PadSettings::defaultConfiguration( index );
-	psConfiguration->updateGui( pad );
+	PadSettings& pad = (*mPads)[ index ];
+	pad = PadSettings::defaultConfiguration( index );
+	psConfiguration->updateGui( &pad );
 }
 
 void UIPadConfiguration::on_pbReset_clicked()
 {
-	PadSettings* pad = mPads->at( currentPadIndex() );
-	pad->clear();
-	psConfiguration->updateGui( pad );
+	PadSettings& pad = (*mPads)[ currentPadIndex() ];
+	pad.clear();
+	psConfiguration->updateGui( &pad );
 }
 
 void UIPadConfiguration::padSettings_aboutToChangeStrokeKey( Globals::PadStroke stroke, int key, bool& accept )
 {
 	for ( int i = 0; i < mPads->count(); i++ )
 	{
-		const PadSettings* pad = mPads->at( i );
+		const PadSettings& pad = mPads->at( i );
 		
-		if ( pad->isKeyUsed( key ) )
+		if ( pad.isKeyUsed( key ) )
 		{
 			accept = false;
 			
 			if ( currentPadIndex() == i )
 			{
-				if ( pad->keyStroke( key ) == stroke )
+				if ( pad.keyStroke( key ) == stroke )
 				{
 					accept = true;
 				}
@@ -113,15 +113,15 @@ void UIPadConfiguration::padSettings_aboutToChangeActionKey( Globals::PadAction 
 {
 	for ( int i = 0; i < mPads->count(); i++ )
 	{
-		const PadSettings* pad = mPads->at( i );
+		const PadSettings& pad = mPads->at( i );
 		
-		if ( pad->isKeyUsed( key ) )
+		if ( pad.isKeyUsed( key ) )
 		{
 			accept = false;
 			
 			if ( currentPadIndex() == i )
 			{
-				if ( pad->keyAction( key ) == action )
+				if ( pad.keyAction( key ) == action )
 				{
 					accept = true;
 				}
@@ -134,14 +134,14 @@ void UIPadConfiguration::padSettings_aboutToChangeActionKey( Globals::PadAction 
 
 void UIPadConfiguration::padSettings_strokeKeyChanged( Globals::PadStroke stroke, int key )
 {
-	PadSettings* pad = mPads->at( currentPadIndex() );
-	pad->setStrokeKey( stroke, key );
+	PadSettings& pad = (*mPads)[ currentPadIndex() ];
+	pad.setStrokeKey( stroke, key );
 }
 
 void UIPadConfiguration::padSettings_actionKeyChanged( Globals::PadAction action, int key )
 {
-	PadSettings* pad = mPads->at( currentPadIndex() );
-	pad->setActionKey( action, key );
+	PadSettings& pad = (*mPads)[ currentPadIndex() ];
+	pad.setActionKey( action, key );
 }
 
 void UIPadConfiguration::padSettings_editingFinished()
