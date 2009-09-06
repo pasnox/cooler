@@ -5,7 +5,7 @@
 
 struct PlayerTile : AbstractTile
 {
-	PlayerTile( const QFileInfo& fn = QFileInfo(), Globals::TypeTile type = Globals::InvalidTile );
+	PlayerTile( const QFileInfo& fn = QFileInfo() );
 	
 	virtual int steps() const;
 	virtual QPixmap tile( int step ) const;

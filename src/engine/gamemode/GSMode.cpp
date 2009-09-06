@@ -29,6 +29,7 @@ void GSMode::Init( const QSizeF& size )
 	mTitle = new QGraphicsPixmapItem( mTiles.value( "game screens/mode_title.png" )->tile( 0 ), this );
 	mFrame = new QGraphicsPixmapItem( mTiles.value( "game screens/mode_frame.png" )->tile( 0 ), this );
 	mBombers = new QGraphicsPixmapItem( mTiles.value( "game screens/mode_bombers.png" )->tile( 0 ), this );
+	const QPixmap cursor = mTiles.value( "game screens/cursor_head.png" )->tile( 0 );
 	
 	mTitle->setZValue( 2 );
 	mFrame->setZValue( 1 );
@@ -50,9 +51,16 @@ void GSMode::Init( const QSizeF& size )
 	
 	mMenu = new GSMenu( Qt::Vertical, this );
 	mMenu->setZValue( 4 );
-	mMenu->addItem( tr( "STORY MODE" ) )->setEnabled( false );
-	mMenu->addItem( tr( "MULTIPLAYER MODE" ) );
-	mMenu->addItem( tr( "SETTINGS" ) );
+	mMenu->addTextItem( cursor, tr( "STORY MODE" ) )->setEnabled( false );
+	mMenu->addTextItem( cursor, tr( "MULTIPLAYER MODE" ) );
+	mMenu->addTextItem( cursor, tr( "SETTINGS" ) );
+	
+	foreach ( GSMenuItem* item, mMenu->items() )
+	{
+		item->setActiveColor( QColor( Qt::transparent ) );
+		item->setActiveDisabledColor( QColor( Qt::transparent ) );
+	}
+	
 	mMenu->setSelectedIndex( 0 );
 	
 	QRectF menuRect = mMenu->boundingRect();

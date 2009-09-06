@@ -5,7 +5,7 @@
 #include <QPainter>
 
 GSFaceItem::GSFaceItem( AbstractTile* tile, uint id )
-	: GSMenuItem( QString::null, Qt::AlignCenter, 20 )
+	: GSMenuItem()
 {
 	Q_ASSERT( tile );
 	mTile = tile;

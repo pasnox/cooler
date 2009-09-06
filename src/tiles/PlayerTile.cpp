@@ -1,7 +1,7 @@
 #include "PlayerTile.h"
 
-PlayerTile::PlayerTile( const QFileInfo& fn, Globals::TypeTile type )
-	: AbstractTile( fn, type )
+PlayerTile::PlayerTile( const QFileInfo& fn )
+	: AbstractTile( fn, Globals::PlayerTile )
 {
 }
 

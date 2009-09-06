@@ -7,6 +7,17 @@
 #include <QLinearGradient>
 #include <QPixmapCache>
 
+GSMenuItem::GSMenuItem( const QPixmap& cursor, const QString& text, Qt::Alignment align, int pixelSize )
+	: QGraphicsWidget()
+{
+	init();
+	
+	setCursor( cursor );
+	setText( text );
+	setAlignment( align );
+	setPixelSize( pixelSize );
+}
+
 GSMenuItem::GSMenuItem( const QString& text, Qt::Alignment align, int pixelSize )
 	: QGraphicsWidget()
 {
@@ -58,6 +69,20 @@ bool GSMenuItem::isActive() const
 	return mIsActive;
 }
 
+void GSMenuItem::setCursor( const QPixmap& cursor )
+{
+	if ( mCursor.cacheKey() == cursor.cacheKey() )
+		return;
+	
+	mCursor = cursor;
+	updateCachePixmap();
+}
+
+QPixmap GSMenuItem::cursor() const
+{
+	return mCursor;
+}
+
 void GSMenuItem::setText( const QString& text )
 {
 	if ( mText == text )
@@ -94,7 +119,6 @@ void GSMenuItem::setPixelSize( int pixelSize )
 	QFont f( font() );
 	f.setPixelSize( pixelSize );
 	f.setBold( true );
-	//f.setStretch( 200 );
 	setFont( f );
 	updateCachePixmap();
 }
@@ -190,9 +214,10 @@ void GSMenuItem::updateCachePixmap()
 	
 	prepareGeometryChange();
 	
-	QString key = QString::number( qHash( QString( "%1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12" )
+	QString key = QString::number( qHash( QString( "%1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13" )
 		.arg( mMargin )
 		.arg( mIsActive )
+		.arg( mCursor.cacheKey() )
 		.arg( mText )
 		.arg( mAlignment )
 		.arg( mActiveColor.name() )
@@ -247,6 +272,17 @@ void GSMenuItem::updateCachePixmap()
 	p.setX( p.x() +mMargin );
 	p.setY( p.y() +fm.ascent() +mMargin );
 	
+	if ( !mCursor.isNull() )
+	{
+		if ( mIsActive )
+		{
+			const int y = ( r.height() -mCursor.height() ) /2;
+			painter.drawPixmap( mMargin, y, mCursor );
+		}
+		
+		p.rx() += mCursor.width() +mMargin;
+	}
+	
 	QPainterPath path( QPointF( 0, 0 ) );
 	path.addText( p, font(), mText );
 	
@@ -270,8 +306,20 @@ QSizeF GSMenuItem::sizeHint( Qt::SizeHint which, const QSizeF& constraint ) cons
 		{
 			QFontMetricsF fm( font() );
 			QSizeF size = fm.size( Qt::TextSingleLine, mText );
-			size.setWidth( size.width() +( mMargin *2 ) );
-			size.setHeight( size.height() +( mMargin *2 ) );
+			
+			size.rwidth() = size.width() +( mMargin *2 );
+			size.rheight() = size.height() +( mMargin *2 );
+			
+			if ( !mCursor.isNull() )
+			{
+				size.rwidth() += mCursor.width() +mMargin;
+				
+				if ( mCursor.height() +( mMargin *2 ) > size.height() )
+				{
+					size.rheight() = mCursor.height() +( mMargin *2 );
+				}
+			}
+			
 			return size;
 		}
 		case Qt::MaximumSize:

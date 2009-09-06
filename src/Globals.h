@@ -58,6 +58,14 @@ namespace Globals
 		PadAction4
 	};
 	
+	enum PlayerState
+	{
+		PlayerStateNo = -1,
+		PlayerStateOff,
+		PlayerStateHuman,
+		PlayerStateComputer
+	};
+	
 	QString relativeFilePath( const QString& path, const QString& fn );
 	QString relativeFilePath( const QFileInfo& path, const QFileInfo& fn );
 	QFileInfoList getFiles( QDir& path, const QStringList& filters = QStringList() );

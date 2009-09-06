@@ -97,13 +97,13 @@ void UIMain::loadSettings()
 	for ( uint i = 0; i < Globals::MaxPlayers; i++ )
 	{
 		mSettings->setArrayIndex( i );
-		PadSettings* pad = mPads.at( i );
-		pad->loadMapping( mSettings );
+		PadSettings& pad = mPads[ i ];
+		pad.loadMapping( mSettings );
 		
-		if ( !pad->isValid() )
+		if ( !pad.isValid() )
 		{
 		qWarning() << "yo";
-			*pad = PadSettings::defaultConfiguration( i );
+			pad = PadSettings::defaultConfiguration( i );
 		}
 	}
 	mSettings->endArray();
@@ -131,9 +131,9 @@ void UIMain::saveSettings()
 	mSettings->beginWriteArray( "Pads", mPads.count() );
 	for ( int i = 0; i < mPads.count(); i++ )
 	{
-		PadSettings* pad = mPads.at( i );
+		PadSettings& pad = mPads[ i ];
 		mSettings->setArrayIndex( i );
-		pad->saveMapping( mSettings );
+		pad.saveMapping( mSettings );
 	}
 	mSettings->endArray();
 }
@@ -217,7 +217,7 @@ void UIMain::on_pbLetsGo_clicked()
 	
 	for ( int i = 0; i < sbPlayerNumber->value(); i++ )
 	{
-		if ( !mPads.at( i )->isValid() )
+		if ( !mPads.at( i ).isValid() )
 		{
 			pcEditor->setCurrentPadIndex( i );
 			QMessageBox::information( this, "", tr( "Please set pad settings for player #%1." ).arg( i +1 ) );
@@ -234,7 +234,7 @@ void UIMain::on_pbLetsGo_clicked()
 			QListWidgetItem* playerItem = lwPlayers->item( i );
 			AbstractTile* tile = playerItem->data( Qt::UserRole ).value<AbstractTile*>();
 			PlayerItem* player = new PlayerItem( tile, 0 );
-			player->setPad( mPads.at( i ) );
+			player->setPad( &mPads[ i ] );
 			gvBoard->addPlayer( playerItem->text().append( QString( " #%1" ).arg( i ) ), player );
 		}
 		

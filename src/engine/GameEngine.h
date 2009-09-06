@@ -8,6 +8,7 @@
 #include <QVector>
 
 #include <PadSettings.h>
+#include <Player.h>
 
 class pXmlSettings;
 
@@ -33,12 +34,13 @@ public:
 	virtual bool Running() { return mRunning; }
 	virtual void Quit() { mRunning = false; }
 	
-	void setPadSettings( const PadSettingsMap& pads );
-	PadSettingsMap padsSettings() const;
+	void setPadSettings( const PadSettingsList& pads );
+	const PadSettingsList& padsSettings() const;
 
 protected:
 	pXmlSettings* mSettings;
-	PadSettingsMap mPads;
+	PadSettingsList mPads;
+	PlayerList mPlayers;
 	
 	QGraphicsScene* mScene;
 	QVector<AbstractGameState*> mStates;

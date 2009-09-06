@@ -36,19 +36,22 @@ void GameEngine::Init( const QString& title, const QSize& size, int bpp, bool fu
 	setGeometry( geometry );
 	setScene( mScene );
 	
-	// load pad structures
+	// load player/pad structures
 	mSettings->beginReadArray( "Pads" );
 	for ( uint i = 0; i < Globals::MaxPlayers; i++ )
 	{
 		mSettings->setArrayIndex( i );
 		
-		PadSettings& pad = mPads[ i ];
+		PadSettings pad;
 		pad.loadMapping( mSettings );
 		
 		if ( !pad.isValid() )
 		{
 			pad = PadSettings::defaultConfiguration( i );
 		}
+		
+		mPads << pad;
+		mPlayers << Player();
 	}
 	mSettings->endArray();
 	
@@ -154,12 +157,12 @@ void GameEngine::Draw()
 	mScene->update();
 }
 
-void GameEngine::setPadSettings( const PadSettingsMap& pads )
+void GameEngine::setPadSettings( const PadSettingsList& pads )
 {
 	mPads = pads;
 }
 
-PadSettingsMap GameEngine::padsSettings() const
+const PadSettingsList& GameEngine::padsSettings() const
 {
 	return mPads;
 }
