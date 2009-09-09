@@ -12,7 +12,7 @@ class GSPadSettings : public AbstractGameState
 public:
 	static GSPadSettings* instance( const PadSettingsList& pads );
 	
-	virtual void Init( const QSizeF& size );
+	virtual void Init( GameEngine* engine, const QSizeF& size );
 	virtual void Cleanup();
 
 	virtual void Pause();

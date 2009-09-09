@@ -10,6 +10,8 @@
 
 void GameEngine::Init( const QString& title, const QSize& size, int bpp, bool fullscreen )
 {
+	Q_UNUSED( bpp );
+	
 	// settings
 	mSettings = new pXmlSettings( this );
 	
@@ -98,7 +100,7 @@ void GameEngine::ChangeState( AbstractGameState* state )
 	}
 	
 	mStates.append( state );
-	mStates.last()->Init( mSize );
+	mStates.last()->Init( this, mSize );
 	mScene->addItem( state );
 	mScene->setFocusItem( state );
 }
@@ -111,7 +113,7 @@ void GameEngine::PushState( AbstractGameState* state )
 	}
 	
 	mStates.append( state );
-	mStates.last()->Init( mSize );
+	mStates.last()->Init( this, mSize );
 	mScene->addItem( state );
 	mScene->setFocusItem( state );
 }
@@ -165,6 +167,16 @@ void GameEngine::setPadSettings( const PadSettingsList& pads )
 const PadSettingsList& GameEngine::padsSettings() const
 {
 	return mPads;
+}
+
+void GameEngine::setPlayers( const PlayerList& players )
+{
+	mPlayers = players;
+}
+
+const PlayerList& GameEngine::players() const
+{
+	return mPlayers;
 }
 
 void GameEngine::closeEvent( QCloseEvent* event )

@@ -10,8 +10,6 @@ class GSStateItem : public GSMenuItem
 public:
 	GSStateItem( Globals::PlayerState state = Globals::PlayerStateOff, int pixelSize = 200 );
 	
-	virtual void setPixelSize( int pixelSize = 20 );
-	
 	void setState( Globals::PlayerState state );
 	const Globals::PlayerState& state() const;
 	

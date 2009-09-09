@@ -132,8 +132,9 @@ class AbstractGameState : public QGraphicsWidget
 	Q_OBJECT
 	
 public:
-	virtual void Init( const QSizeF& size )
+	virtual void Init( GameEngine* engine, const QSizeF& size )
 	{
+		Q_UNUSED( engine );
 		mSize = size;
 		setFlag( QGraphicsItem::ItemIsFocusable, true );
 		setGeometry( QRectF( QPointF( 0, 0 ), size ) );

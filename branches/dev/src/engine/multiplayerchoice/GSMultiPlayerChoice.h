@@ -12,7 +12,7 @@ class GSMultiPlayerChoice : public AbstractGameState
 public:
 	static GSMultiPlayerChoice* instance();
 	
-	virtual void Init( const QSizeF& size );
+	virtual void Init( GameEngine* engine, const QSizeF& size );
 	virtual void Cleanup();
 
 	virtual void Pause();
@@ -23,7 +23,6 @@ public:
 
 protected:
 	static GSMultiPlayerChoice* mInstance;
-	TilesMap mPlayerTiles;
 	
 	int mBackgroundValue;
 	QPixmap mBackground;
@@ -35,6 +34,7 @@ protected:
 	GSMenu* mStatesMenu;
 	
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );
+	bool validateSettings( GameEngine* engine ) const;
 };
 
 #endif // GSMULTIPLAYERCHOICE_H

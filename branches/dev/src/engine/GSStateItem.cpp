@@ -7,23 +7,8 @@ GSStateItem::GSStateItem( Globals::PlayerState state, int pixelSize )
 	mActiveDisabledColor = mActiveColor;
 	mState = Globals::PlayerStateNo;
 	
-	QFont f( font() );
-	f.setBold( false );
-	setFont( f );
-	
 	setPixelSize( pixelSize );
 	setState( state );
-}
-
-void GSStateItem::setPixelSize( int pixelSize )
-{
-	if ( font().pixelSize() == pixelSize )
-		return;
-	
-	QFont f( font() );
-	f.setPixelSize( pixelSize );
-	setFont( f );
-	updateCachePixmap();
 }
 
 void GSStateItem::setState( Globals::PlayerState state )
@@ -47,13 +32,16 @@ void GSStateItem::setState( Globals::PlayerState state )
 			mBrushColors.first = QColor( Qt::blue );
 			mBrushColors.second = mBrushColors.first;
 			break;
+		/*
 		case Globals::PlayerStateComputer:
 			mText = tr( "COM" );
 			mPenColor = QColor( Qt::black );
 			mBrushColors.first = QColor( Qt::red );
 			mBrushColors.second = mBrushColors.first;
 			break;
+		*/
 		case Globals::PlayerStateNo:
+		case Globals::PlayerStateLast:
 			Q_ASSERT( 0 );
 			break;
 	}
@@ -70,9 +58,9 @@ void GSStateItem::previousState()
 {
 	int i = mState -1;
 	
-	if ( i < Globals::PlayerStateOff )
+	if ( i == Globals::PlayerStateNo )
 	{
-		i = Globals::PlayerStateOff;
+		i++;
 	}
 	
 	setState( (Globals::PlayerState)i );
@@ -82,9 +70,9 @@ void GSStateItem::nextState()
 {
 	int i = mState +1;
 	
-	if ( i > Globals::PlayerStateComputer )
+	if ( i == Globals::PlayerStateLast )
 	{
-		i = Globals::PlayerStateComputer;
+		i--;
 	}
 	
 	setState( (Globals::PlayerState)i );
