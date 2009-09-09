@@ -1,4 +1,3 @@
-#include "GSMultiPlayerChoice.h"
 #include "GSMultiGamePlay.h"
 #include "GSMode.h"
 #include "GSStateItem.h"
@@ -8,19 +7,19 @@
 #include <QPainter>
 #include <QGraphicsPixmapItem>
 
-GSMultiPlayerChoice* GSMultiPlayerChoice::mInstance = 0;
+GSMultiGamePlay* GSMultiGamePlay::mInstance = 0;
 
-GSMultiPlayerChoice* GSMultiPlayerChoice::instance()
+GSMultiGamePlay* GSMultiGamePlay::instance()
 {
 	if ( !mInstance )
 	{
-		mInstance = new GSMultiPlayerChoice();
+		mInstance = new GSMultiGamePlay();
 	}
 	
 	return mInstance;
 }
 
-void GSMultiPlayerChoice::Init( GameEngine* engine, const QSizeF& size )
+void GSMultiGamePlay::Init( GameEngine* engine, const QSizeF& size )
 {
 	AbstractGameState::Init( engine, size );
 	
@@ -36,7 +35,7 @@ void GSMultiPlayerChoice::Init( GameEngine* engine, const QSizeF& size )
 	mMainLayout->setSpacing( 10 );
 	
 	// title
-	mTitle = new GSMenuItem( tr( "Select Player" ), Qt::AlignCenter, 38 );
+	mTitle = new GSMenuItem( tr( "Select Game Play" ), Qt::AlignCenter, 38 );
 	mTitle->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Maximum ) );
 	mMainLayout->addItem( mTitle );
 	
@@ -75,8 +74,8 @@ void GSMultiPlayerChoice::Init( GameEngine* engine, const QSizeF& size )
 	
 	for ( uint i = 0; i < Globals::MaxPlayers; i++ )
 	{
-		GSStateItem* item = new GSStateItem( players.at( i ).state(), pixelSize );
-		mStatesMenu->addItem( item );
+		//GSStateItem* item = new GSStateItem( players.at( i ).state(), pixelSize );
+		//mStatesMenu->addItem( item );
 	}
 	
 	mMenuLayout->addItem( mStatesMenu );
@@ -90,7 +89,7 @@ void GSMultiPlayerChoice::Init( GameEngine* engine, const QSizeF& size )
 	mMainLayout->insertStretch( 3, 100 );
 }
 
-void GSMultiPlayerChoice::Cleanup()
+void GSMultiGamePlay::Cleanup()
 {
 	AbstractGameState::Cleanup();
 	
@@ -106,15 +105,15 @@ void GSMultiPlayerChoice::Cleanup()
 	Q_CLEANUP( mStatesMenu );
 }
 
-void GSMultiPlayerChoice::Pause()
+void GSMultiGamePlay::Pause()
 {
 }
 
-void GSMultiPlayerChoice::Resume()
+void GSMultiGamePlay::Resume()
 {
 }
 
-void GSMultiPlayerChoice::HandleEvents( GameEngine* game )
+void GSMultiGamePlay::HandleEvents( GameEngine* game )
 {
 	Q_UNUSED( game );
 	
@@ -138,7 +137,7 @@ void GSMultiPlayerChoice::HandleEvents( GameEngine* game )
 					{
 						if ( validateSettings( game ) )
 						{
-							game->ChangeState( GSMultiGamePlay::instance() );
+							qWarning( "settings are ok to continue !" );
 						}
 						break;
 					}
@@ -192,7 +191,7 @@ void GSMultiPlayerChoice::HandleEvents( GameEngine* game )
 	mEvents.clear();
 }
 
-void GSMultiPlayerChoice::Update( GameEngine* game )
+void GSMultiGamePlay::Update( GameEngine* game )
 {
 	Q_UNUSED( game );
 	
@@ -204,13 +203,13 @@ void GSMultiPlayerChoice::Update( GameEngine* game )
 	}
 }
 
-void GSMultiPlayerChoice::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
+void GSMultiGamePlay::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
 	AbstractGameState::paint( painter, option, widget );
 	painter->drawTiledPixmap( boundingRect(), mBackground, QPointF( -mBackgroundValue, mBackgroundValue ) );
 }
 
-bool GSMultiPlayerChoice::validateSettings( GameEngine* engine ) const
+bool GSMultiGamePlay::validateSettings( GameEngine* engine ) const
 {
 	PlayerList players = engine->players();
 	int activeCount = 0;
