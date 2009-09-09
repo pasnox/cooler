@@ -56,7 +56,8 @@ INCLUDEPATH	= . \
 	src/engine/gameintroduction \
 	src/engine/gamemode \
 	src/engine/padsettings \
-	src/engine/multiplayerchoice
+	src/engine/multiplayerchoice \
+	src/engine/multigameplay
 
 FORMS	= src/UIMain.ui \
 	src/editor/UIMapEditor.ui \
@@ -98,7 +99,8 @@ HEADERS	= src/tiles/AbstractTile.h \
 	src/engine/multiplayerchoice/GSMultiPlayerChoice.h \
 	src/engine/GSFaceItem.h \
 	src/engine/Player.h \
-	src/engine/GSStateItem.h
+	src/engine/GSStateItem.h \
+	src/engine/multigameplay/GSMultiGamePlay.h
 
 SOURCES	= src/tiles/AbstractTile.cpp \
 	src/tiles/BombTile.cpp \
@@ -134,4 +136,5 @@ SOURCES	= src/tiles/AbstractTile.cpp \
 	src/engine/multiplayerchoice/GSMultiPlayerChoice.cpp \
 	src/engine/GSFaceItem.cpp \
 	src/engine/Player.cpp \
-	src/engine/GSStateItem.cpp
+	src/engine/GSStateItem.cpp \
+	src/engine/multigameplay/GSMultiGamePlay.cpp
