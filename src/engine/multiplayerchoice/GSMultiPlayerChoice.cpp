@@ -19,12 +19,11 @@ GSMultiPlayerChoice* GSMultiPlayerChoice::instance()
 	return mInstance;
 }
 
-void GSMultiPlayerChoice::Init( const QSizeF& size )
+void GSMultiPlayerChoice::Init( GameEngine* engine, const QSizeF& size )
 {
-	AbstractGameState::Init( size );
+	AbstractGameState::Init( engine, size );
 	
 	mTiles = TilesManager::instance()->tiles( Globals::GameScreenTile );
-	mPlayerTiles = TilesManager::instance()->tiles( Globals::PlayerTile );
 	mBackgroundValue = 0;
 	
 	mBackground = mTiles.value( "game screens/multiplayerchoice_background.png" )->tile( 0 );
@@ -71,10 +70,12 @@ void GSMultiPlayerChoice::Init( const QSizeF& size )
 	
 	// right menu
 	mStatesMenu = new GSMenu;
+	const PlayerList& players = engine->players();
 	
 	for ( uint i = 0; i < Globals::MaxPlayers; i++ )
 	{
-		mStatesMenu->addItem( new GSStateItem( Globals::PlayerStateOff, pixelSize ) );
+		GSStateItem* item = new GSStateItem( players.at( i ).state(), pixelSize );
+		mStatesMenu->addItem( item );
 	}
 	
 	mMenuLayout->addItem( mStatesMenu );
@@ -134,6 +135,10 @@ void GSMultiPlayerChoice::HandleEvents( GameEngine* game )
 					case Qt::Key_Return:
 					case Qt::Key_Enter:
 					{
+						if ( validateSettings( game ) )
+						{
+							qWarning( "settings are ok to continue !" );
+						}
 						break;
 					}
 					case Qt::Key_Up:
@@ -202,4 +207,25 @@ void GSMultiPlayerChoice::paint( QPainter* painter, const QStyleOptionGraphicsIt
 {
 	AbstractGameState::paint( painter, option, widget );
 	painter->drawTiledPixmap( boundingRect(), mBackground, QPointF( -mBackgroundValue, mBackgroundValue ) );
+}
+
+bool GSMultiPlayerChoice::validateSettings( GameEngine* engine ) const
+{
+	PlayerList players = engine->players();
+	int activeCount = 0;
+	
+	for ( int i = 0; i < mStatesMenu->count(); i++ )
+	{
+		GSStateItem* item = static_cast<GSStateItem*>( mStatesMenu->item( i ) );
+		players[ i ].setState( item->state() );
+		activeCount += item->state() != Globals::PlayerStateOff ? 1 : 0;
+	}
+	
+	if ( activeCount > 1 )
+	{
+		engine->setPlayers( players );
+		return true;
+	}
+	
+	return false;
 }

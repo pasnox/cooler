@@ -18,9 +18,9 @@ GSMode* GSMode::instance()
 	return mInstance;
 }
 
-void GSMode::Init( const QSizeF& size )
+void GSMode::Init( GameEngine* engine, const QSizeF& size )
 {
-	AbstractGameState::Init( size );
+	AbstractGameState::Init( engine, size );
 	
 	mTiles = TilesManager::instance()->tiles( Globals::GameScreenTile );
 	mBackgroundValue = 0;

@@ -16,9 +16,9 @@ GSIntroduction* GSIntroduction::instance()
 	return mInstance;
 }
 
-void GSIntroduction::Init( const QSizeF& size )
+void GSIntroduction::Init( GameEngine* engine, const QSizeF& size )
 {
-	AbstractGameState::Init( size );
+	AbstractGameState::Init( engine, size );
 	
 	mTiles = TilesManager::instance()->tiles( Globals::GameScreenTile );
 	mGameScreen = mTiles.value( "game screens/bomberman.png" )->tile( 0 );

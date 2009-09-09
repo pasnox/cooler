@@ -26,9 +26,9 @@ GSPadSettings::GSPadSettings( const PadSettingsList& pads )
 	mPads = pads;
 }
 
-void GSPadSettings::Init( const QSizeF& size )
+void GSPadSettings::Init( GameEngine* engine, const QSizeF& size )
 {
-	AbstractGameState::Init( size );
+	AbstractGameState::Init( engine, size );
 	
 	mCurrentPadIndex = 1;
 	mIsWaitingInput = false;

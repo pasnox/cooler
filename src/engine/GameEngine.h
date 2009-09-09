@@ -36,6 +36,9 @@ public:
 	
 	void setPadSettings( const PadSettingsList& pads );
 	const PadSettingsList& padsSettings() const;
+	
+	void setPlayers( const PlayerList& players );
+	const PlayerList& players() const;
 
 protected:
 	pXmlSettings* mSettings;

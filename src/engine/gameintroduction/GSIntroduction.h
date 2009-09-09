@@ -12,7 +12,7 @@ class GSIntroduction : public AbstractGameState
 public:
 	static GSIntroduction* instance();
 	
-	virtual void Init( const QSizeF& size );
+	virtual void Init( GameEngine* engine, const QSizeF& size );
 	virtual void Cleanup();
 
 	virtual void Pause();
