@@ -1,23 +1,20 @@
 #ifndef GSSTATEITEM_H
 #define GSSTATEITEM_H
 
-#include "GSMenuItem.h"
+#include "GSGenericStateItem.h"
 
 #include <Globals.h>
 
-class GSStateItem : public GSMenuItem
+class GSStateItem : public GSGenericStateItem
 {
 public:
-	GSStateItem( Globals::PlayerState state = Globals::PlayerStateOff, int pixelSize = 200 );
+	GSStateItem( Globals::PlayerState state = Globals::PlayerStateOff, int pixelSize = 20 );
 	
-	void setState( Globals::PlayerState state );
-	const Globals::PlayerState& state() const;
-	
-	void previousState();
-	void nextState();
+	void setPlayerState( Globals::PlayerState state );
+	Globals::PlayerState playerState() const;
 
 protected:
-	Globals::PlayerState mState;
+	virtual void setState( int state );
 };
 
 #endif // GSSTATEITEM_H

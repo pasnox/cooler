@@ -100,7 +100,8 @@ HEADERS	= src/tiles/AbstractTile.h \
 	src/engine/GSFaceItem.h \
 	src/engine/Player.h \
 	src/engine/GSStateItem.h \
-	src/engine/multigameplay/GSMultiGamePlay.h
+	src/engine/multigameplay/GSMultiGamePlay.h \
+	src/engine/GSGenericStateItem.h
 
 SOURCES	= src/tiles/AbstractTile.cpp \
 	src/tiles/BombTile.cpp \
@@ -137,4 +138,5 @@ SOURCES	= src/tiles/AbstractTile.cpp \
 	src/engine/GSFaceItem.cpp \
 	src/engine/Player.cpp \
 	src/engine/GSStateItem.cpp \
-	src/engine/multigameplay/GSMultiGamePlay.cpp
+	src/engine/multigameplay/GSMultiGamePlay.cpp \
+	src/engine/GSGenericStateItem.cpp

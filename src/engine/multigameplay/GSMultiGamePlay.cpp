@@ -217,7 +217,7 @@ bool GSMultiGamePlay::validateSettings( GameEngine* engine ) const
 	for ( int i = 0; i < mStatesMenu->count(); i++ )
 	{
 		GSStateItem* item = static_cast<GSStateItem*>( mStatesMenu->item( i ) );
-		players[ i ].setState( item->state() );
+		players[ i ].setState( item->playerState() );
 		activeCount += item->state() != Globals::PlayerStateOff ? 1 : 0;
 	}
 	
