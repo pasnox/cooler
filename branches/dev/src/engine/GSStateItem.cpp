@@ -1,24 +1,17 @@
 #include "GSStateItem.h"
 
 GSStateItem::GSStateItem( Globals::PlayerState state, int pixelSize )
-	: GSMenuItem()
+	: GSGenericStateItem( Globals::PlayerStateOff, Globals::PlayerStateHuman )
 {
-	mActiveColor = QColor( Qt::transparent );
-	mActiveDisabledColor = mActiveColor;
-	mState = Globals::PlayerStateNo;
-	
 	setPixelSize( pixelSize );
-	setState( state );
+	setPlayerState( state );
 }
 
-void GSStateItem::setState( Globals::PlayerState state )
+void GSStateItem::setState( int state )
 {
-	if ( mState == state )
-		return;
+	GSGenericStateItem::setState( state );
 	
-	mState = state;
-	
-	switch ( mState )
+	switch ( (Globals::PlayerState)mState )
 	{
 		case Globals::PlayerStateOff:
 			mText = tr( "OFF" );
@@ -41,7 +34,6 @@ void GSStateItem::setState( Globals::PlayerState state )
 			break;
 		*/
 		case Globals::PlayerStateNo:
-		case Globals::PlayerStateLast:
 			Q_ASSERT( 0 );
 			break;
 	}
@@ -49,31 +41,13 @@ void GSStateItem::setState( Globals::PlayerState state )
 	updateCachePixmap();
 }
 
-const Globals::PlayerState& GSStateItem::state() const
+void GSStateItem::setPlayerState( Globals::PlayerState state )
 {
-	return mState;
+	setState( state );
 }
 
-void GSStateItem::previousState()
+Globals::PlayerState GSStateItem::playerState() const
 {
-	int i = mState -1;
-	
-	if ( i == Globals::PlayerStateNo )
-	{
-		i++;
-	}
-	
-	setState( (Globals::PlayerState)i );
+	return (Globals::PlayerState)mState;
 }
 
-void GSStateItem::nextState()
-{
-	int i = mState +1;
-	
-	if ( i == Globals::PlayerStateLast )
-	{
-		i--;
-	}
-	
-	setState( (Globals::PlayerState)i );
-}

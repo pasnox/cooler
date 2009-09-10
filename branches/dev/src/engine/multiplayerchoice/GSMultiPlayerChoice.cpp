@@ -218,8 +218,8 @@ bool GSMultiPlayerChoice::validateSettings( GameEngine* engine ) const
 	for ( int i = 0; i < mStatesMenu->count(); i++ )
 	{
 		GSStateItem* item = static_cast<GSStateItem*>( mStatesMenu->item( i ) );
-		players[ i ].setState( item->state() );
-		activeCount += item->state() != Globals::PlayerStateOff ? 1 : 0;
+		players[ i ].setState( item->playerState() );
+		activeCount += item->playerState() != Globals::PlayerStateOff ? 1 : 0;
 	}
 	
 	if ( activeCount > 1 )

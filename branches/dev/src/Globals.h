@@ -62,9 +62,8 @@ namespace Globals
 	{
 		PlayerStateNo = -1,
 		PlayerStateOff,
-		PlayerStateHuman,
 		//PlayerStateComputer,
-		PlayerStateLast
+		PlayerStateHuman,
 	};
 	
 	QString relativeFilePath( const QString& path, const QString& fn );
