@@ -66,6 +66,19 @@ namespace Globals
 		PlayerStateHuman,
 	};
 	
+	enum COMLevel
+	{
+		EasyLevel = 1,
+		MediumLevel,
+		HardLevel
+	};
+	
+	enum InterruptState
+	{
+		InterruptStateOn,
+		InterruptStateOff
+	};
+	
 	QString relativeFilePath( const QString& path, const QString& fn );
 	QString relativeFilePath( const QFileInfo& path, const QFileInfo& fn );
 	QFileInfoList getFiles( QDir& path, const QStringList& filters = QStringList() );

@@ -107,7 +107,7 @@ int GSMenu::count() const
 	return mItems.count();
 }
 
-GSMenuItemList GSMenu::items() const
+const GSMenuItemList& GSMenu::items() const
 {
 	return mItems;
 }

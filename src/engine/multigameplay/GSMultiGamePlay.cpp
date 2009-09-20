@@ -1,6 +1,8 @@
 #include "GSMultiGamePlay.h"
 #include "GSMode.h"
-#include "GSStateItem.h"
+#include "GSCOMLevelItem.h"
+#include "GSOnOffItem.h"
+#include "GSBattleItem.h"
 
 #include <QGraphicsGridLayout>
 #include <QGraphicsLinearLayout>
@@ -51,32 +53,45 @@ void GSMultiGamePlay::Init( GameEngine* engine, const QSizeF& size )
 	mMenuLayout->insertStretch( 0, 100 );
 	
 	// properties
-	const Qt::Alignment playersAlignFlags = Qt::AlignLeft | Qt::AlignVCenter;
+	const Qt::Alignment optionsAlignFlags = Qt::AlignLeft | Qt::AlignVCenter;
 	const int pixelSize = 28;
 	
 	// left menu
-	mPlayersMenu = new GSMenu;
+	mOptionsMenu = new GSMenu;
 	
-	for ( uint i = 0; i < Globals::MaxPlayers; i++ )
+	mOptionsMenu->addTextItem( cursor, tr( "COM Level" ), optionsAlignFlags, pixelSize );
+	mOptionsMenu->addTextItem( cursor, tr( "Battle" ), optionsAlignFlags, pixelSize );
+	mOptionsMenu->addTextItem( cursor, tr( "Time" ), optionsAlignFlags, pixelSize );
+	mOptionsMenu->addTextItem( cursor, tr( "Sudden Death" ), optionsAlignFlags, pixelSize );
+	mOptionsMenu->addTextItem( cursor, tr( "Bad Bomber" ), optionsAlignFlags, pixelSize );
+	mOptionsMenu->addTextItem( cursor, tr( "Soccer Bomb" ), optionsAlignFlags, pixelSize );
+	
+	foreach ( GSMenuItem* item, mOptionsMenu->items() )
 	{
-		GSMenuItem* item = mPlayersMenu->addTextItem( cursor, tr( "%1 Player" ).arg( i+1 ), playersAlignFlags, pixelSize );
 		item->setActiveColor( QColor( Qt::transparent ) );
 		item->setActiveDisabledColor( QColor( Qt::transparent ) );
 	}
 	
-	mPlayersMenu->setSelectedIndex( 0 );
+	mOptionsMenu->setSelectedIndex( 0 );
 	
-	mMenuLayout->addItem( mPlayersMenu );
+	mMenuLayout->addItem( mOptionsMenu );
 	
 	// right menu
 	mStatesMenu = new GSMenu;
-	const PlayerList& players = engine->players();
+	GSGenericStateItem* item;
 	
-	for ( uint i = 0; i < Globals::MaxPlayers; i++ )
-	{
-		//GSStateItem* item = new GSStateItem( players.at( i ).state(), pixelSize );
-		//mStatesMenu->addItem( item );
-	}
+	item = new GSCOMLevelItem( Globals::MediumLevel, pixelSize );
+	mStatesMenu->addItem( item );
+	item = new GSBattleItem( 3, pixelSize );
+	mStatesMenu->addItem( item );
+	item = new GSGenericStateItem( 1, 6, 1, pixelSize );
+	mStatesMenu->addItem( item );
+	item = new GSOnOffItem( Globals::InterruptStateOff, pixelSize );
+	mStatesMenu->addItem( item );
+	item = new GSOnOffItem( Globals::InterruptStateOff, pixelSize );
+	mStatesMenu->addItem( item );
+	item = new GSOnOffItem( Globals::InterruptStateOff, pixelSize );
+	mStatesMenu->addItem( item );
 	
 	mMenuLayout->addItem( mStatesMenu );
 	
@@ -101,7 +116,7 @@ void GSMultiGamePlay::Cleanup()
 	//Q_CLEANUP( mMainLayout );
 	//Q_CLEANUP( mMenuLayout );
 	Q_CLEANUP( mTitle );
-	Q_CLEANUP( mPlayersMenu );
+	Q_CLEANUP( mOptionsMenu );
 	Q_CLEANUP( mStatesMenu );
 }
 
@@ -143,25 +158,25 @@ void GSMultiGamePlay::HandleEvents( GameEngine* game )
 					}
 					case Qt::Key_Up:
 					{
-						mPlayersMenu->selectPreviousItem();
+						mOptionsMenu->selectPreviousItem();
 						break;
 					}
 					case Qt::Key_Down:
 					{
-						mPlayersMenu->selectNextItem();
+						mOptionsMenu->selectNextItem();
 						break;
 					}
 					case Qt::Key_Left:
 					{
-						const int index = mPlayersMenu->selectedIndex();
-						GSStateItem* item = static_cast<GSStateItem*>( mStatesMenu->item( index ) );
+						const int index = mOptionsMenu->selectedIndex();
+						GSGenericStateItem* item = static_cast<GSGenericStateItem*>( mStatesMenu->item( index ) );
 						item->previousState();
 						break;
 					}
 					case Qt::Key_Right:
 					{
-						const int index = mPlayersMenu->selectedIndex();
-						GSStateItem* item = static_cast<GSStateItem*>( mStatesMenu->item( index ) );
+						const int index = mOptionsMenu->selectedIndex();
+						GSGenericStateItem* item = static_cast<GSGenericStateItem*>( mStatesMenu->item( index ) );
 						item->nextState();
 						break;
 					}
@@ -211,6 +226,7 @@ void GSMultiGamePlay::paint( QPainter* painter, const QStyleOptionGraphicsItem* 
 
 bool GSMultiGamePlay::validateSettings( GameEngine* engine ) const
 {
+	/*
 	PlayerList players = engine->players();
 	int activeCount = 0;
 	
@@ -226,6 +242,6 @@ bool GSMultiGamePlay::validateSettings( GameEngine* engine ) const
 		engine->setPlayers( players );
 		return true;
 	}
-	
+	*/
 	return false;
 }

@@ -30,7 +30,7 @@ protected:
 	QGraphicsLinearLayout* mMainLayout;
 	GSMenuItem* mTitle;
 	QGraphicsLinearLayout* mMenuLayout;
-	GSMenu* mPlayersMenu;
+	GSMenu* mOptionsMenu;
 	GSMenu* mStatesMenu;
 	
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );
