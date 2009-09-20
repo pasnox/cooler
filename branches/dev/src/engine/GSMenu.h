@@ -27,7 +27,7 @@ public:
 	
 	int count() const;
 	
-	GSMenuItemList items() const;
+	const GSMenuItemList& items() const;
 	GSMenuItem* item( int index ) const;
 	void addItem( GSMenuItem* item );
 	GSMenuItem* addTextItem( const QPixmap& icon, const QString& text, Qt::Alignment align = Qt::AlignCenter, int pixelSize = 20 );

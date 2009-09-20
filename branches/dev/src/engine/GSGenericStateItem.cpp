@@ -36,6 +36,7 @@ void GSGenericStateItem::setState( int state )
 		return;
 	
 	mState = state;
+	mText = QString::number( mState );
 	Q_ASSERT( mState >= mMin && mState <= mMax );
 	
 	updateCachePixmap();
