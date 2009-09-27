@@ -104,7 +104,8 @@ HEADERS	= src/tiles/AbstractTile.h \
 	src/engine/GSGenericStateItem.h \
 	src/engine/GSCOMLevelItem.h \
 	src/engine/GSOnOffItem.h \
-	src/engine/GSBattleItem.h
+	src/engine/GSBattleItem.h \
+	src/engine/GSTimeItem.h
 
 SOURCES	= src/tiles/AbstractTile.cpp \
 	src/tiles/BombTile.cpp \
@@ -145,4 +146,5 @@ SOURCES	= src/tiles/AbstractTile.cpp \
 	src/engine/GSGenericStateItem.cpp \
 	src/engine/GSCOMLevelItem.cpp \
 	src/engine/GSOnOffItem.cpp \
-	src/engine/GSBattleItem.cpp
+	src/engine/GSBattleItem.cpp \
+	src/engine/GSTimeItem.cpp

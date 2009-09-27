@@ -3,6 +3,7 @@
 #include "GSCOMLevelItem.h"
 #include "GSOnOffItem.h"
 #include "GSBattleItem.h"
+#include "GSTimeItem.h"
 
 #include <QGraphicsGridLayout>
 #include <QGraphicsLinearLayout>
@@ -84,7 +85,7 @@ void GSMultiGamePlay::Init( GameEngine* engine, const QSizeF& size )
 	mStatesMenu->addItem( item );
 	item = new GSBattleItem( 3, pixelSize );
 	mStatesMenu->addItem( item );
-	item = new GSGenericStateItem( 1, 6, 1, pixelSize );
+	item = new GSTimeItem( Globals::TimeState3, pixelSize );
 	mStatesMenu->addItem( item );
 	item = new GSOnOffItem( Globals::InterruptStateOff, pixelSize );
 	mStatesMenu->addItem( item );

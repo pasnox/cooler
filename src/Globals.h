@@ -79,6 +79,16 @@ namespace Globals
 		InterruptStateOff
 	};
 	
+	enum TimeState
+	{
+		TimeState1,
+		TimeState2,
+		TimeState3,
+		TimeState4,
+		TimeState5,
+		TimeStateInfinity
+	};
+	
 	QString relativeFilePath( const QString& path, const QString& fn );
 	QString relativeFilePath( const QFileInfo& path, const QFileInfo& fn );
 	QFileInfoList getFiles( QDir& path, const QStringList& filters = QStringList() );
