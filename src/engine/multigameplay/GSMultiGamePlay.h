@@ -34,7 +34,6 @@ protected:
 	GSMenu* mStatesMenu;
 	
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );
-	bool validateSettings( GameEngine* engine ) const;
 };
 
 #endif // GSMULTIGAMEPLAY_H

@@ -1,5 +1,5 @@
 #include "GSMultiGamePlay.h"
-#include "GSMode.h"
+#include "GSMultiPlayerChoice.h"
 #include "GSCOMLevelItem.h"
 #include "GSOnOffItem.h"
 #include "GSBattleItem.h"
@@ -145,16 +145,13 @@ void GSMultiGamePlay::HandleEvents( GameEngine* game )
 				{
 					case Qt::Key_Escape:
 					{
-						game->ChangeState( GSMode::instance() );
+						game->ChangeState( GSMultiPlayerChoice::instance() );
 						break;
 					}
 					case Qt::Key_Return:
 					case Qt::Key_Enter:
 					{
-						if ( validateSettings( game ) )
-						{
-							qWarning( "settings are ok to continue !" );
-						}
+						game->ChangeState( GSMultiPlayerChoice::instance() );
 						break;
 					}
 					case Qt::Key_Up:
@@ -223,26 +220,4 @@ void GSMultiGamePlay::paint( QPainter* painter, const QStyleOptionGraphicsItem* 
 {
 	AbstractGameState::paint( painter, option, widget );
 	painter->drawTiledPixmap( boundingRect(), mBackground, QPointF( -mBackgroundValue, mBackgroundValue ) );
-}
-
-bool GSMultiGamePlay::validateSettings( GameEngine* engine ) const
-{
-	/*
-	PlayerList players = engine->players();
-	int activeCount = 0;
-	
-	for ( int i = 0; i < mStatesMenu->count(); i++ )
-	{
-		GSStateItem* item = static_cast<GSStateItem*>( mStatesMenu->item( i ) );
-		players[ i ].setState( item->playerState() );
-		activeCount += item->state() != Globals::PlayerStateOff ? 1 : 0;
-	}
-	
-	if ( activeCount > 1 )
-	{
-		engine->setPlayers( players );
-		return true;
-	}
-	*/
-	return false;
 }
