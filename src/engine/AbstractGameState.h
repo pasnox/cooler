@@ -153,6 +153,13 @@ public:
 
 	virtual void HandleEvents( GameEngine* game ) = 0;
 	virtual void Update( GameEngine* game ) = 0;
+	virtual bool validateState( GameEngine* game ) const = 0;
+	/*
+	{
+		Q_UNUSED( game );
+		return true;
+	}
+	*/
 
 	virtual void ChangeState( GameEngine* game, AbstractGameState* state )
 	{

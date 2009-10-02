@@ -20,6 +20,7 @@ public:
 
 	virtual void HandleEvents( GameEngine* game );
 	virtual void Update( GameEngine* game );
+	virtual bool validateState( GameEngine* game ) const;
 
 protected:
 	static GSMultiGamePlay* mInstance;
