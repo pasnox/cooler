@@ -1,6 +1,6 @@
 #include "GSMode.h"
 #include "GSIntroduction.h"
-#include "GSMultiPlayerChoice.h"
+#include "GSMultiPlayerSetup.h"
 #include "GSPadSettings.h"
 
 #include <QPainter>
@@ -115,12 +115,15 @@ void GSMode::HandleEvents( GameEngine* game )
 					case Qt::Key_Return:
 					case Qt::Key_Enter:
 					{
+						if ( !validateState( game ) )
+							return;
+						
 						switch ( mMenu->selectedIndex() )
 						{
 							case 0:
 								break;
 							case 1:
-								game->ChangeState( GSMultiPlayerChoice::instance() );
+								game->ChangeState( GSMultiPlayerSetup::instance() );
 								break;
 							case 2:
 								game->ChangeState( GSPadSettings::instance( game->padsSettings() ) );
@@ -163,6 +166,12 @@ void GSMode::Update( GameEngine* game )
 	{
 		mBackgroundValue = 0;
 	}
+}
+
+bool GSMode::validateState( GameEngine* game ) const
+{
+	Q_UNUSED( game );
+	return true;
 }
 
 void GSMode::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )

@@ -421,6 +421,12 @@ void GSPadSettings::Update( GameEngine* game )
 	}
 }
 
+bool GSPadSettings::validateState( GameEngine* game ) const
+{
+	Q_UNUSED( game );
+	return true;
+}
+
 void GSPadSettings::loadPadSettings( int index )
 {
 	mCurrentPadIndex = index;

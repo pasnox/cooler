@@ -63,7 +63,8 @@ void GSIntroduction::HandleEvents( GameEngine* game )
 						game->Quit();
 						break;
 					default:
-						game->ChangeState( GSMode::instance() );
+						if ( validateState( game ) )
+							game->ChangeState( GSMode::instance() );
 						break;
 				}
 				
@@ -94,6 +95,12 @@ void GSIntroduction::Update( GameEngine* game )
 	
 	int elapsed = mElapsedTime.elapsed() /1000.0;
 	mPressAnyKey->setVisible( elapsed %2 == 0 );
+}
+
+bool GSIntroduction::validateState( GameEngine* game ) const
+{
+	Q_UNUSED( game );
+	return true;
 }
 
 void GSIntroduction::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )

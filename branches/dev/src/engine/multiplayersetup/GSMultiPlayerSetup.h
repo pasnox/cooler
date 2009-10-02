@@ -1,5 +1,5 @@
-#ifndef GSMULTIPLAYERCHOICE_H
-#define GSMULTIPLAYERCHOICE_H
+#ifndef GSMULTIPLAYERSETUP_H
+#define GSMULTIPLAYERSETUP_H
 
 #include <AbstractGameState.h>
 
@@ -7,10 +7,10 @@
 
 class QGraphicsPixmapItem;
 
-class GSMultiPlayerChoice : public AbstractGameState
+class GSMultiPlayerSetup : public AbstractGameState
 {
 public:
-	static GSMultiPlayerChoice* instance();
+	static GSMultiPlayerSetup* instance();
 	
 	virtual void Init( GameEngine* engine, const QSizeF& size );
 	virtual void Cleanup();
@@ -20,9 +20,10 @@ public:
 
 	virtual void HandleEvents( GameEngine* game );
 	virtual void Update( GameEngine* game );
+	virtual bool validateState( GameEngine* game ) const;
 
 protected:
-	static GSMultiPlayerChoice* mInstance;
+	static GSMultiPlayerSetup* mInstance;
 	
 	int mBackgroundValue;
 	QPixmap mBackground;
@@ -34,7 +35,6 @@ protected:
 	GSMenu* mStatesMenu;
 	
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );
-	bool validateSettings( GameEngine* engine ) const;
 };
 
-#endif // GSMULTIPLAYERCHOICE_H
+#endif // GSMULTIPLAYERSETUP_H

@@ -1,4 +1,4 @@
-#include "GSMultiPlayerChoice.h"
+#include "GSMultiPlayerSetup.h"
 #include "GSMultiGamePlay.h"
 #include "GSMode.h"
 #include "GSStateItem.h"
@@ -8,19 +8,19 @@
 #include <QPainter>
 #include <QGraphicsPixmapItem>
 
-GSMultiPlayerChoice* GSMultiPlayerChoice::mInstance = 0;
+GSMultiPlayerSetup* GSMultiPlayerSetup::mInstance = 0;
 
-GSMultiPlayerChoice* GSMultiPlayerChoice::instance()
+GSMultiPlayerSetup* GSMultiPlayerSetup::instance()
 {
 	if ( !mInstance )
 	{
-		mInstance = new GSMultiPlayerChoice();
+		mInstance = new GSMultiPlayerSetup();
 	}
 	
 	return mInstance;
 }
 
-void GSMultiPlayerChoice::Init( GameEngine* engine, const QSizeF& size )
+void GSMultiPlayerSetup::Init( GameEngine* engine, const QSizeF& size )
 {
 	AbstractGameState::Init( engine, size );
 	
@@ -90,7 +90,7 @@ void GSMultiPlayerChoice::Init( GameEngine* engine, const QSizeF& size )
 	mMainLayout->insertStretch( 3, 100 );
 }
 
-void GSMultiPlayerChoice::Cleanup()
+void GSMultiPlayerSetup::Cleanup()
 {
 	AbstractGameState::Cleanup();
 	
@@ -106,15 +106,15 @@ void GSMultiPlayerChoice::Cleanup()
 	Q_CLEANUP( mStatesMenu );
 }
 
-void GSMultiPlayerChoice::Pause()
+void GSMultiPlayerSetup::Pause()
 {
 }
 
-void GSMultiPlayerChoice::Resume()
+void GSMultiPlayerSetup::Resume()
 {
 }
 
-void GSMultiPlayerChoice::HandleEvents( GameEngine* game )
+void GSMultiPlayerSetup::HandleEvents( GameEngine* game )
 {
 	Q_UNUSED( game );
 	
@@ -136,10 +136,8 @@ void GSMultiPlayerChoice::HandleEvents( GameEngine* game )
 					case Qt::Key_Return:
 					case Qt::Key_Enter:
 					{
-						if ( validateSettings( game ) )
-						{
+						if ( validateState( game ) )
 							game->ChangeState( GSMultiGamePlay::instance() );
-						}
 						break;
 					}
 					case Qt::Key_Up:
@@ -192,7 +190,7 @@ void GSMultiPlayerChoice::HandleEvents( GameEngine* game )
 	mEvents.clear();
 }
 
-void GSMultiPlayerChoice::Update( GameEngine* game )
+void GSMultiPlayerSetup::Update( GameEngine* game )
 {
 	Q_UNUSED( game );
 	
@@ -204,15 +202,9 @@ void GSMultiPlayerChoice::Update( GameEngine* game )
 	}
 }
 
-void GSMultiPlayerChoice::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
+bool GSMultiPlayerSetup::validateState( GameEngine* game ) const
 {
-	AbstractGameState::paint( painter, option, widget );
-	painter->drawTiledPixmap( boundingRect(), mBackground, QPointF( -mBackgroundValue, mBackgroundValue ) );
-}
-
-bool GSMultiPlayerChoice::validateSettings( GameEngine* engine ) const
-{
-	PlayerList players = engine->players();
+	PlayerList players = game->players();
 	int activeCount = 0;
 	
 	for ( int i = 0; i < mStatesMenu->count(); i++ )
@@ -224,9 +216,15 @@ bool GSMultiPlayerChoice::validateSettings( GameEngine* engine ) const
 	
 	if ( activeCount > 1 )
 	{
-		engine->setPlayers( players );
+		game->setPlayers( players );
 		return true;
 	}
 	
 	return false;
+}
+
+void GSMultiPlayerSetup::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
+{
+	AbstractGameState::paint( painter, option, widget );
+	painter->drawTiledPixmap( boundingRect(), mBackground, QPointF( -mBackgroundValue, mBackgroundValue ) );
 }
