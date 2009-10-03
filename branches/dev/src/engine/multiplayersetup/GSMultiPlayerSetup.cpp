@@ -1,3 +1,4 @@
+
 #include "GSMultiPlayerSetup.h"
 #include "GSMultiGamePlay.h"
 #include "GSMode.h"
@@ -36,7 +37,7 @@ void GSMultiPlayerSetup::Init( GameEngine* engine, const QSizeF& size )
 	mMainLayout->setSpacing( 10 );
 	
 	// title
-	mTitle = new GSMenuItem( tr( "Select Player" ), Qt::AlignCenter, 38 );
+	mTitle = new GSMenuItem( tr( "Setup Player" ), Qt::AlignCenter, 38 );
 	mTitle->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Maximum ) );
 	mMainLayout->addItem( mTitle );
 	
@@ -137,7 +138,9 @@ void GSMultiPlayerSetup::HandleEvents( GameEngine* game )
 					case Qt::Key_Enter:
 					{
 						if ( validateState( game ) )
+						{
 							game->ChangeState( GSMultiGamePlay::instance() );
+						}
 						break;
 					}
 					case Qt::Key_Up:

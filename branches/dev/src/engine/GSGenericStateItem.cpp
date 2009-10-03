@@ -28,6 +28,17 @@ void GSGenericStateItem::init()
 	mMin = 0;
 	mMax = 0;
 	mState = 0;
+	mWrapEnabled = false;
+}
+
+void GSGenericStateItem::setWrapEnabled( bool enabled )
+{
+	mWrapEnabled = enabled;
+}
+
+const bool& GSGenericStateItem::wrapEnabled() const
+{
+	return mWrapEnabled;
 }
 
 void GSGenericStateItem::setState( int state )
@@ -53,7 +64,10 @@ void GSGenericStateItem::previousState()
 	
 	if ( i < mMin )
 	{
-		i++;
+		if ( mWrapEnabled )
+			i = mMax;
+		else
+			i++;
 	}
 	
 	setState( i );
@@ -65,7 +79,10 @@ void GSGenericStateItem::nextState()
 	
 	if ( i > mMax )
 	{
-		i--;
+		if ( mWrapEnabled )
+			i = mMin;
+		else
+			i--;
 	}
 	
 	setState( i );

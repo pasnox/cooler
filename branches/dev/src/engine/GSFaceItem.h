@@ -1,21 +1,20 @@
 #ifndef GSFACEITEM_H
 #define GSFACEITEM_H
 
-#include "GSMenuItem.h"
+#include "GSGenericStateItem.h"
+#include "AbstractTile.h"
 
-class AbstractTile;
-
-class GSFaceItem : public GSMenuItem
+class GSFaceItem : public GSGenericStateItem
 {
 public:
-	GSFaceItem( AbstractTile* tile, uint id );
+	GSFaceItem( const TilesMap& tiles, uint playerId );
 	virtual ~GSFaceItem();
-	
-	virtual void updateCachePixmap();
 
 protected:
-	AbstractTile* mTile;
-	uint mId;
+	const TilesMap* mTiles;
+	uint mPlayerId;
+	
+	virtual void updateCachePixmap();
 	
 	virtual QSizeF sizeHint( Qt::SizeHint which, const QSizeF& constraint = QSizeF() ) const;
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );

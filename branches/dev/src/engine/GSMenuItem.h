@@ -45,7 +45,6 @@ public:
 	GSMenuItem::BrushColors brushDisabledColors() const;
 	
 	QString cacheKey() const;
-	virtual void updateCachePixmap();
 
 protected:
 	QString mCacheKey;
@@ -61,6 +60,7 @@ protected:
 	QPixmap mCursor;
 	
 	void init();
+	virtual void updateCachePixmap();
 	
 	virtual QSizeF sizeHint( Qt::SizeHint which, const QSizeF& constraint = QSizeF() ) const;
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );

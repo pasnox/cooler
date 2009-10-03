@@ -95,6 +95,8 @@ namespace Globals
 	QFileInfoList getFiles( const QString& path, const QStringList& filters = QStringList() );
 	
 	QString keyToString( int key );
+	
+	QImage toGrayscale( const QImage& srcImage, bool keepAlpha = true );
 };
 
 #endif // GLOBALS_H
