@@ -9,6 +9,9 @@ public:
 	GSGenericStateItem( int min, int max, int state, int pixelSize = 20 );
 	GSGenericStateItem( int min, int max );
 	
+	void setWrapEnabled( bool enabled );
+	const bool& wrapEnabled() const;
+	
 	virtual void setState( int state );
 	const int& state() const;
 	
@@ -19,6 +22,7 @@ protected:
 	int mMin;
 	int mMax;
 	int mState;
+	bool mWrapEnabled;
 	
 	void init();
 };

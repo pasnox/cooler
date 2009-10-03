@@ -4,13 +4,14 @@
 #include <QPixmapCache>
 #include <QPainter>
 
-GSFaceItem::GSFaceItem( AbstractTile* tile, uint id )
-	: GSMenuItem()
+GSFaceItem::GSFaceItem( const TilesMap& tiles, uint playerId )
+	: GSGenericStateItem( 0, tiles.count() -1 )
 {
-	Q_ASSERT( tile );
-	mTile = tile;
+	mTiles = &tiles;
+	mPlayerId = playerId;
 	mMargin = 25;
-	mId = id;
+	
+	Q_ASSERT( !tiles.isEmpty() );
 	
 	updateCachePixmap();
 }
@@ -23,8 +24,10 @@ void GSFaceItem::updateCachePixmap()
 {
 	prepareGeometryChange();
 	
+	AbstractTile* tile = mTiles->values().at( mState );
+	
 	// cache key
-	mCacheKey = QString( "FaceItem%1%2" ).arg( mTile->name() ).arg( mId );
+	mCacheKey = QString( "FaceItem%1%2%3" ).arg( tile->name() ).arg( mState ).arg( mPlayerId );
 	
 	// pixmap & painter
 	const QRectF br = QRectF( QPointF(), sizeHint( Qt::PreferredSize ) );
@@ -52,27 +55,34 @@ void GSFaceItem::updateCachePixmap()
 	gradient.setColorAt( 1, color2 );
 	
 	QBrush brush( gradient );
+	mText = tr( "P%1" ).arg( mPlayerId +1 );
 	
 	r = br;
 	r.moveLeft( br.center().x() -( r.width() /2 ) );
 	r.moveTop( br.center().y() -( r.height() /2 ) );
 	
 	QPointF p = r.topLeft();
-	p.setX( p.x() +mMargin );
-	p.setY( p.y() +fm.ascent() +mMargin );
+	p.setX( ( br.width() -fm.width( mText ) ) /2 );
+	p.setY( p.y() +fm.ascent() );
 	
 	QPainterPath path( QPointF( 0, 0 ) );
-	path.addText( p, font(), tr( "P%1" ).arg( mId +1 ) );
+	path.addText( p, font(), mText );
 	
 	painter.setPen( penColor );
 	painter.setBrush( brush );
-	//painter.drawPath( path );
+	painter.drawPath( path );
 	
 	// player
-	painter.drawPixmap( mMargin, mMargin, mTile->tile( 0 ) );
+	painter.drawPixmap( mMargin, mMargin, tile->tile( 0 ) );
 	
 	// finish painting
 	painter.end();
+	
+	// non active players are grayscaled
+	if ( !isActive() )
+	{
+		pixmap = QPixmap::fromImage( Globals::toGrayscale( pixmap.toImage() ) );
+	}
 	
 	// cache result pixmap
 	QPixmapCache::insert( mCacheKey, pixmap );
@@ -87,7 +97,8 @@ QSizeF GSFaceItem::sizeHint( Qt::SizeHint which, const QSizeF& constraint ) cons
 		case Qt::MinimumSize:
 		case Qt::PreferredSize:
 		{
-			return mTile->tile( 0 ).size() +QSize( mMargin *2, mMargin *2 );
+			AbstractTile* tile = mTiles->values().at( mState );
+			return tile->tile( 0 ).size() +QSize( mMargin *2, mMargin *2 );
 		}
 		case Qt::MaximumSize:
 		case Qt::MinimumDescent:

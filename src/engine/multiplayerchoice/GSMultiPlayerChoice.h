@@ -25,14 +25,14 @@ public:
 protected:
 	static GSMultiPlayerChoice* mInstance;
 	
+	TilesMap mFacesTiles;
+	
 	int mBackgroundValue;
 	QPixmap mBackground;
 	
 	QGraphicsLinearLayout* mMainLayout;
 	GSMenuItem* mTitle;
-	QGraphicsLinearLayout* mMenuLayout;
-	GSMenu* mPlayersMenu;
-	GSMenu* mStatesMenu;
+	GSMenu* mFacesMenu;
 	
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );
 };

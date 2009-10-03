@@ -50,3 +50,27 @@ QString Globals::keyToString( int key )
 	
 	return QKeySequence( key ).toString( QKeySequence::NativeText );
 }
+
+QImage Globals::toGrayscale( const QImage& srcImage, bool keepAlpha )
+{
+	if ( srcImage.isNull() )
+	{
+		return QImage();
+	}
+
+	QImage dstImage( srcImage.size(), keepAlpha ? QImage::Format_ARGB32 : QImage::Format_RGB32 );
+	dstImage.fill( qRgb( 0, 0, 0 ) );
+
+	for ( int y = 0; y < srcImage.height(); y++ )
+	{
+		for ( int x = 0; x < srcImage.width(); x++ )
+		{
+			QRgb srcPixel = srcImage.pixel( x, y );
+			int grayPixel = qGray( srcPixel );
+			QRgb dstPixel = qRgba( grayPixel, grayPixel, grayPixel, keepAlpha ? qAlpha( srcPixel ) : 255 );
+			dstImage.setPixel( x, y, dstPixel );
+		}
+	}
+
+	return dstImage;
+}
