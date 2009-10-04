@@ -57,6 +57,13 @@ void GameEngine::Init( const QString& title, const QSize& size, int bpp, bool fu
 	}
 	mSettings->endArray();
 	
+	// get maps
+#ifdef Q_OS_MAC
+	mMaps = Globals::getFiles( qApp->applicationDirPath().append( "/../../../maps" ), QStringList( "*.xml" ) );
+#else
+	mMaps = Globals::getFiles( qApp->applicationDirPath().append( "/maps" ), QStringList( "*.xml" ) );
+#endif
+	
 	// show
 	if ( fullscreen )
 	{
@@ -177,6 +184,11 @@ void GameEngine::setPlayers( const PlayerList& players )
 const PlayerList& GameEngine::players() const
 {
 	return mPlayers;
+}
+
+const QFileInfoList& GameEngine::maps() const
+{
+	return mMaps;
 }
 
 void GameEngine::closeEvent( QCloseEvent* event )

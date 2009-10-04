@@ -1,6 +1,6 @@
 #include "GSMultiGamePlay.h"
-#include "GSMultiPlayerSetup.h"
 #include "GSMultiPlayerChoice.h"
+#include "GSMultiMapChoice.h"
 #include "GSCOMLevelItem.h"
 #include "GSOnOffItem.h"
 #include "GSBattleItem.h"
@@ -146,14 +146,14 @@ void GSMultiGamePlay::HandleEvents( GameEngine* game )
 				{
 					case Qt::Key_Escape:
 					{
-						game->ChangeState( GSMultiPlayerSetup::instance() );
+						game->ChangeState( GSMultiPlayerChoice::instance() );
 						break;
 					}
 					case Qt::Key_Return:
 					case Qt::Key_Enter:
 					{
 						if ( validateState( game ) )
-							game->ChangeState( GSMultiPlayerChoice::instance() );
+							game->ChangeState( GSMultiMapChoice::instance() );
 						break;
 					}
 					case Qt::Key_Up:
