@@ -58,7 +58,8 @@ INCLUDEPATH	= . \
 	src/engine/padsettings \
 	src/engine/multiplayerchoice \
 	src/engine/multigameplay \
-	src/engine/multiplayersetup
+	src/engine/multiplayersetup \
+	src/engine/multimapchoice
 
 FORMS	= src/UIMain.ui \
 	src/editor/UIMapEditor.ui \
@@ -107,7 +108,9 @@ HEADERS	= src/tiles/AbstractTile.h \
 	src/engine/GSOnOffItem.h \
 	src/engine/GSBattleItem.h \
 	src/engine/GSTimeItem.h \
-	src/engine/multiplayersetup/GSMultiPlayerSetup.h
+	src/engine/multiplayersetup/GSMultiPlayerSetup.h \
+	src/engine/multimapchoice/GSMultiMapChoice.h \
+	src/engine/GSMapItem.h
 
 SOURCES	= src/tiles/AbstractTile.cpp \
 	src/tiles/BombTile.cpp \
@@ -150,4 +153,6 @@ SOURCES	= src/tiles/AbstractTile.cpp \
 	src/engine/GSOnOffItem.cpp \
 	src/engine/GSBattleItem.cpp \
 	src/engine/GSTimeItem.cpp \
-	src/engine/multiplayersetup/GSMultiPlayerSetup.cpp
+	src/engine/multiplayersetup/GSMultiPlayerSetup.cpp \
+	src/engine/multimapchoice/GSMultiMapChoice.cpp \
+	src/engine/GSMapItem.cpp

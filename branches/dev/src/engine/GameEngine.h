@@ -39,11 +39,14 @@ public:
 	
 	void setPlayers( const PlayerList& players );
 	const PlayerList& players() const;
+	
+	const QFileInfoList& maps() const;
 
 protected:
 	pXmlSettings* mSettings;
 	PadSettingsList mPads;
 	PlayerList mPlayers;
+	QFileInfoList mMaps;
 	
 	QGraphicsScene* mScene;
 	QVector<AbstractGameState*> mStates;
