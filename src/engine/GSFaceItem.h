@@ -9,6 +9,9 @@ class GSFaceItem : public GSGenericStateItem
 public:
 	GSFaceItem( const TilesMap& tiles, uint playerId );
 	virtual ~GSFaceItem();
+	
+	void setTile( AbstractTile* tile );
+	AbstractTile* tile() const;
 
 protected:
 	const TilesMap* mTiles;

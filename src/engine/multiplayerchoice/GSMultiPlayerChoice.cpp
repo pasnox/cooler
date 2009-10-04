@@ -1,5 +1,6 @@
 #include "GSMultiPlayerChoice.h"
 #include "GSMultiGamePlay.h"
+#include "GSMultiPlayerSetup.h"
 #include "GSFaceItem.h"
 
 #include <QGraphicsGridLayout>
@@ -28,7 +29,7 @@ void GSMultiPlayerChoice::Init( GameEngine* engine, const QSizeF& size )
 	mTiles = TilesManager::instance()->tiles( Globals::GameScreenTile );
 	mBackgroundValue = 0;
 	
-	mBackground = mTiles.value( "game screens/multiplayersetup_background.png" )->tile( 0 );
+	mBackground = mTiles.value( "game screens/multiplayerchoice_background.png" )->tile( 0 );
 	
 	// main layout
 	mMainLayout = new QGraphicsLinearLayout( Qt::Vertical, this );
@@ -51,7 +52,8 @@ void GSMultiPlayerChoice::Init( GameEngine* engine, const QSizeF& size )
 	{
 		GSFaceItem* item = new GSFaceItem( mFacesTiles, i );
 		item->setWrapEnabled( true );
-		item->setActive( players[ i ].state() == Globals::PlayerStateHuman );
+		item->setEnabled( players[ i ].state() == Globals::PlayerStateHuman );
+		item->setTile( players[ i ].tile() );
 		mFacesMenu->addItem( item );
 	}
 	
@@ -93,44 +95,63 @@ void GSMultiPlayerChoice::HandleEvents( GameEngine* game )
 			case Event::KeyPress:
 			{
 				KeyEvent* ke = static_cast<KeyEvent*>( event );
-				
-				switch ( ke->key )
-				{
-					case Qt::Key_Escape:
-					{
-						game->ChangeState( GSMultiGamePlay::instance() );
-						break;
-					}
-					case Qt::Key_Return:
-					case Qt::Key_Enter:
-					{
-						/*
-						if ( validateState( game ) )
-							game->ChangeState( GSMultiGamePlay::instance() );
-						*/
-						break;
-					}
-				}
-				
 				const PadSettingsList& pads = game->padsSettings();
+				PlayerList players = game->players();
 				
 				for ( uint i = 0; i < Globals::MaxPlayers; i++ )
 				{
-					const PadSettings& pad = pads.at( i );
+					const PadSettings& pad = pads[ i ];
+					Player& player = players[ i ];
 					GSFaceItem* item = static_cast<GSFaceItem*>( mFacesMenu->item( i ) );
 					
-					if ( !item->isActive() )
+					if ( !item->isEnabled() )
 					{
 						continue;
 					}
 					
 					if ( pad.strokeKey( Globals::PadStrokeUp ) == ke->key )
 					{
-						item->previousState();
+						if ( !player.tile() )
+						{
+							item->previousState();
+						}
 					}
 					else if ( pad.strokeKey( Globals::PadStrokeDown ) == ke->key )
 					{
-						item->nextState();
+						if ( !player.tile() )
+						{
+							item->nextState();
+						}
+					}
+					else if ( pad.actionKey( Globals::PadAction1 ) == ke->key )
+					{
+						if ( !player.tile() )
+						{
+							player.setTile( item->tile() );
+						}
+					}
+					else if ( pad.actionKey( Globals::PadAction2 ) == ke->key )
+					{
+						if ( player.tile() )
+						{
+							player.setTile( 0 );
+						}
+					}
+				}
+				
+				game->setPlayers( players );
+				
+				if ( validateState( game ) )
+				{
+					game->ChangeState( GSMultiGamePlay::instance() );
+				}
+				
+				switch ( ke->key )
+				{
+					case Qt::Key_Escape:
+					{
+						game->ChangeState( GSMultiPlayerSetup::instance() );
+						break;
 					}
 				}
 				
@@ -159,24 +180,22 @@ void GSMultiPlayerChoice::Update( GameEngine* game )
 
 bool GSMultiPlayerChoice::validateState( GameEngine* game ) const
 {
-/*
-	PlayerList players = game->players();
-	int activeCount = 0;
+	const PlayerList& players = game->players();
 	
-	for ( int i = 0; i < mStatesMenu->count(); i++ )
+	foreach ( const Player& player, players )
 	{
-		GSStateItem* item = static_cast<GSStateItem*>( mStatesMenu->item( i ) );
-		players[ i ].setState( item->playerState() );
-		activeCount += item->playerState() != Globals::PlayerStateOff ? 1 : 0;
+		if ( player.state() == Globals::PlayerStateOff )
+		{
+			continue;
+		}
+		
+		if ( !player.tile() )
+		{
+			return false;
+		}
 	}
 	
-	if ( activeCount > 1 )
-	{
-		game->setPlayers( players );
-		return true;
-	}
-*/
-	return false;
+	return true;
 }
 
 void GSMultiPlayerChoice::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )

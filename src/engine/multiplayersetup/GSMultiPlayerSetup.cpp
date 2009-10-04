@@ -1,7 +1,6 @@
-
 #include "GSMultiPlayerSetup.h"
-#include "GSMultiGamePlay.h"
 #include "GSMode.h"
+#include "GSMultiPlayerChoice.h"
 #include "GSStateItem.h"
 
 #include <QGraphicsGridLayout>
@@ -28,7 +27,7 @@ void GSMultiPlayerSetup::Init( GameEngine* engine, const QSizeF& size )
 	mTiles = TilesManager::instance()->tiles( Globals::GameScreenTile );
 	mBackgroundValue = 0;
 	
-	mBackground = mTiles.value( "game screens/multiplayerchoice_background.png" )->tile( 0 );
+	mBackground = mTiles.value( "game screens/multiplayersetup_background.png" )->tile( 0 );
 	const QPixmap cursor = mTiles.value( "game screens/cursor_head.png" )->tile( 0 );
 	
 	// main layout
@@ -73,10 +72,12 @@ void GSMultiPlayerSetup::Init( GameEngine* engine, const QSizeF& size )
 	// right menu
 	mStatesMenu = new GSMenu;
 	const PlayerList& players = engine->players();
+	const PadSettingsList& pads = engine->padsSettings();
 	
 	for ( uint i = 0; i < Globals::MaxPlayers; i++ )
 	{
 		GSStateItem* item = new GSStateItem( players.at( i ).state(), pixelSize );
+		item->setEnabled( pads.at( i ).isValid() );
 		mStatesMenu->addItem( item );
 	}
 	
@@ -139,7 +140,7 @@ void GSMultiPlayerSetup::HandleEvents( GameEngine* game )
 					{
 						if ( validateState( game ) )
 						{
-							game->ChangeState( GSMultiGamePlay::instance() );
+							game->ChangeState( GSMultiPlayerChoice::instance() );
 						}
 						break;
 					}
@@ -157,34 +158,23 @@ void GSMultiPlayerSetup::HandleEvents( GameEngine* game )
 					{
 						const int index = mPlayersMenu->selectedIndex();
 						GSStateItem* item = static_cast<GSStateItem*>( mStatesMenu->item( index ) );
-						item->previousState();
+						if ( item->isEnabled() )
+							item->previousState();
 						break;
 					}
 					case Qt::Key_Right:
 					{
 						const int index = mPlayersMenu->selectedIndex();
 						GSStateItem* item = static_cast<GSStateItem*>( mStatesMenu->item( index ) );
-						item->nextState();
+						if ( item->isEnabled() )
+							item->nextState();
 						break;
 					}
-					default:
-						//game->ChangeState( 0 );
-						break;
 				}
 				
 				break;
 			}
-			case Event::KeyRelease:
-				break;
-			case Event::MouseDoubleClick:
-				break;
-			case Event::MousePress:
-				break;
-			case Event::MouseRelease:
-				break;
-			case Event::MouseMove:
-				break;
-			case Event::Invalid:
+			default:
 				break;
 		}
 	}
