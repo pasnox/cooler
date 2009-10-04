@@ -1,8 +1,10 @@
 #include "Player.h"
+#include "AbstractTile.h"
 
 Player::Player()
 {
 	mState = Globals::PlayerStateOff;
+	mTile = 0;
 }
 
 Player::~Player()
@@ -20,6 +22,7 @@ Player& Player::operator=( const Player& other )
 	if ( *this != other )
 	{
 		mState = other.mState;
+		mTile = other.mTile;
 	}
 
 	return *this;
@@ -27,7 +30,7 @@ Player& Player::operator=( const Player& other )
 
 bool Player::operator==( const Player& other ) const
 {
-	return mState == other.mState;
+	return mState == other.mState && mTile == other.mTile;
 }
 
 bool Player::operator!=( const Player& other ) const
@@ -44,4 +47,14 @@ void Player::setState( Globals::PlayerState state )
 const Globals::PlayerState& Player::state() const
 {
 	return mState;
+}
+
+void Player::setTile( AbstractTile* tile )
+{
+	mTile = tile;
+}
+
+AbstractTile* Player::tile() const
+{
+	return mTile;
 }

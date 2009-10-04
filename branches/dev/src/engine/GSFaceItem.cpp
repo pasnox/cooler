@@ -20,11 +20,32 @@ GSFaceItem::~GSFaceItem()
 {
 }
 
+void GSFaceItem::setTile( AbstractTile* tile )
+{
+	if ( tile )
+	{
+		mState = mTiles->values().indexOf( tile );
+	}
+	
+	updateCachePixmap();
+}
+
+AbstractTile* GSFaceItem::tile() const
+{
+	return mTiles->values().value( mState );
+}
+
 void GSFaceItem::updateCachePixmap()
 {
 	prepareGeometryChange();
 	
-	AbstractTile* tile = mTiles->values().at( mState );
+	AbstractTile* tile = this->tile();
+	
+	if ( !tile )
+	{
+		Q_ASSERT( tile );
+		return;
+	}
 	
 	// cache key
 	mCacheKey = QString( "FaceItem%1%2%3" ).arg( tile->name() ).arg( mState ).arg( mPlayerId );
@@ -79,7 +100,7 @@ void GSFaceItem::updateCachePixmap()
 	painter.end();
 	
 	// non active players are grayscaled
-	if ( !isActive() )
+	if ( !isEnabled() )
 	{
 		pixmap = QPixmap::fromImage( Globals::toGrayscale( pixmap.toImage() ) );
 	}
@@ -97,8 +118,14 @@ QSizeF GSFaceItem::sizeHint( Qt::SizeHint which, const QSizeF& constraint ) cons
 		case Qt::MinimumSize:
 		case Qt::PreferredSize:
 		{
-			AbstractTile* tile = mTiles->values().at( mState );
-			return tile->tile( 0 ).size() +QSize( mMargin *2, mMargin *2 );
+			AbstractTile* tile = this->tile();
+	
+			if ( tile )
+			{
+				return tile->tile( 0 ).size() +QSize( mMargin *2, mMargin *2 );
+			}
+			
+			Q_ASSERT( tile );
 		}
 		case Qt::MaximumSize:
 		case Qt::MinimumDescent:

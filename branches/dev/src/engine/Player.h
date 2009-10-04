@@ -6,6 +6,8 @@
 
 #include <Globals.h>
 
+class AbstractTile;
+
 class Player
 {
 public:
@@ -21,9 +23,13 @@ public:
 	
 	void setState( Globals::PlayerState state );
 	const Globals::PlayerState& state() const;
+	
+	void setTile( AbstractTile* tile );
+	AbstractTile* tile() const;
 
 protected:
 	Globals::PlayerState mState;
+	AbstractTile* mTile;
 };
 
 typedef QList<Player> PlayerList;
