@@ -151,9 +151,6 @@ void GSMode::HandleEvents( GameEngine* game )
 				break;
 		}
 	}
-	
-	qDeleteAll( mEvents );
-	mEvents.clear();
 }
 
 void GSMode::Update( GameEngine* game )

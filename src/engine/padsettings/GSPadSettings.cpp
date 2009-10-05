@@ -404,9 +404,6 @@ void GSPadSettings::HandleEvents( GameEngine* game )
 				break;
 		}
 	}
-	
-	qDeleteAll( mEvents );
-	mEvents.clear();
 }
 
 void GSPadSettings::Update( GameEngine* game )

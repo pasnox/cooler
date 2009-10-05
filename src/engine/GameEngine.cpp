@@ -80,6 +80,7 @@ void GameEngine::Cleanup()
 {
 	while ( !mStates.isEmpty() )
 	{
+		mStates.last()->ungrabKeyboard();
 		mScene->removeItem( mStates.last() );
 		mStates.last()->Cleanup();
 		mStates.erase( mStates.end() -1 );
@@ -101,6 +102,7 @@ void GameEngine::ChangeState( AbstractGameState* state )
 {
 	if ( !mStates.isEmpty() )
 	{
+		mStates.last()->ungrabKeyboard();
 		mScene->removeItem( mStates.last() );
 		mStates.last()->Cleanup();
 		mStates.erase( mStates.end() -1 );
@@ -110,6 +112,7 @@ void GameEngine::ChangeState( AbstractGameState* state )
 	mStates.last()->Init( this, mSize );
 	mScene->addItem( state );
 	mScene->setFocusItem( state );
+	state->grabKeyboard();
 }
 
 void GameEngine::PushState( AbstractGameState* state )
@@ -123,12 +126,14 @@ void GameEngine::PushState( AbstractGameState* state )
 	mStates.last()->Init( this, mSize );
 	mScene->addItem( state );
 	mScene->setFocusItem( state );
+	state->grabKeyboard();
 }
 
 void GameEngine::PopState()
 {
 	if ( !mStates.isEmpty() )
 	{
+		mStates.last()->ungrabKeyboard();
 		mScene->removeItem( mStates.last() );
 		mStates.last()->Cleanup();
 		mStates.erase( mStates.end() -1 );
@@ -149,6 +154,7 @@ void GameEngine::HandleEvents()
 	}
 	
 	mStates.last()->HandleEvents( this );
+	mStates.last()->FlushEvents();
 }
 
 void GameEngine::Update() 

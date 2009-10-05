@@ -1,14 +1,17 @@
-#ifndef GSMULTIPLAYERSETUP_H
-#define GSMULTIPLAYERSETUP_H
+#ifndef GSMULTIPLAYGROUND_H
+#define GSMULTIPLAYGROUND_H
 
 #include <AbstractGameState.h>
 
-#include "GSMenu.h"
+#include "GSMenuItem.h"
 
-class GSMultiPlayerSetup : public AbstractGameState
+class QGraphicsLinearLayout;
+class GSMapItem;
+
+class GSMultiPlayGround : public AbstractGameState
 {
 public:
-	static GSMultiPlayerSetup* instance();
+	static GSMultiPlayGround* instance();
 	
 	virtual void Init( GameEngine* engine, const QSizeF& size );
 	virtual void Cleanup();
@@ -21,18 +24,15 @@ public:
 	virtual bool validateState( GameEngine* game ) const;
 
 protected:
-	static GSMultiPlayerSetup* mInstance;
+	static GSMultiPlayGround* mInstance;
 	
 	int mBackgroundValue;
 	QPixmap mBackground;
 	
 	QGraphicsLinearLayout* mMainLayout;
 	GSMenuItem* mTitle;
-	QGraphicsLinearLayout* mMenuLayout;
-	GSMenu* mPlayersMenu;
-	GSMenu* mStatesMenu;
 	
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );
 };
 
-#endif // GSMULTIPLAYERSETUP_H
+#endif // GSMULTIPLAYGROUND_H

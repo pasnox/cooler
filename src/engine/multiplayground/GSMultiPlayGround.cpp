@@ -1,24 +1,21 @@
-#include "GSMultiMapChoice.h"
-#include "GSMultiGamePlay.h"
 #include "GSMultiPlayGround.h"
-#include "GSMapItem.h"
 
 #include <QGraphicsLinearLayout>
 #include <QPainter>
 
-GSMultiMapChoice* GSMultiMapChoice::mInstance = 0;
+GSMultiPlayGround* GSMultiPlayGround::mInstance = 0;
 
-GSMultiMapChoice* GSMultiMapChoice::instance()
+GSMultiPlayGround* GSMultiPlayGround::instance()
 {
 	if ( !mInstance )
 	{
-		mInstance = new GSMultiMapChoice();
+		mInstance = new GSMultiPlayGround();
 	}
 	
 	return mInstance;
 }
 
-void GSMultiMapChoice::Init( GameEngine* engine, const QSizeF& size )
+void GSMultiPlayGround::Init( GameEngine* engine, const QSizeF& size )
 {
 	AbstractGameState::Init( engine, size );
 	
@@ -33,22 +30,20 @@ void GSMultiMapChoice::Init( GameEngine* engine, const QSizeF& size )
 	mMainLayout->setSpacing( 10 );
 	
 	// title
-	mTitle = new GSMenuItem( tr( "Select Map" ), Qt::AlignCenter, 38 );
+	mTitle = new GSMenuItem( tr( "** PlayGround **" ), Qt::AlignCenter, 38 );
 	mTitle->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Maximum ) );
 	mMainLayout->addItem( mTitle );
 	
 	// vertical spacer 1
 	mMainLayout->insertStretch( 1, 100 );
 	
-	// maps menu
-	mMap = new GSMapItem( engine->maps() );	
-	mMainLayout->addItem( mMap );
+	// map item
 	
 	// vertical spacer 2
-	mMainLayout->insertStretch( 3, 100 );
+	//mMainLayout->insertStretch( 3, 100 );
 }
 
-void GSMultiMapChoice::Cleanup()
+void GSMultiPlayGround::Cleanup()
 {
 	AbstractGameState::Cleanup();
 	
@@ -58,18 +53,18 @@ void GSMultiMapChoice::Cleanup()
 	mMainLayout = 0;
 	//Q_CLEANUP( mMainLayout );
 	Q_CLEANUP( mTitle );
-	Q_CLEANUP( mMap );
+	//Q_CLEANUP( mMap );
 }
 
-void GSMultiMapChoice::Pause()
+void GSMultiPlayGround::Pause()
 {
 }
 
-void GSMultiMapChoice::Resume()
+void GSMultiPlayGround::Resume()
 {
 }
 
-void GSMultiMapChoice::HandleEvents( GameEngine* game )
+void GSMultiPlayGround::HandleEvents( GameEngine* game )
 {
 	Q_UNUSED( game );
 	
@@ -85,25 +80,19 @@ void GSMultiMapChoice::HandleEvents( GameEngine* game )
 				{
 					case Qt::Key_Escape:
 					{
-						game->ChangeState( GSMultiGamePlay::instance() );
+						//game->ChangeState( GSMultiGamePlay::instance() );
 						break;
 					}
 					case Qt::Key_Return:
 					case Qt::Key_Enter:
 					{
+						/*
 						if ( validateState( game ) )
-							game->ChangeState( GSMultiPlayGround::instance() );
-						break;
-					}
-					case Qt::Key_Left:
-					{
-						mMap->previousState();
-						break;
-					}
-					case Qt::Key_Right:
-					{
-						mMap->nextState();
-						break;
+						{
+							//game->ChangeState( GSMultiGamePlay::instance() );
+							qWarning() << "start game...";
+						}
+						*/
 					}
 				}
 				
@@ -115,7 +104,7 @@ void GSMultiMapChoice::HandleEvents( GameEngine* game )
 	}
 }
 
-void GSMultiMapChoice::Update( GameEngine* game )
+void GSMultiPlayGround::Update( GameEngine* game )
 {
 	Q_UNUSED( game );
 	
@@ -127,27 +116,13 @@ void GSMultiMapChoice::Update( GameEngine* game )
 	}
 }
 
-bool GSMultiMapChoice::validateState( GameEngine* game ) const
+bool GSMultiPlayGround::validateState( GameEngine* game ) const
 {
-	const PlayerList& players = game->players();
-	
-	foreach ( const Player& player, players )
-	{
-		if ( player.state() == Globals::PlayerStateOff )
-		{
-			continue;
-		}
-		
-		if ( !player.tile() )
-		{
-			return false;
-		}
-	}
-	
-	return true;
+	Q_UNUSED( game );
+	return false;
 }
 
-void GSMultiMapChoice::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
+void GSMultiPlayGround::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
 	AbstractGameState::paint( painter, option, widget );
 	painter->drawTiledPixmap( boundingRect(), mBackground, QPointF( -mBackgroundValue, mBackgroundValue ) );

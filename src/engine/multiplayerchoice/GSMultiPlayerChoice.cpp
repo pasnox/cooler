@@ -3,10 +3,8 @@
 #include "GSMultiPlayerSetup.h"
 #include "GSFaceItem.h"
 
-#include <QGraphicsGridLayout>
 #include <QGraphicsLinearLayout>
 #include <QPainter>
-#include <QGraphicsPixmapItem>
 
 GSMultiPlayerChoice* GSMultiPlayerChoice::mInstance = 0;
 
@@ -161,9 +159,6 @@ void GSMultiPlayerChoice::HandleEvents( GameEngine* game )
 				break;
 		}
 	}
-	
-	qDeleteAll( mEvents );
-	mEvents.clear();
 }
 
 void GSMultiPlayerChoice::Update( GameEngine* game )

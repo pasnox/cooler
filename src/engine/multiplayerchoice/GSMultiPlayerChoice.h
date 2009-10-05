@@ -5,8 +5,6 @@
 
 #include "GSMenu.h"
 
-class QGraphicsPixmapItem;
-
 class GSMultiPlayerChoice : public AbstractGameState
 {
 public:
