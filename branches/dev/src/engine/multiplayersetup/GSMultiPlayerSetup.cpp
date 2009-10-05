@@ -3,10 +3,8 @@
 #include "GSMultiPlayerChoice.h"
 #include "GSStateItem.h"
 
-#include <QGraphicsGridLayout>
 #include <QGraphicsLinearLayout>
 #include <QPainter>
-#include <QGraphicsPixmapItem>
 
 GSMultiPlayerSetup* GSMultiPlayerSetup::mInstance = 0;
 
@@ -139,9 +137,7 @@ void GSMultiPlayerSetup::HandleEvents( GameEngine* game )
 					case Qt::Key_Enter:
 					{
 						if ( validateState( game ) )
-						{
 							game->ChangeState( GSMultiPlayerChoice::instance() );
-						}
 						break;
 					}
 					case Qt::Key_Up:
@@ -178,9 +174,6 @@ void GSMultiPlayerSetup::HandleEvents( GameEngine* game )
 				break;
 		}
 	}
-	
-	qDeleteAll( mEvents );
-	mEvents.clear();
 }
 
 void GSMultiPlayerSetup::Update( GameEngine* game )

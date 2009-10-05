@@ -136,16 +136,20 @@ public:
 	{
 		Q_UNUSED( engine );
 		mSize = size;
-		setFlag( QGraphicsItem::ItemIsFocusable, true );
 		setGeometry( QRectF( QPointF( 0, 0 ), size ) );
-		
 	}
 	
 	virtual void Cleanup()
 	{
-		setFlag( QGraphicsItem::ItemIsFocusable, false );
+		FlushEvents();
 		setGeometry( QRectF() );
 		mTiles.clear();
+	}
+	
+	virtual void FlushEvents()
+	{
+		qDeleteAll( mEvents );
+		mEvents.clear();
 	}
 
 	virtual void Pause() = 0;
@@ -154,12 +158,6 @@ public:
 	virtual void HandleEvents( GameEngine* game ) = 0;
 	virtual void Update( GameEngine* game ) = 0;
 	virtual bool validateState( GameEngine* game ) const = 0;
-	/*
-	{
-		Q_UNUSED( game );
-		return true;
-	}
-	*/
 
 	virtual void ChangeState( GameEngine* game, AbstractGameState* state )
 	{

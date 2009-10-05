@@ -84,9 +84,6 @@ void GSIntroduction::HandleEvents( GameEngine* game )
 				break;
 		}
 	}
-	
-	qDeleteAll( mEvents );
-	mEvents.clear();
 }
 
 void GSIntroduction::Update( GameEngine* game )

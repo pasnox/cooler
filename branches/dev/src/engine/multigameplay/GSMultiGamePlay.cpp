@@ -201,9 +201,6 @@ void GSMultiGamePlay::HandleEvents( GameEngine* game )
 				break;
 		}
 	}
-	
-	qDeleteAll( mEvents );
-	mEvents.clear();
 }
 
 void GSMultiGamePlay::Update( GameEngine* game )
