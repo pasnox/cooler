@@ -51,22 +51,23 @@ CONFIG(debug, debug|release) {
 
 INCLUDEPATH	= . \
 	src \
-	src/include \
-	src/engine \
-	src/engine/gameintroduction \
-	src/engine/gamemode \
-	src/engine/padsettings \
-	src/engine/multiplayerchoice \
-	src/engine/multigameplay \
-	src/engine/multiplayersetup \
-	src/engine/multimapchoice \
-	src/engine/multiplayground \
+	src/engine/states \
+	src/engine/states/gameintroduction \
+	src/engine/states/gamemode \
+	src/engine/states/padsettings \
+	src/engine/states/multiplayerchoice \
+	src/engine/states/multigameplay \
+	src/engine/states/multiplayersetup \
+	src/engine/states/multimapchoice \
+	src/engine/states/multiplayground \
 	src/editor \
 	src/items \
 	src/pads \
 	src/reusable \
 	src/tiles \
-	src/tilesripper
+	src/tilesripper \
+	src/engine \
+	src/engine/menus
 
 FORMS	= src/UIMain.ui \
 	src/editor/UIMapEditor.ui \
@@ -100,25 +101,25 @@ HEADERS	= src/tiles/AbstractTile.h \
 	src/reusable/pXmlSettings.h \
 	src/engine/AbstractGameState.h \
 	src/engine/GameEngine.h \
-	src/engine/gameintroduction/GSIntroduction.h \
-	src/engine/gamemode/GSMode.h \
-	src/engine/GSMenuItem.h \
-	src/engine/GSMenu.h \
-	src/engine/padsettings/GSPadSettings.h \
-	src/engine/multiplayerchoice/GSMultiPlayerChoice.h \
-	src/engine/GSFaceItem.h \
+	src/engine/states/gameintroduction/GSIntroduction.h \
+	src/engine/states/gamemode/GSMode.h \
+	src/engine/menus/GSMenuItem.h \
+	src/engine/menus/GSMenu.h \
+	src/engine/states/padsettings/GSPadSettings.h \
+	src/engine/states/multiplayerchoice/GSMultiPlayerChoice.h \
+	src/engine/menus/GSFaceItem.h \
 	src/engine/Player.h \
-	src/engine/GSStateItem.h \
-	src/engine/multigameplay/GSMultiGamePlay.h \
-	src/engine/GSGenericStateItem.h \
-	src/engine/GSCOMLevelItem.h \
-	src/engine/GSOnOffItem.h \
-	src/engine/GSBattleItem.h \
-	src/engine/GSTimeItem.h \
-	src/engine/multiplayersetup/GSMultiPlayerSetup.h \
-	src/engine/multimapchoice/GSMultiMapChoice.h \
-	src/engine/GSMapItem.h \
-	src/engine/multiplayground/GSMultiPlayGround.h
+	src/engine/menus/GSStateItem.h \
+	src/engine/states/multigameplay/GSMultiGamePlay.h \
+	src/engine/menus/GSGenericStateItem.h \
+	src/engine/menus/GSCOMLevelItem.h \
+	src/engine/menus/GSOnOffItem.h \
+	src/engine/menus/GSBattleItem.h \
+	src/engine/menus/GSTimeItem.h \
+	src/engine/states/multiplayersetup/GSMultiPlayerSetup.h \
+	src/engine/states/multimapchoice/GSMultiMapChoice.h \
+	src/engine/menus/GSMapItem.h \
+	src/engine/states/multiplayground/GSMultiPlayGround.h
 
 SOURCES	= src/tiles/AbstractTile.cpp \
 	src/tiles/BombTile.cpp \
@@ -146,22 +147,22 @@ SOURCES	= src/tiles/AbstractTile.cpp \
 	src/tilesripper/TilesRipperPreview.cpp \
 	src/reusable/pXmlSettings.cpp \
 	src/engine/GameEngine.cpp \
-	src/engine/gameintroduction/GSIntroduction.cpp \
-	src/engine/gamemode/GSMode.cpp \
-	src/engine/GSMenuItem.cpp \
-	src/engine/GSMenu.cpp \
-	src/engine/padsettings/GSPadSettings.cpp \
-	src/engine/multiplayerchoice/GSMultiPlayerChoice.cpp \
-	src/engine/GSFaceItem.cpp \
+	src/engine/states/gameintroduction/GSIntroduction.cpp \
+	src/engine/states/gamemode/GSMode.cpp \
+	src/engine/menus/GSMenuItem.cpp \
+	src/engine/menus/GSMenu.cpp \
+	src/engine/states/padsettings/GSPadSettings.cpp \
+	src/engine/states/multiplayerchoice/GSMultiPlayerChoice.cpp \
+	src/engine/menus/GSFaceItem.cpp \
 	src/engine/Player.cpp \
-	src/engine/GSStateItem.cpp \
-	src/engine/multigameplay/GSMultiGamePlay.cpp \
-	src/engine/GSGenericStateItem.cpp \
-	src/engine/GSCOMLevelItem.cpp \
-	src/engine/GSOnOffItem.cpp \
-	src/engine/GSBattleItem.cpp \
-	src/engine/GSTimeItem.cpp \
-	src/engine/multiplayersetup/GSMultiPlayerSetup.cpp \
-	src/engine/multimapchoice/GSMultiMapChoice.cpp \
-	src/engine/GSMapItem.cpp \
-	src/engine/multiplayground/GSMultiPlayGround.cpp
+	src/engine/menus/GSStateItem.cpp \
+	src/engine/states/multigameplay/GSMultiGamePlay.cpp \
+	src/engine/menus/GSGenericStateItem.cpp \
+	src/engine/menus/GSCOMLevelItem.cpp \
+	src/engine/menus/GSOnOffItem.cpp \
+	src/engine/menus/GSBattleItem.cpp \
+	src/engine/menus/GSTimeItem.cpp \
+	src/engine/states/multiplayersetup/GSMultiPlayerSetup.cpp \
+	src/engine/states/multimapchoice/GSMultiMapChoice.cpp \
+	src/engine/menus/GSMapItem.cpp \
+	src/engine/states/multiplayground/GSMultiPlayGround.cpp
