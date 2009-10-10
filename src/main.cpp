@@ -1,14 +1,13 @@
 #include <QApplication>
 #include <QShortcut>
 
-#include <TilesManager.h>
-
+#include "TilesManager.h"
 #include "GameEngine.h"
 #include "GSIntroduction.h"
 
 
 #include "UIMain.h"
-#include "editor/UIMapEditor.h"
+#include "UIMapEditor.h"
 
 int main( int argc, char** argv )
 {

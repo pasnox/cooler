@@ -1,6 +1,5 @@
 #include "PadSettings.h"
-
-#include <pXmlSettings.h>
+#include "pXmlSettings.h"
 
 #include <QDebug>
 

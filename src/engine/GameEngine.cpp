@@ -1,7 +1,6 @@
 #include "GameEngine.h"
 #include "AbstractGameState.h"
-
-#include <pXmlSettings.h>
+#include "pXmlSettings.h"
 
 #include <QGLWidget>
 #include <QGraphicsScene>

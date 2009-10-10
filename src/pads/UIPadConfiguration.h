@@ -2,8 +2,7 @@
 #define UIPADCONFIGURATION_H
 
 #include "ui_UIPadConfiguration.h"
-
-#include <PadSettings.h>
+#include "PadSettings.h"
 
 class UIPadConfiguration : public QWidget, public Ui::UIPadConfiguration
 {

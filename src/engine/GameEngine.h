@@ -7,8 +7,8 @@
 #include <QSize>
 #include <QVector>
 
-#include <PadSettings.h>
-#include <Player.h>
+#include "PadSettings.h"
+#include "Player.h"
 
 class pXmlSettings;
 

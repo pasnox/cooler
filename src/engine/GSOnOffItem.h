@@ -2,8 +2,7 @@
 #define GSONOFFITEM_H
 
 #include "GSGenericStateItem.h"
-
-#include <Globals.h>
+#include "Globals.h"
 
 class GSOnOffItem : public GSGenericStateItem
 {

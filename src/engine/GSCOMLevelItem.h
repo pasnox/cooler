@@ -2,8 +2,7 @@
 #define GSCOMLEVELITEM_H
 
 #include "GSGenericStateItem.h"
-
-#include <Globals.h>
+#include "Globals.h"
 
 class GSCOMLevelItem : public GSGenericStateItem
 {

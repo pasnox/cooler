@@ -6,8 +6,7 @@
 #include <QGraphicsSceneMouseEvent>
 
 #include "GameEngine.h"
-
-#include <TilesManager.h>
+#include "TilesManager.h"
 
 struct Event
 {

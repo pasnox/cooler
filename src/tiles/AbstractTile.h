@@ -1,7 +1,7 @@
 #ifndef ABSTRACTTILE_H
 #define ABSTRACTTILE_H
 
-#include <Globals.h>
+#include "Globals.h"
 
 #include <QFileInfo>
 #include <QPixmap>

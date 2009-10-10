@@ -3,9 +3,8 @@
 
 #include <QObject>
 
-#include <MapObjectItem.h>
-#include <TilesManager.h>
-
+#include "MapObjectItem.h"
+#include "TilesManager.h"
 #include "BombInformations.h"
 
 class QTimer;

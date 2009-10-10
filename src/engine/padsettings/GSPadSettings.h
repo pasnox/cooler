@@ -1,8 +1,7 @@
 #ifndef GSPADSETTINGS_H
 #define GSPADSETTINGS_H
 
-#include <AbstractGameState.h>
-
+#include "AbstractGameState.h"
 #include "GSMenu.h"
 
 class QGraphicsPixmapItem;

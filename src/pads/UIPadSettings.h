@@ -2,8 +2,7 @@
 #define UIPADSETTINGS_H
 
 #include "ui_UIPadSettings.h"
-
-#include <PadSettings.h>
+#include "PadSettings.h"
 
 class QTimer;
 

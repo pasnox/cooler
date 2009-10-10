@@ -3,7 +3,7 @@
 
 #include <QMap>
 
-#include <Globals.h>
+#include "Globals.h"
 
 class pXmlSettings;
 

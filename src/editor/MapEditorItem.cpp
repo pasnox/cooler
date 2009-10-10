@@ -1,7 +1,6 @@
 #include "MapEditorItem.h"
 #include "MapObjectItem.h"
-
-#include <pXmlSettings.h>
+#include "pXmlSettings.h"
 
 #include <QFile>
 #include <QPen>
