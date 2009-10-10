@@ -99,7 +99,7 @@ HEADERS	= src/tiles/AbstractTile.h \
 	src/tilesripper/UITilesRipper.h \
 	src/tilesripper/TilesRipperPreview.h \
 	src/reusable/pXmlSettings.h \
-	src/engine/AbstractGameState.h \
+	src/engine/states/AbstractGameState.h \
 	src/engine/GameEngine.h \
 	src/engine/states/gameintroduction/GSIntroduction.h \
 	src/engine/states/gamemode/GSMode.h \
