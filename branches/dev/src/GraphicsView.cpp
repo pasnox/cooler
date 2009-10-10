@@ -1,9 +1,8 @@
 #include "GraphicsView.h"
-
-#include <TilesManager.h>
-#include <MapItem.h>
-#include <PlayerItem.h>
-#include <PadSettings.h>
+#include "TilesManager.h"
+#include "MapItem.h"
+#include "PlayerItem.h"
+#include "PadSettings.h"
 
 #include <QGLWidget>
 #include <QGraphicsScene>

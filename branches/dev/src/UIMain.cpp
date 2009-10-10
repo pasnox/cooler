@@ -1,9 +1,8 @@
 #include "UIMain.h"
 #include "MapItem.h"
 #include "PlayerItem.h"
-
-#include <TilesManager.h>
-#include <pXmlSettings.h>
+#include "TilesManager.h"
+#include "pXmlSettings.h"
 
 #include <QFileDialog>
 #include <QMessageBox>

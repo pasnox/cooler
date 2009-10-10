@@ -1,8 +1,7 @@
 #ifndef GSMULTIMAPCHOICE_H
 #define GSMULTIMAPCHOICE_H
 
-#include <AbstractGameState.h>
-
+#include "AbstractGameState.h"
 #include "GSMenuItem.h"
 
 class QGraphicsLinearLayout;

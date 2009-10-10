@@ -1,8 +1,7 @@
 #include "PlayerItem.h"
-
-#include <TilesManager.h>
-#include <PadSettings.h>
-#include <MapItem.h>
+#include "TilesManager.h"
+#include "PadSettings.h"
+#include "MapItem.h"
 
 #include <QTimer>
 #include <QGraphicsScene>

@@ -1,8 +1,7 @@
 #ifndef GSMULTIPLAYGROUND_H
 #define GSMULTIPLAYGROUND_H
 
-#include <AbstractGameState.h>
-
+#include "AbstractGameState.h"
 #include "GSMenuItem.h"
 
 class QGraphicsLinearLayout;

@@ -3,7 +3,7 @@
 
 #include <QGraphicsPixmapItem>
 
-#include <AbstractTile.h>
+#include "AbstractTile.h"
 
 class MapItem;
 

@@ -1,6 +1,5 @@
 #include "TilesManager.h"
-
-#include <Globals.h>
+#include "Globals.h"
 
 #include <QDebug>
 

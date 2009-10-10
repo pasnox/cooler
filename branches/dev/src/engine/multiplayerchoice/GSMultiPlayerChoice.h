@@ -1,8 +1,7 @@
 #ifndef GSMULTIPLAYERCHOICE_H
 #define GSMULTIPLAYERCHOICE_H
 
-#include <AbstractGameState.h>
-
+#include "AbstractGameState.h"
 #include "GSMenu.h"
 
 class GSMultiPlayerChoice : public AbstractGameState

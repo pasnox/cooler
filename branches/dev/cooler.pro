@@ -60,7 +60,13 @@ INCLUDEPATH	= . \
 	src/engine/multigameplay \
 	src/engine/multiplayersetup \
 	src/engine/multimapchoice \
-	src/engine/multiplayground
+	src/engine/multiplayground \
+	src/editor \
+	src/items \
+	src/pads \
+	src/reusable \
+	src/tiles \
+	src/tilesripper
 
 FORMS	= src/UIMain.ui \
 	src/editor/UIMapEditor.ui \

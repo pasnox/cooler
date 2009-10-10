@@ -2,8 +2,7 @@
 #define GSSTATEITEM_H
 
 #include "GSGenericStateItem.h"
-
-#include <Globals.h>
+#include "Globals.h"
 
 class GSStateItem : public GSGenericStateItem
 {

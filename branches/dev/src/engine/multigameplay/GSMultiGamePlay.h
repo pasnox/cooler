@@ -1,8 +1,7 @@
 #ifndef GSMULTIGAMEPLAY_H
 #define GSMULTIGAMEPLAY_H
 
-#include <AbstractGameState.h>
-
+#include "AbstractGameState.h"
 #include "GSMenu.h"
 
 class QGraphicsPixmapItem;

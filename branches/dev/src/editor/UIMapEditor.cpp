@@ -1,7 +1,6 @@
 #include "UIMapEditor.h"
 #include "MapEditorItem.h"
-
-#include <UITilesRipper.h>
+#include "UITilesRipper.h"
 
 #include <QFileDialog>
 #include <QMessageBox>

@@ -2,8 +2,7 @@
 #define UIMAIN_H
 
 #include "ui_UIMain.h"
-
-#include <PadSettings.h>
+#include "PadSettings.h"
 
 class pXmlSettings;
 

@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-#include <MapObjectItem.h>
+#include "MapObjectItem.h"
 
 class QTimer;
 

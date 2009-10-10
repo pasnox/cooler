@@ -4,7 +4,7 @@
 #include <QList>
 #include <QMetaType>
 
-#include <Globals.h>
+#include "Globals.h"
 
 class AbstractTile;
 

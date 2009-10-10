@@ -1,8 +1,7 @@
 #include "MapItem.h"
 #include "MapObjectItem.h"
 #include "PlayerItem.h"
-
-#include <pXmlSettings.h>
+#include "pXmlSettings.h"
 
 #include <QFile>
 #include <QGraphicsScene>

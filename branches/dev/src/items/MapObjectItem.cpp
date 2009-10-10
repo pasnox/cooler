@@ -1,6 +1,5 @@
 #include "MapObjectItem.h"
-
-#include <MapItem.h>
+#include "MapItem.h"
 
 MapObjectItem::MapObjectItem( AbstractTile* tile, QGraphicsItem* parent )
 	: QGraphicsPixmapItem( parent )
