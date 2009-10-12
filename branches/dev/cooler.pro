@@ -67,7 +67,8 @@ INCLUDEPATH	= . \
 	src/engine \
 	src/obsolete/editor \
 	src/obsolete/pads \
-	src/obsolete/tilesripper
+	src/obsolete/tilesripper \
+	src/obsolete
 
 FORMS	= src/obsolete/editor/UIMapEditor.ui \
 	src/obsolete/pads/UIPadConfiguration.ui \
