@@ -165,4 +165,5 @@ SOURCES	= src/engine/GameEngine.cpp \
 	src/obsolete/GraphicsView.cpp \
 	src/obsolete/MapItem.cpp \
 	src/obsolete/UIMain.cpp \
-	src/obsolete/BombInformations.cpp
+	src/obsolete/BombInformations.cpp \
+	src/main.cpp
