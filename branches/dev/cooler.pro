@@ -59,110 +59,109 @@ INCLUDEPATH	= . \
 	src/engine/states/multigameplay \
 	src/engine/states/multiplayersetup \
 	src/engine/states/multimapchoice \
-	src/engine/states/multiplayground \
-	src/editor \
-	src/items \
-	src/pads \
-	src/reusable \
-	src/tiles \
-	src/tilesripper \
+	src/engine/states/multiplaygrounds \
+	src/engine/items \
+	src/engine/menus \
+	src/engine/settings \
+	src/engine/tiles \
 	src/engine \
-	src/engine/menus
+	src/obsolete/editor \
+	src/obsolete/pads \
+	src/obsolete/tilesripper
 
-FORMS	= src/UIMain.ui \
-	src/editor/UIMapEditor.ui \
-	src/pads/UIPadSettings.ui \
-	src/pads/UIPadConfiguration.ui \
-	src/tilesripper/UITilesRipper.ui
+FORMS	= src/obsolete/editor/UIMapEditor.ui \
+	src/obsolete/pads/UIPadConfiguration.ui \
+	src/obsolete/pads/UIPadSettings.ui \
+	src/obsolete/tilesripper/UITilesRipper.ui \
+	src/obsolete/UIMain.ui
 
-HEADERS	= src/tiles/AbstractTile.h \
-	src/tiles/BombTile.h \
-	src/tiles/ObjectTile.h \
-	src/tiles/PlayerTile.h \
-	src/items/BombItem.h \
-	src/items/PlayerItem.h \
-	src/BombInformations.h \
-	src/Globals.h \
-	src/GraphicsView.h \
-	src/MapItem.h \
-	src/TilesManager.h \
-	src/UIMain.h \
-	src/editor/GraphicsViewEditor.h \
-	src/editor/MapEditorItem.h \
-	src/editor/TreeWidgetLayers.h \
-	src/editor/TreeWidgetTiles.h \
-	src/editor/UIMapEditor.h \
-	src/items/MapObjectItem.h \
-	src/pads/UIPadSettings.h \
-	src/pads/PadSettings.h \
-	src/pads/UIPadConfiguration.h \
-	src/tilesripper/UITilesRipper.h \
-	src/tilesripper/TilesRipperPreview.h \
-	src/reusable/pXmlSettings.h \
+HEADERS	= src/engine/GameEngine.h \
+	src/engine/Globals.h \
+	src/engine/PadSettings.h \
+	src/engine/Player.h \
 	src/engine/states/AbstractGameState.h \
-	src/engine/GameEngine.h \
+	src/engine/menus/GSBattleItem.h \
+	src/engine/menus/GSCOMLevelItem.h \
+	src/engine/menus/GSFaceItem.h \
+	src/engine/menus/GSGenericStateItem.h \
+	src/engine/menus/GSMapItem.h \
+	src/engine/menus/GSMenu.h \
+	src/engine/menus/GSMenuItem.h \
+	src/engine/menus/GSOnOffItem.h \
+	src/engine/menus/GSStateItem.h \
+	src/engine/menus/GSTimeItem.h \
+	src/engine/settings/pXmlSettings.h \
+	src/engine/tiles/AbstractTile.h \
+	src/engine/tiles/BombTile.h \
+	src/engine/tiles/ObjectTile.h \
+	src/engine/tiles/PlayerTile.h \
+	src/engine/tiles/TilesManager.h \
+	src/engine/items/BombItem.h \
+	src/engine/items/MapObjectItem.h \
+	src/engine/items/PlayerItem.h \
 	src/engine/states/gameintroduction/GSIntroduction.h \
 	src/engine/states/gamemode/GSMode.h \
-	src/engine/menus/GSMenuItem.h \
-	src/engine/menus/GSMenu.h \
-	src/engine/states/padsettings/GSPadSettings.h \
-	src/engine/states/multiplayerchoice/GSMultiPlayerChoice.h \
-	src/engine/menus/GSFaceItem.h \
-	src/engine/Player.h \
-	src/engine/menus/GSStateItem.h \
 	src/engine/states/multigameplay/GSMultiGamePlay.h \
-	src/engine/menus/GSGenericStateItem.h \
-	src/engine/menus/GSCOMLevelItem.h \
-	src/engine/menus/GSOnOffItem.h \
-	src/engine/menus/GSBattleItem.h \
-	src/engine/menus/GSTimeItem.h \
-	src/engine/states/multiplayersetup/GSMultiPlayerSetup.h \
 	src/engine/states/multimapchoice/GSMultiMapChoice.h \
-	src/engine/menus/GSMapItem.h \
-	src/engine/states/multiplayground/GSMultiPlayGround.h
+	src/engine/states/multiplayerchoice/GSMultiPlayerChoice.h \
+	src/engine/states/multiplayersetup/GSMultiPlayerSetup.h \
+	src/engine/states/multiplayground/GSMultiPlayGround.h \
+	src/engine/states/padsettings/GSPadSettings.h \
+	src/obsolete/editor/GraphicsViewEditor.h \
+	src/obsolete/editor/MapEditorItem.h \
+	src/obsolete/editor/TreeWidgetLayers.h \
+	src/obsolete/editor/TreeWidgetTiles.h \
+	src/obsolete/editor/UIMapEditor.h \
+	src/obsolete/pads/UIPadConfiguration.h \
+	src/obsolete/pads/UIPadSettings.h \
+	src/obsolete/tilesripper/TilesRipperPreview.h \
+	src/obsolete/tilesripper/UITilesRipper.h \
+	src/obsolete/BombInformations.h \
+	src/obsolete/GraphicsView.h \
+	src/obsolete/MapItem.h \
+	src/obsolete/UIMain.h
 
-SOURCES	= src/tiles/AbstractTile.cpp \
-	src/tiles/BombTile.cpp \
-	src/tiles/ObjectTile.cpp \
-	src/tiles/PlayerTile.cpp \
-	src/items/BombItem.cpp \
-	src/items/PlayerItem.cpp \
-	src/BombInformations.cpp \
-	src/Globals.cpp \
-	src/GraphicsView.cpp \
-	src/main.cpp \
-	src/MapItem.cpp \
-	src/TilesManager.cpp \
-	src/UIMain.cpp \
-	src/editor/GraphicsViewEditor.cpp \
-	src/editor/MapEditorItem.cpp \
-	src/editor/TreeWidgetLayers.cpp \
-	src/editor/TreeWidgetTiles.cpp \
-	src/editor/UIMapEditor.cpp \
-	src/items/MapObjectItem.cpp \
-	src/pads/UIPadSettings.cpp \
-	src/pads/PadSettings.cpp \
-	src/pads/UIPadConfiguration.cpp \
-	src/tilesripper/UITilesRipper.cpp \
-	src/tilesripper/TilesRipperPreview.cpp \
-	src/reusable/pXmlSettings.cpp \
-	src/engine/GameEngine.cpp \
+SOURCES	= src/engine/GameEngine.cpp \
+	src/engine/Globals.cpp \
+	src/engine/PadSettings.cpp \
+	src/engine/Player.cpp \
+	src/engine/menus/GSBattleItem.cpp \
+	src/engine/menus/GSCOMLevelItem.cpp \
+	src/engine/menus/GSFaceItem.cpp \
+	src/engine/menus/GSGenericStateItem.cpp \
+	src/engine/menus/GSMapItem.cpp \
+	src/engine/menus/GSMenu.cpp \
+	src/engine/menus/GSMenuItem.cpp \
+	src/engine/menus/GSOnOffItem.cpp \
+	src/engine/menus/GSStateItem.cpp \
+	src/engine/menus/GSTimeItem.cpp \
+	src/engine/settings/pXmlSettings.cpp \
+	src/engine/tiles/AbstractTile.cpp \
+	src/engine/tiles/BombTile.cpp \
+	src/engine/tiles/ObjectTile.cpp \
+	src/engine/tiles/PlayerTile.cpp \
+	src/engine/tiles/TilesManager.cpp \
+	src/engine/items/BombItem.cpp \
+	src/engine/items/MapObjectItem.cpp \
+	src/engine/items/PlayerItem.cpp \
 	src/engine/states/gameintroduction/GSIntroduction.cpp \
 	src/engine/states/gamemode/GSMode.cpp \
-	src/engine/menus/GSMenuItem.cpp \
-	src/engine/menus/GSMenu.cpp \
-	src/engine/states/padsettings/GSPadSettings.cpp \
-	src/engine/states/multiplayerchoice/GSMultiPlayerChoice.cpp \
-	src/engine/menus/GSFaceItem.cpp \
-	src/engine/Player.cpp \
-	src/engine/menus/GSStateItem.cpp \
 	src/engine/states/multigameplay/GSMultiGamePlay.cpp \
-	src/engine/menus/GSGenericStateItem.cpp \
-	src/engine/menus/GSCOMLevelItem.cpp \
-	src/engine/menus/GSOnOffItem.cpp \
-	src/engine/menus/GSBattleItem.cpp \
-	src/engine/menus/GSTimeItem.cpp \
-	src/engine/states/multiplayersetup/GSMultiPlayerSetup.cpp \
 	src/engine/states/multimapchoice/GSMultiMapChoice.cpp \
-	src/engine/menus/GSMapItem.cpp \
-	src/engine/states/multiplayground/GSMultiPlayGround.cpp
+	src/engine/states/multiplayerchoice/GSMultiPlayerChoice.cpp \
+	src/engine/states/multiplayersetup/GSMultiPlayerSetup.cpp \
+	src/engine/states/multiplayground/GSMultiPlayGround.cpp \
+	src/engine/states/padsettings/GSPadSettings.cpp \
+	src/obsolete/editor/GraphicsViewEditor.cpp \
+	src/obsolete/editor/MapEditorItem.cpp \
+	src/obsolete/editor/TreeWidgetLayers.cpp \
+	src/obsolete/editor/TreeWidgetTiles.cpp \
+	src/obsolete/editor/UIMapEditor.cpp \
+	src/obsolete/pads/UIPadConfiguration.cpp \
+	src/obsolete/pads/UIPadSettings.cpp \
+	src/obsolete/tilesripper/TilesRipperPreview.cpp \
+	src/obsolete/tilesripper/UITilesRipper.cpp \
+	src/obsolete/GraphicsView.cpp \
+	src/obsolete/MapItem.cpp \
+	src/obsolete/UIMain.cpp \
+	src/obsolete/BombInformations.cpp
