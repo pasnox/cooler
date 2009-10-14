@@ -5,7 +5,7 @@
 
 #include "MapObjectItem.h"
 #include "TilesManager.h"
-#include "BombInformations.h"
+//#include "BombInformations.h"
 
 class QTimer;
 class MapItem;
@@ -35,7 +35,7 @@ protected:
 	PlayerTile* mPlayerTile;
 	PadSettings* mPad;
 	QString mName;
-	BombInformations mBombInfos;
+//	BombInformations mBombInfos;
 	Globals::PadStroke mStroke;
 	qreal mStrokeStep;
 	int mStrokeSpeed;

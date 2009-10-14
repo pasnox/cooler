@@ -63,18 +63,19 @@ INCLUDEPATH	= . \
 	src/engine/menus \
 	src/engine/settings \
 	src/engine/tiles \
-	src/engine \
-	src/obsolete/editor \
-	src/obsolete/pads \
-	src/obsolete/tilesripper \
-	src/obsolete \
-	src/engine/states/multiplayground
+	src/engine
 
-FORMS	= src/obsolete/editor/UIMapEditor.ui \
-	src/obsolete/pads/UIPadConfiguration.ui \
-	src/obsolete/pads/UIPadSettings.ui \
-	src/obsolete/tilesripper/UITilesRipper.ui \
-	src/obsolete/UIMain.ui
+#	src/obsolete/editor \
+#	src/obsolete/pads \
+#	src/obsolete/tilesripper \
+#	src/obsolete \
+#	src/engine/states/multiplayground
+
+#FORMS	= src/obsolete/editor/UIMapEditor.ui \
+#	src/obsolete/pads/UIPadConfiguration.ui \
+#	src/obsolete/pads/UIPadSettings.ui \
+#	src/obsolete/tilesripper/UITilesRipper.ui \
+#	src/obsolete/UIMain.ui
 
 HEADERS	= src/engine/GameEngine.h \
 	src/engine/Globals.h \
@@ -108,19 +109,21 @@ HEADERS	= src/engine/GameEngine.h \
 	src/engine/states/multiplayersetup/GSMultiPlayerSetup.h \
 	src/engine/states/multiplayground/GSMultiPlayGround.h \
 	src/engine/states/padsettings/GSPadSettings.h \
-	src/obsolete/editor/GraphicsViewEditor.h \
-	src/obsolete/editor/MapEditorItem.h \
-	src/obsolete/editor/TreeWidgetLayers.h \
-	src/obsolete/editor/TreeWidgetTiles.h \
-	src/obsolete/editor/UIMapEditor.h \
-	src/obsolete/pads/UIPadConfiguration.h \
-	src/obsolete/pads/UIPadSettings.h \
-	src/obsolete/tilesripper/TilesRipperPreview.h \
-	src/obsolete/tilesripper/UITilesRipper.h \
-	src/obsolete/BombInformations.h \
-	src/obsolete/GraphicsView.h \
-	src/obsolete/MapItem.h \
-	src/obsolete/UIMain.h
+	src/engine/Map.h \
+	src/engine/MapItem.h
+
+#	src/obsolete/editor/GraphicsViewEditor.h \
+#	src/obsolete/editor/MapEditorItem.h \
+#	src/obsolete/editor/TreeWidgetLayers.h \
+#	src/obsolete/editor/TreeWidgetTiles.h \
+#	src/obsolete/editor/UIMapEditor.h \
+#	src/obsolete/pads/UIPadConfiguration.h \
+#	src/obsolete/pads/UIPadSettings.h \
+#	src/obsolete/tilesripper/TilesRipperPreview.h \
+#	src/obsolete/tilesripper/UITilesRipper.h \
+#	src/obsolete/BombInformations.h \
+#	src/obsolete/GraphicsView.h \
+#	src/obsolete/UIMain.h \
 
 SOURCES	= src/engine/GameEngine.cpp \
 	src/engine/Globals.cpp \
@@ -153,17 +156,19 @@ SOURCES	= src/engine/GameEngine.cpp \
 	src/engine/states/multiplayersetup/GSMultiPlayerSetup.cpp \
 	src/engine/states/multiplayground/GSMultiPlayGround.cpp \
 	src/engine/states/padsettings/GSPadSettings.cpp \
-	src/obsolete/editor/GraphicsViewEditor.cpp \
-	src/obsolete/editor/MapEditorItem.cpp \
-	src/obsolete/editor/TreeWidgetLayers.cpp \
-	src/obsolete/editor/TreeWidgetTiles.cpp \
-	src/obsolete/editor/UIMapEditor.cpp \
-	src/obsolete/pads/UIPadConfiguration.cpp \
-	src/obsolete/pads/UIPadSettings.cpp \
-	src/obsolete/tilesripper/TilesRipperPreview.cpp \
-	src/obsolete/tilesripper/UITilesRipper.cpp \
-	src/obsolete/GraphicsView.cpp \
-	src/obsolete/MapItem.cpp \
-	src/obsolete/UIMain.cpp \
-	src/obsolete/BombInformations.cpp \
+	src/engine/Map.cpp \
+	src/engine/MapItem.cpp \
 	src/main.cpp
+
+#	src/obsolete/editor/GraphicsViewEditor.cpp \
+#	src/obsolete/editor/MapEditorItem.cpp \
+#	src/obsolete/editor/TreeWidgetLayers.cpp \
+#	src/obsolete/editor/TreeWidgetTiles.cpp \
+#	src/obsolete/editor/UIMapEditor.cpp \
+#	src/obsolete/pads/UIPadConfiguration.cpp \
+#	src/obsolete/pads/UIPadSettings.cpp \
+#	src/obsolete/tilesripper/TilesRipperPreview.cpp \
+#	src/obsolete/tilesripper/UITilesRipper.cpp \
+#	src/obsolete/GraphicsView.cpp \
+#	src/obsolete/UIMain.cpp \
+#	src/obsolete/BombInformations.cpp \

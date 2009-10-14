@@ -1,13 +1,8 @@
 #include <QApplication>
-#include <QShortcut>
 
 #include "TilesManager.h"
 #include "GameEngine.h"
 #include "GSIntroduction.h"
-
-
-#include "UIMain.h"
-#include "UIMapEditor.h"
 
 int main( int argc, char** argv )
 {
@@ -15,7 +10,6 @@ int main( int argc, char** argv )
 	app.setOrganizationDomain( "cooler.googlecode.com" );
 	app.setOrganizationName( "SoDream" );
 	app.setApplicationName( "Cooler" );
-	
 	
 	// initialize tiles
 	TilesManager::instance()->loadDatas();
@@ -35,31 +29,4 @@ int main( int argc, char** argv )
 	// cleanup the engine
 	engine.Cleanup();
 	return result;
-	
-	
-	// ----
-	
-	/*
-	UIMain m;
-	m.setWindowTitle( "Cooler" );
-	
-	UIMapEditor me;
-	me.setWindowTitle( "Cooler - Map Editor" );
-	
-	TilesManager::instance()->loadDatas();
-	
-	m.initialize();
-	m.show();
-	
-	QShortcut s( &m );
-	s.setKey( QKeySequence( "Ctrl+E" ) );
-	s.setContext( Qt::ApplicationShortcut );
-	QObject::connect( &s, SIGNAL( activated() ), &me, SLOT( show() ) );
-	
-	QObject::connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
-	bool result = app.exec();
-	
-	m.saveSettings();
-	return result;
-	*/
 }
