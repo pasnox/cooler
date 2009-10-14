@@ -11,8 +11,8 @@
 #include "Player.h"
 
 class pXmlSettings;
-
 class AbstractGameState;
+class Map;
 class QGraphicsScene;
 
 class GameEngine : public QGraphicsView
@@ -41,6 +41,9 @@ public:
 	const PlayerList& players() const;
 	
 	const QFileInfoList& maps() const;
+	
+	void setMap( Map* map );
+	Map* map() const;
 
 protected:
 	pXmlSettings* mSettings;
@@ -54,6 +57,8 @@ protected:
 	bool mRunning;
 	bool mFullScreen;
 	QSize mSize;
+	
+	Map* mMap;
 	
 	virtual void closeEvent( QCloseEvent* event );
 	virtual void timerEvent( QTimerEvent* event );

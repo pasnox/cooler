@@ -1,18 +1,16 @@
 #include "MapItem.h"
-#include "MapObjectItem.h"
+#include "Map.h"
 #include "PlayerItem.h"
-#include "pXmlSettings.h"
+#include "MapObjectItem.h"
 
-#include <QFile>
 #include <QGraphicsScene>
 #include <QPainter>
 #include <QDebug>
 
 MapItem::MapItem( QGraphicsItem* parent )
-	: QGraphicsRectItem( parent )
+	: QGraphicsWidget( parent )
 {
-	setPen( QPen( Qt::NoPen ) );
-	mTiles = TilesManager::instance();
+	mMap = 0;
 }
 
 MapItem::~MapItem()
@@ -26,140 +24,49 @@ int MapItem::type() const
 
 void MapItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
-	QGraphicsRectItem::paint( painter, option, widget );
+	QGraphicsWidget::paint( painter, option, widget );
 }
 
-QString MapItem::name() const
+bool MapItem::loadMap( Map* map )
 {
-	return mName;
-}
-
-QSize MapItem::size() const
-{
-	return mSize;
-}
-
-LayersMap MapItem::layers() const
-{
-	return mLayers;
-}
-
-LayerMap MapItem::layer( uint id ) const
-{
-	return mLayers.value( id );
-}
-
-void MapItem::clear()
-{
-	qDeleteAll( childItems() );
-	mName.clear();
-	mSize = QSize();
-	mMapping.clear();
-	mLayers.clear();
-	mPlayersPosition.clear();
-}
-
-bool MapItem::load( const QString& fileName )
-{
-	if ( !QFile::exists( fileName ) )
+	if ( !map || !map->isValid() )
 	{
 		return false;
 	}
 	
-	pXmlSettings settings( fileName );
+	mObjects.clear();
+	mMap = map;
+	const QSize tileSize = mMap->mTiles->tileSize();
+	const QSize size = mMap->mSize;
 	
-	if ( settings.status() == QSettings::FormatError )
+	foreach ( const uint layer, mMap->mLayers.keys() )
 	{
-		return false;
-	}
-	
-	clear();
-	mName = settings.value( "Map/Name" ).toString();
-	mSize = settings.value( "Map/Size" ).toSize();
-	
-	// tiles
-	settings.beginGroup( "Tiles" );
-	const QStringList tiles = settings.childKeys();
-	foreach ( const QString& tile, tiles )
-	{
-		uint t = tile.toUInt();
-		mMapping[ t ] = settings.value( tile ).toString();
-	}
-	settings.endGroup();
-	
-	// layers
-	const QStringList groups = settings.childGroups();
-	foreach ( const QString& group, groups )
-	{
-		if ( !group.toLower().startsWith( "layer" ) )
+		foreach ( const QPoint& point, mMap->mLayers[ layer ].keys() )
 		{
-			continue;
-		}
-		
-		const uint layer = group.section( '_', 1, 1 ).toUInt();
-		
-		if ( layer < Globals::FirstLayer || layer > Globals::LastLayer )
-		{
-			if ( layer != Globals::SkyLayer )
-			{
-				Q_ASSERT( 0 );
-			}
-		}
-		
-		settings.beginGroup( group );
-		const QStringList keys = settings.childKeys();
-		foreach ( const QString& key, keys )
-		{
-			const int y = key.toInt();
-			const QString line = settings.value( key ).toString();
-			const QStringList parts = line.split( MAP_SPLIT_CHAR, QString::SkipEmptyParts );
+			AbstractTile* tile = mMap->mLayers[ layer ][ point ];
+			MapObjectItem* object = new MapObjectItem( tile, this );
+			object->setZValue( layer );
 			
-			for ( int x = 0; x < parts.count(); x++ )
+			mObjects[ layer ][ point ] = object;
+			
+			if ( point.x() >= size.width() || point.y() >= size.height() )
 			{
-				if ( parts.at( x ).toLower() == "x" )
-				{
-					continue;
-				}
-				
-				const uint id = parts.at( x ).toUInt();
-				AbstractTile* tile = mappedTile( id );
-				
-				switch ( tile->Type )
-				{
-					case Globals::InvalidTile:
-						Q_ASSERT( 0 );
-						continue;
-						break;
-					case Globals::BlockTile:
-					case Globals::BoxTile:
-					case Globals::FloorTile:
-					case Globals::SkyTile:
-					case Globals::BonusTile:
-						break;
-					case Globals::PlayerTile:
-						mPlayersPosition[ tile->name() ] = QPoint( x, y );
-					case Globals::BombTile:
-					case Globals::BombExplosionTile:
-					case Globals::GameScreenTile:
-					case Globals::PlayerExplosionTile:
-					case Globals::TextTile:
-						continue;
-						break;
-				}
-				
-				MapObjectItem* object = new MapObjectItem( tile, this );
-				object->setZValue( layer );
-				mLayers[ layer ][ QPoint( x, y ) ] = object;
+				delete object;
+				mObjects[ layer ].remove( point );
+			}
+			else
+			{
+				const QPoint itemPos( point.x() *tileSize.width(), point.y() *tileSize.height() );
+				object->setPos( itemPos );
 			}
 		}
-		settings.endGroup();
 	}
 	
-	updateMap();
+	setMinimumSize( size.width() *tileSize.width(), size.height() *tileSize.height() );
 	
 	return true;
 }
-
+/*
 const PlayersPositionMap& MapItem::playersPosition() const
 {
 	return mPlayersPosition;
@@ -169,7 +76,7 @@ int MapItem::maxPlayers() const
 {
 	return mPlayersPosition.count();
 }
-
+*/
 QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) const
 {
 	const int stepBy = 1;
@@ -304,13 +211,13 @@ QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) con
 
 QPoint MapItem::gridToPos( const QPoint& gridPos ) const
 {
-	const QSize tileSize = mTiles->tileSize();
+	const QSize tileSize = mMap->mTiles->tileSize();
 	return QPoint( gridPos.x() *tileSize.width(), gridPos.y() *tileSize.height() );
 }
 
 QPoint MapItem::posToGrid( const QPoint& pos ) const
 {
-	const QSize tileSize = mTiles->tileSize();
+	const QSize tileSize = mMap->mTiles->tileSize();
 	return QPoint( pos.x() /tileSize.width(), pos.y() /tileSize.height() );
 }
 
@@ -318,11 +225,11 @@ QPoint MapItem::gridPos( MapObjectItem* object ) const
 {
 	const QPoint invalidPos( -1, -1 );
 	const int layer = object->zValue();
-	QPoint p = mLayers.value( layer ).key( object, invalidPos );
+	QPoint p = mObjects.value( layer ).key( object, invalidPos );
 	
 	if ( p == invalidPos )
 	{
-		const QSize tileSize = mTiles->tileSize();
+		const QSize tileSize = mMap->mTiles->tileSize();
 		p = QPoint( object->pos().x() /tileSize.width(), object->pos().y() /tileSize.height() );
 	}
 	
@@ -331,16 +238,11 @@ QPoint MapItem::gridPos( MapObjectItem* object ) const
 
 QPoint MapItem::closestPos( const QPoint& pos ) const
 {
-	const QSize tileSize = mTiles->tileSize();
+	const QSize tileSize = mMap->mTiles->tileSize();
 	const QPoint point( pos.x() /tileSize.width(), pos.y() /tileSize.height() );
 	return QPoint( point.x() *tileSize.width(), point.y() *tileSize.height() );
 }
 
-AbstractTile* MapItem::mappedTile( uint id ) const
-{
-	const QString name = mMapping.value( id );
-	return mTiles ? mTiles->tile( name ) : 0;
-}
 
 MapObjectItem* MapItem::nearestObject( const QPoint& strokePoint, Globals::PadStroke stroke, const QSet<MapObjectItem*>& objects ) const
 {
@@ -382,30 +284,4 @@ MapObjectItem* MapItem::nearestObject( const QPoint& strokePoint, Globals::PadSt
 	}
 	
 	return items.values().first();
-}
-
-void MapItem::updateMap()
-{
-	const QSize tileSize = mTiles->tileSize();
-	
-	foreach ( const int layer, mLayers.keys() )
-	{
-		foreach ( const QPoint& pos, mLayers[ layer ].keys() )
-		{
-			MapObjectItem* object = mLayers[ layer ][ pos ];
-			
-			if ( pos.x() >= mSize.width() || pos.y() >= mSize.height() )
-			{
-				delete object;
-				mLayers[ layer ].remove( pos );
-			}
-			else
-			{
-				const QPoint itemPos( pos.x() *tileSize.width(), pos.y() *tileSize.height() );
-				object->setPos( itemPos );
-			}
-		}
-	}
-	
-	setRect( 0, 0, mSize.width() *tileSize.width(), mSize.height() *tileSize.height() );
 }
