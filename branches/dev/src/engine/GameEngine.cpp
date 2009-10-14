@@ -1,6 +1,7 @@
 #include "GameEngine.h"
 #include "AbstractGameState.h"
 #include "pXmlSettings.h"
+#include "Map.h"
 
 #include <QGLWidget>
 #include <QGraphicsScene>
@@ -27,6 +28,8 @@ void GameEngine::Init( const QString& title, const QSize& size, int bpp, bool fu
 	mRunning = true;
 	mFullScreen = fullscreen;
 	mSize = size;
+	
+	mMap = 0;
 	
 	// view properties
 	//setViewport( new QGLWidget );
@@ -84,6 +87,9 @@ void GameEngine::Cleanup()
 		mStates.last()->Cleanup();
 		mStates.erase( mStates.end() -1 );
 	}
+	
+	// delete map object
+	delete mMap;
 	
 	// save pad structures
 	mSettings->beginWriteArray( "Pads", Globals::MaxPlayers );
@@ -194,6 +200,17 @@ const PlayerList& GameEngine::players() const
 const QFileInfoList& GameEngine::maps() const
 {
 	return mMaps;
+}
+
+void GameEngine::setMap( Map* map )
+{
+	delete mMap;
+	mMap = map;
+}
+
+Map* GameEngine::map() const
+{
+	return mMap;
 }
 
 void GameEngine::closeEvent( QCloseEvent* event )

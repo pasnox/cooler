@@ -2,6 +2,7 @@
 #include "GSMultiGamePlay.h"
 #include "GSMultiPlayGround.h"
 #include "GSMapItem.h"
+#include "Map.h"
 
 #include <QGraphicsLinearLayout>
 #include <QPainter>
@@ -144,7 +145,9 @@ bool GSMultiMapChoice::validateState( GameEngine* game ) const
 		}
 	}
 	
-	return true;
+	game->setMap( new Map( mMap->map() ) );
+	
+	return game->map()->isValid();
 }
 
 void GSMultiMapChoice::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )

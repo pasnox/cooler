@@ -5,7 +5,7 @@
 #include "GSMenuItem.h"
 
 class QGraphicsLinearLayout;
-class GSMapItem;
+class MapItem;
 
 class GSMultiPlayGround : public AbstractGameState
 {
@@ -25,11 +25,9 @@ public:
 protected:
 	static GSMultiPlayGround* mInstance;
 	
-	int mBackgroundValue;
-	QPixmap mBackground;
-	
 	QGraphicsLinearLayout* mMainLayout;
 	GSMenuItem* mTitle;
+	MapItem* mMap;
 	
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );
 };

@@ -59,6 +59,7 @@ INCLUDEPATH	= . \
 	src/engine/states/multigameplay \
 	src/engine/states/multiplayersetup \
 	src/engine/states/multimapchoice \
+	src/engine/states/multiplayground \
 	src/engine/items \
 	src/engine/menus \
 	src/engine/settings \
@@ -69,7 +70,6 @@ INCLUDEPATH	= . \
 #	src/obsolete/pads \
 #	src/obsolete/tilesripper \
 #	src/obsolete \
-#	src/engine/states/multiplayground
 
 #FORMS	= src/obsolete/editor/UIMapEditor.ui \
 #	src/obsolete/pads/UIPadConfiguration.ui \

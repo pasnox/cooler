@@ -1,4 +1,5 @@
 #include "GSMultiPlayGround.h"
+#include "MapItem.h"
 
 #include <QGraphicsLinearLayout>
 #include <QPainter>
@@ -20,13 +21,10 @@ void GSMultiPlayGround::Init( GameEngine* engine, const QSizeF& size )
 	AbstractGameState::Init( engine, size );
 	
 	mTiles = TilesManager::instance()->tiles( Globals::GameScreenTile );
-	mBackgroundValue = 0;
-	
-	mBackground = mTiles.value( "game screens/multiplayerchoice_background.png" )->tile( 0 );
 	
 	// main layout
 	mMainLayout = new QGraphicsLinearLayout( Qt::Vertical, this );
-	mMainLayout->setContentsMargins( 10, 10, 10, 10 );
+	mMainLayout->setContentsMargins( 0, 0, 0, 0 );
 	mMainLayout->setSpacing( 10 );
 	
 	// title
@@ -38,22 +36,20 @@ void GSMultiPlayGround::Init( GameEngine* engine, const QSizeF& size )
 	mMainLayout->insertStretch( 1, 100 );
 	
 	// map item
-	
-	// vertical spacer 2
-	//mMainLayout->insertStretch( 3, 100 );
+	mMap = new MapItem;
+	mMap->loadMap( engine->map() );
+	mMainLayout->addItem( mMap );
 }
 
 void GSMultiPlayGround::Cleanup()
 {
 	AbstractGameState::Cleanup();
 	
-	mBackgroundValue = 0;
-	mBackground = QPixmap();
 	setLayout( 0 );
 	mMainLayout = 0;
 	//Q_CLEANUP( mMainLayout );
 	Q_CLEANUP( mTitle );
-	//Q_CLEANUP( mMap );
+	Q_CLEANUP( mMap );
 }
 
 void GSMultiPlayGround::Pause()
@@ -107,13 +103,6 @@ void GSMultiPlayGround::HandleEvents( GameEngine* game )
 void GSMultiPlayGround::Update( GameEngine* game )
 {
 	Q_UNUSED( game );
-	
-	mBackgroundValue++;
-	
-	if ( mBackgroundValue > mBackground.height() )
-	{
-		mBackgroundValue = 0;
-	}
 }
 
 bool GSMultiPlayGround::validateState( GameEngine* game ) const
@@ -125,5 +114,4 @@ bool GSMultiPlayGround::validateState( GameEngine* game ) const
 void GSMultiPlayGround::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
 {
 	AbstractGameState::paint( painter, option, widget );
-	painter->drawTiledPixmap( boundingRect(), mBackground, QPointF( -mBackgroundValue, mBackgroundValue ) );
 }

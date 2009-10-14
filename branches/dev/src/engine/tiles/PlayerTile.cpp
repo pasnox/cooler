@@ -1,4 +1,5 @@
 #include "PlayerTile.h"
+#include "TilesManager.h"
 
 PlayerTile::PlayerTile( const QFileInfo& fn )
 	: AbstractTile( fn, Globals::PlayerTile )
@@ -17,7 +18,7 @@ QPixmap PlayerTile::tile( int step ) const
 
 QPixmap PlayerTile::tile( Globals::PadStroke stroke, int step ) const
 {
-	const QSize tileSize = Globals::TilesSize;
+	const QSize tileSize = TilesManager::instance()->tileSize();
 	const QPoint point = QPoint( step *tileSize.width(), stroke *tileSize.height() );
 	return Pixmap.copy( QRect( point, tileSize ) );
 }

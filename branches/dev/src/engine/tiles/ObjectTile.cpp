@@ -1,4 +1,5 @@
 #include "ObjectTile.h"
+#include "TilesManager.h"
 
 ObjectTile::ObjectTile( const QFileInfo& fn, Globals::TypeTile type )
 	: AbstractTile( fn, type )
@@ -13,5 +14,6 @@ int ObjectTile::steps() const
 QPixmap ObjectTile::tile( int step ) const
 {
 	Q_UNUSED( step );
-	return Pixmap;
+	const QSize tileSize = TilesManager::instance()->tileSize();
+	return Pixmap; //.scaled( tileSize );
 }
