@@ -16,9 +16,9 @@
 
 XUPProjectSettings {
 	EDITOR	= QMake
-	EXECUTE_DEBUG	= cooler_debug
 	QT_VERSION	= Qt System (4.5.2)
-	EXECUTE_RELEASE	= cooler
+	OTHERS_PLATFORM_TARGET_DEBUG	= cooler_debug
+	OTHERS_PLATFORM_TARGET_RELEASE	= cooler
 }
 
 TEMPLATE	= app
