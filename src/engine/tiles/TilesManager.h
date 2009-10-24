@@ -17,6 +17,7 @@ public:
 	QString datasPath() const;
 	void setDatasPath( const QString& path );
 	
+	#warning renamme the member scaledTileSize() which is most appropriate name
 	QSize tileSize() const;
 	void setTileSize( const QSize& size );
 	
