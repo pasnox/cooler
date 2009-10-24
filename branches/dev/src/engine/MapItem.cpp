@@ -37,7 +37,7 @@ bool MapItem::loadMap( Map* map )
 	
 	mObjects.clear();
 	mMap = map;
-	const QSize tileSize = mMap->mTiles->tileSize();
+	const QSize tileScaledSize = mMap->mTiles->tileScaledSize();
 	const QSize size = mMap->mSize;
 	
 	foreach ( const uint layer, mMap->mLayers.keys() )
@@ -57,13 +57,13 @@ bool MapItem::loadMap( Map* map )
 			}
 			else
 			{
-				const QPoint itemPos( point.x() *tileSize.width(), point.y() *tileSize.height() );
+				const QPoint itemPos( point.x() *tileScaledSize.width(), point.y() *tileScaledSize.height() );
 				object->setPos( itemPos );
 			}
 		}
 	}
 	
-	setMinimumSize( size.width() *tileSize.width(), size.height() *tileSize.height() );
+	setMinimumSize( size.width() *tileScaledSize.width(), size.height() *tileScaledSize.height() );
 	
 	return true;
 }
@@ -212,14 +212,14 @@ QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) con
 
 QPoint MapItem::gridToPos( const QPoint& gridPos ) const
 {
-	const QSize tileSize = mMap->mTiles->tileSize();
-	return QPoint( gridPos.x() *tileSize.width(), gridPos.y() *tileSize.height() );
+	const QSize tileScaledSize = mMap->mTiles->tileScaledSize();
+	return QPoint( gridPos.x() *tileScaledSize.width(), gridPos.y() *tileScaledSize.height() );
 }
 
 QPoint MapItem::posToGrid( const QPoint& pos ) const
 {
-	const QSize tileSize = mMap->mTiles->tileSize();
-	return QPoint( pos.x() /tileSize.width(), pos.y() /tileSize.height() );
+	const QSize tileScaledSize = mMap->mTiles->tileScaledSize();
+	return QPoint( pos.x() /tileScaledSize.width(), pos.y() /tileScaledSize.height() );
 }
 
 QPoint MapItem::gridPos( MapObjectItem* object ) const
@@ -230,8 +230,8 @@ QPoint MapItem::gridPos( MapObjectItem* object ) const
 	
 	if ( p == invalidPos )
 	{
-		const QSize tileSize = mMap->mTiles->tileSize();
-		p = QPoint( object->pos().x() /tileSize.width(), object->pos().y() /tileSize.height() );
+		const QSize tileScaledSize = mMap->mTiles->tileScaledSize();
+		p = QPoint( object->pos().x() /tileScaledSize.width(), object->pos().y() /tileScaledSize.height() );
 	}
 	
 	return p;
@@ -239,9 +239,9 @@ QPoint MapItem::gridPos( MapObjectItem* object ) const
 
 QPoint MapItem::closestPos( const QPoint& pos ) const
 {
-	const QSize tileSize = mMap->mTiles->tileSize();
-	const QPoint point( pos.x() /tileSize.width(), pos.y() /tileSize.height() );
-	return QPoint( point.x() *tileSize.width(), point.y() *tileSize.height() );
+	const QSize tileScaledSize = mMap->mTiles->tileScaledSize();
+	const QPoint point( pos.x() /tileScaledSize.width(), pos.y() /tileScaledSize.height() );
+	return QPoint( point.x() *tileScaledSize.width(), point.y() *tileScaledSize.height() );
 }
 
 
