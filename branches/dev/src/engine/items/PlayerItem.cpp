@@ -1,17 +1,27 @@
 #include "PlayerItem.h"
+#include "Player.h"
+
+/*
 #include "TilesManager.h"
 #include "PadSettings.h"
 #include "MapItem.h"
+*/
 
+/*
 #include <QTimer>
 #include <QGraphicsScene>
 #include <QKeyEvent>
 #include <QPainter>
 #include <QDebug>
+*/
 
-PlayerItem::PlayerItem( AbstractTile* tile, QGraphicsItem* parent )
-	: QObject(), MapObjectItem( tile, parent )
+PlayerItem::PlayerItem( const Player* player, QGraphicsItem* parent )
+	: QObject(), MapObjectItem( player->tile(), parent )
 {
+	setZValue( Globals::PlayerLayer );
+	mPlayer = player;
+	
+	/*
 	mPad = 0;
 	setTile( tile );
 	mStroke = Globals::PadStrokeDown;
@@ -20,6 +30,7 @@ PlayerItem::PlayerItem( AbstractTile* tile, QGraphicsItem* parent )
 	mStrokeTimer = new QTimer( this );
 	
 	connect( mStrokeTimer, SIGNAL( timeout() ), this, SLOT( strokeTimer_timeout() ) );
+	*/
 }
 
 PlayerItem::~PlayerItem()
@@ -33,21 +44,25 @@ void PlayerItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* optio
 
 QRectF PlayerItem::explosiveBoundingRect() const
 {
+	return MapObjectItem::explosiveBoundingRect();
+	/*
 	QRectF br = boundingRect();
 	int height = br.height() /2;
 	br.moveTop( height );
 	br.setHeight( height );
 	return br;
+	*/
 }
 
 void PlayerItem::setTile( AbstractTile* tile )
 {
-	Q_ASSERT( mTile->Type == Globals::PlayerTile );
+qWarning() << "tile";
+	Q_ASSERT( tile->Type == Globals::PlayerTile );
 	MapObjectItem::setTile( tile );
-	mPlayerTile = static_cast<PlayerTile*>( tile );
-	setZValue( Globals::PlayerLayer );
+	//mPlayerTile = static_cast<PlayerTile*>( tile );
 }
 
+/*
 PadSettings* PlayerItem::pad() const
 {
 	return mPad;
@@ -128,7 +143,6 @@ void PlayerItem::handleAction( Globals::PadAction action )
 
 void PlayerItem::dropBomb()
 {
-	/*
 	const BombTile bombTile = TilesManager::instance()->bombTiles().values().first();
 	QPoint thisPos = mapRectToItem( map(), bodyBoundingRect() ).toRect().topLeft();
 	BombItem* bomb = new BombItem( bombTile, scene() );
@@ -137,7 +151,6 @@ void PlayerItem::dropBomb()
 	bomb->setParentItem( map() );
 	
 	//scene()->addItem( bomb );
-	*/
 }
 
 void PlayerItem::strokeTimer_timeout()
@@ -156,3 +169,4 @@ void PlayerItem::strokeTimer_timeout()
 	
 	setPosAt( mStrokeStep, newPos );
 }
+*/

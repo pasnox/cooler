@@ -67,17 +67,40 @@ bool MapItem::loadMap( Map* map )
 	
 	return true;
 }
-/*
-const PlayersPositionMap& MapItem::playersPosition() const
+
+QPoint MapItem::gridToPos( const QPoint& gridPos ) const
 {
-	return mPlayersPosition;
+	const QSize tileScaledSize = mMap->mTiles->tileScaledSize();
+	return QPoint( gridPos.x() *tileScaledSize.width(), gridPos.y() *tileScaledSize.height() );
 }
 
-int MapItem::maxPlayers() const
+QPoint MapItem::posToGrid( const QPoint& pos ) const
 {
-	return mPlayersPosition.count();
+	const QSize tileScaledSize = mMap->mTiles->tileScaledSize();
+	return QPoint( pos.x() /tileScaledSize.width(), pos.y() /tileScaledSize.height() );
 }
-*/
+
+QPoint MapItem::gridPos( MapObjectItem* object ) const
+{
+	const QPoint invalidPos( -1, -1 );
+	const int layer = object->zValue();
+	QPoint p = mObjects.value( layer ).key( object, invalidPos );
+	
+	if ( p == invalidPos )
+	{
+		const QSize tileScaledSize = mMap->mTiles->tileScaledSize();
+		p = QPoint( object->pos().x() /tileScaledSize.width(), object->pos().y() /tileScaledSize.height() );
+	}
+	
+	return p;
+}
+
+void MapItem::moveObjectToGridPosition( MapObjectItem* object, const QPoint& position )
+{
+	const QPoint pos = gridToPos( position );
+	object->setPos( pos );
+}
+
 QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) const
 {
 	const int stepBy = 1;
@@ -207,33 +230,6 @@ QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) con
 	}
 	
 	// return possible walk
-	return p;
-}
-
-QPoint MapItem::gridToPos( const QPoint& gridPos ) const
-{
-	const QSize tileScaledSize = mMap->mTiles->tileScaledSize();
-	return QPoint( gridPos.x() *tileScaledSize.width(), gridPos.y() *tileScaledSize.height() );
-}
-
-QPoint MapItem::posToGrid( const QPoint& pos ) const
-{
-	const QSize tileScaledSize = mMap->mTiles->tileScaledSize();
-	return QPoint( pos.x() /tileScaledSize.width(), pos.y() /tileScaledSize.height() );
-}
-
-QPoint MapItem::gridPos( MapObjectItem* object ) const
-{
-	const QPoint invalidPos( -1, -1 );
-	const int layer = object->zValue();
-	QPoint p = mObjects.value( layer ).key( object, invalidPos );
-	
-	if ( p == invalidPos )
-	{
-		const QSize tileScaledSize = mMap->mTiles->tileScaledSize();
-		p = QPoint( object->pos().x() /tileScaledSize.width(), object->pos().y() /tileScaledSize.height() );
-	}
-	
 	return p;
 }
 

@@ -42,9 +42,9 @@
     </node>
     <node name="PlayersPosition">
         <node metatype="25" name="0" x="1" y="2"/>
-        <node metatype="25" name="1" x="1" y="8"/>
-        <node metatype="25" name="2" x="13" y="12"/>
-        <node metatype="25" name="3" x="13" y="18"/>
+        <node metatype="25" name="1" x="15" y="8"/>
+        <node metatype="25" name="2" x="15" y="2"/>
+        <node metatype="25" name="3" x="1" y="8"/>
         <node metatype="25" name="4" x="7" y="5"/>
     </node>
     <node name="Tiles" >

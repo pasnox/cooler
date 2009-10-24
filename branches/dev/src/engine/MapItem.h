@@ -24,14 +24,14 @@ public:
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );
 	
 	virtual bool loadMap( Map* map );
-	/*
-	const PlayersPositionMap& playersPosition() const;
-	int maxPlayers() const;
-	*/
-	QPoint canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) const;
+	
 	QPoint gridToPos( const QPoint& gridPos ) const;
 	QPoint posToGrid( const QPoint& pos ) const;
 	QPoint gridPos( MapObjectItem* object ) const;
+	
+	void moveObjectToGridPosition( MapObjectItem* object, const QPoint& position );
+	
+	QPoint canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) const;
 	QPoint closestPos( const QPoint& pos ) const;
 	
 protected:
