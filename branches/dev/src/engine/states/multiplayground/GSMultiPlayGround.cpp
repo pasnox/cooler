@@ -39,6 +39,7 @@ void GSMultiPlayGround::Init( GameEngine* engine, const QSizeF& size )
 	mMap = new MapItem;
 	mMap->loadMap( engine->map() );
 	mMainLayout->addItem( mMap );
+	mMainLayout->setAlignment( mMap, Qt::AlignCenter );
 }
 
 void GSMultiPlayGround::Cleanup()
