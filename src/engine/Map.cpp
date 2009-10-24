@@ -26,6 +26,7 @@ Map& Map::operator=( const Map& other )
 		mTiles = other.mTiles;
 		mName = other.mName;
 		mSize = other.mSize;
+		mPlayersPosition = other.mPlayersPosition;
 		mMapping = other.mMapping;
 		mLayers = other.mLayers;
 	}
@@ -39,6 +40,7 @@ bool Map::operator==( const Map& other ) const
 		mTiles == other.mTiles &&
 		mName == other.mName &&
 		mSize == other.mSize &&
+		mPlayersPosition == other.mPlayersPosition &&
 		mMapping == other.mMapping &&
 		mLayers == other.mLayers;
 }
@@ -63,6 +65,11 @@ QSize Map::size() const
 	return mSize;
 }
 
+PlayersPosition Map::playersPosition() const
+{
+	return mPlayersPosition;
+}
+
 LayersMap Map::layers() const
 {
 	return mLayers;
@@ -83,6 +90,7 @@ void Map::clear()
 {
 	mName.clear();
 	mSize = QSize();
+	mPlayersPosition.clear();
 	mMapping.clear();
 	mLayers.clear();
 }
@@ -101,8 +109,19 @@ void Map::load()
 		return;
 	}
 	
+	clear();
+	
 	mName = settings.value( "Map/Name" ).toString();
 	mSize = settings.value( "Map/Size" ).toSize();
+	
+	// players position
+	settings.beginGroup( "PlayersPosition" );
+	for ( uint i = 0; i < Globals::MaxPlayers; i++ )
+	{
+		const QPoint position = settings.value( QString::number( i ), QPoint( -1, -1 ) ).toPoint();
+		mPlayersPosition << position;
+	}
+	settings.endGroup();
 	
 	// tiles mapping
 	settings.beginGroup( "Tiles" );
@@ -164,7 +183,6 @@ void Map::load()
 					case Globals::BonusTile:
 						break;
 					case Globals::PlayerTile:
-						//mPlayersPosition[ tile->name() ] = QPoint( x, y );
 					case Globals::BombTile:
 					case Globals::BombExplosionTile:
 					case Globals::GameScreenTile:
