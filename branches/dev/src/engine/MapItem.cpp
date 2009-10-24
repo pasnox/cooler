@@ -11,6 +11,7 @@ MapItem::MapItem( QGraphicsItem* parent )
 	: QGraphicsWidget( parent )
 {
 	mMap = 0;
+	setSizePolicy( QSizePolicy( QSizePolicy::Maximum, QSizePolicy::Maximum ) );
 }
 
 MapItem::~MapItem()
