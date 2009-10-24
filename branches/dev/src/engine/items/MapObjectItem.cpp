@@ -43,7 +43,7 @@ bool MapObjectItem::isWalkable() const
 		case Globals::BlockTile:
 		case Globals::BoxTile:
 		case Globals::BombTile:
-			return false;
+		case Globals::GameScreenTile:
 			break;
 		case Globals::InvalidTile:
 			Q_ASSERT( 0 );
@@ -57,19 +57,19 @@ bool MapObjectItem::isExplosive() const
 {
 	switch ( tileType() )
 	{
+		case Globals::PlayerTile:
+		case Globals::BoxTile:
+		case Globals::BombTile:
+		case Globals::BonusTile:
+			return true;
+			break;
 		case Globals::FloorTile:
 		case Globals::SkyTile:
 		case Globals::BlockTile:
 		case Globals::BombExplosionTile:
 		case Globals::PlayerExplosionTile:
 		case Globals::TextTile:
-			return false;
-			break;
-		case Globals::PlayerTile:
-		case Globals::BoxTile:
-		case Globals::BombTile:
-		case Globals::BonusTile:
-			return true;
+		case Globals::GameScreenTile:
 			break;
 		case Globals::InvalidTile:
 			Q_ASSERT( 0 );
