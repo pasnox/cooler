@@ -4,21 +4,22 @@
 #include <QObject>
 
 #include "MapObjectItem.h"
-#include "TilesManager.h"
-//#include "BombInformations.h"
 
+class Player;
+
+/*
 class QTimer;
 class MapItem;
 class PlayerTile;
 class PadSettings;
+*/
 
 class PlayerItem : public QObject, public MapObjectItem
 {
 	Q_OBJECT
-	friend class GraphicsView;
 	
 public:
-	PlayerItem( AbstractTile* tile, QGraphicsItem* parent );
+	PlayerItem( const Player* player, QGraphicsItem* parent );
 	virtual ~PlayerItem();
 	
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );
@@ -26,12 +27,16 @@ public:
 	virtual QRectF explosiveBoundingRect() const;
 	virtual void setTile( AbstractTile* tile );
 	
+	/*
 	PadSettings* pad() const;
 	void setPad( PadSettings* pad );
 	
 	void setPosAt( qreal step, const QPoint& pos );
+	*/
 
 protected:
+	const Player* mPlayer;
+	/*
 	PlayerTile* mPlayerTile;
 	PadSettings* mPad;
 	QString mName;
@@ -47,6 +52,7 @@ protected:
 
 protected slots:
 	void strokeTimer_timeout();
+	*/
 };
 
 #endif // PLAYERITEM_H

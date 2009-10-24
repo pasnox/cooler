@@ -6,6 +6,7 @@
 
 class QGraphicsLinearLayout;
 class MapItem;
+class PlayerItem;
 
 class GSMultiPlayGround : public AbstractGameState
 {
@@ -18,9 +19,9 @@ public:
 	virtual void Pause();
 	virtual void Resume();
 
-	virtual void HandleEvents( GameEngine* game );
-	virtual void Update( GameEngine* game );
-	virtual bool validateState( GameEngine* game ) const;
+	virtual void HandleEvents( GameEngine* engine );
+	virtual void Update( GameEngine* engine );
+	virtual bool validateState( GameEngine* engine ) const;
 
 protected:
 	static GSMultiPlayGround* mInstance;
@@ -28,8 +29,11 @@ protected:
 	QGraphicsLinearLayout* mMainLayout;
 	GSMenuItem* mTitle;
 	MapItem* mMap;
+	QMap<uint, PlayerItem*> mPlayers;
 	
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );
+	
+	bool handlePlayersEvent( KeyEvent* event, const PadSettingsList& pads );
 };
 
 #endif // GSMULTIPLAYGROUND_H
