@@ -13,7 +13,7 @@ int main( int argc, char** argv )
 	
 	// initialize tiles
 	TilesManager::instance()->loadDatas();
-	TilesManager::instance()->setTileSize( QSize( 60, 60 ) );
+	TilesManager::instance()->setTileScaledSize( QSize( 60, 60 ) );
 	
 	// initialize game engine
 	GameEngine engine;

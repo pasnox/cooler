@@ -17,9 +17,8 @@ public:
 	QString datasPath() const;
 	void setDatasPath( const QString& path );
 	
-	#warning renamme the member scaledTileSize() which is most appropriate name
-	QSize tileSize() const;
-	void setTileSize( const QSize& size );
+	QSize tileScaledSize() const;
+	void setTileScaledSize( const QSize& size );
 	
 	bool loadDatas();
 	TypesTilesMap tiles() const;
@@ -29,7 +28,7 @@ public:
 	
 protected:
 	QString mDatasPath;
-	QSize mTileSize;
+	QSize mTileScaledSize;
 	TypesTilesMap mTiles;
 	
 	TilesManager( QObject* parent = 0, const QString& datasPath = QApplication::applicationDirPath() +"/Graphics" );

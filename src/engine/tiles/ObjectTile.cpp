@@ -14,7 +14,7 @@ int ObjectTile::steps() const
 QPixmap ObjectTile::tile( int step ) const
 {
 	Q_UNUSED( step );
-	const QSize tileSize = TilesManager::instance()->tileSize();
+	const QSize tileScaledSize = TilesManager::instance()->tileScaledSize();
 
 	switch ( Type )
 	{
@@ -24,7 +24,7 @@ QPixmap ObjectTile::tile( int step ) const
 		case Globals::BoxTile:
 		case Globals::FloorTile:
 		case Globals::SkyTile:
-			return Pixmap.scaled( tileSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+			return Pixmap.scaled( tileScaledSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 		case Globals::InvalidTile:
 		case Globals::GameScreenTile:
 		case Globals::BombExplosionTile:

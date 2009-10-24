@@ -6,7 +6,7 @@
 TilesManager::TilesManager( QObject* parent, const QString& datasPath )
 	: QObject( parent )
 {
-	mTileSize = Globals::TilesSize;
+	mTileScaledSize = Globals::TilesSize;
 	setDatasPath( datasPath );
 }
 
@@ -40,14 +40,14 @@ void TilesManager::setDatasPath( const QString& path )
 	mDatasPath = path;
 }
 
-QSize TilesManager::tileSize() const
+QSize TilesManager::tileScaledSize() const
 {
-	return mTileSize;
+	return mTileScaledSize;
 }
 
-void TilesManager::setTileSize( const QSize& size )
+void TilesManager::setTileScaledSize( const QSize& size )
 {
-	mTileSize = size;
+	mTileScaledSize = size;
 }
 
 bool TilesManager::loadDatas()
