@@ -11,6 +11,7 @@
 typedef QMap<uint, QString> TilesMapping;
 typedef QMap<QPoint, AbstractTile*> LayerMap;
 typedef QMap<uint, LayerMap> LayersMap;
+typedef QList<QPoint> PlayersPosition;
 
 class Map
 {
@@ -29,6 +30,7 @@ public:
 	
 	QString name() const;
 	QSize size() const;
+	PlayersPosition playersPosition() const;
 	LayersMap layers() const;
 	LayerMap layer( uint id ) const;
 
@@ -37,6 +39,7 @@ protected:
 	TilesManager* mTiles;
 	QString mName;
 	QSize mSize;
+	PlayersPosition mPlayersPosition;
 	TilesMapping mMapping;
 	LayersMap mLayers;
 	
