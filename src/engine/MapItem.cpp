@@ -95,10 +95,47 @@ QPoint MapItem::gridPos( MapObjectItem* object ) const
 	return p;
 }
 
+QList<MapObjectItem*> MapItem::graphicsItemListToMapObjectItemList( const QList<QGraphicsItem*>& items ) const
+{
+	QList<MapObjectItem*> objects;
+	
+	foreach ( QGraphicsItem* item, items )
+	{
+		MapObjectItem* object = qgraphicsitem_cast<MapObjectItem*>( item );
+		
+		if ( object )
+		{
+			objects << object;
+		}
+	}
+	
+	return objects;
+}
+
+QList<MapObjectItem*> MapItem::objectsAt( const QPoint& pos ) const
+{
+	QList<QGraphicsItem*> items = scene()->items( pos );
+	return graphicsItemListToMapObjectItemList( items );
+}
+
+QList<MapObjectItem*> MapItem::objectsIn( const QRect& rect ) const
+{
+	QList<QGraphicsItem*> items = scene()->items( rect );
+	return graphicsItemListToMapObjectItemList( items );
+}
+
 void MapItem::moveObjectToGridPosition( MapObjectItem* object, const QPoint& position )
 {
 	const QPoint pos = gridToPos( position );
 	object->setPos( pos );
+}
+
+void MapItem::movePlayerBySteps( PlayerItem* player, const QPoint& steps )
+{
+	QPoint pos = player->pos().toPoint() +steps;
+	QRect rect( pos, boundingRect().size().toSize() );
+	QList<MapObjectItem*> objects = objectsIn( rect );
+	player->setPos( pos );
 }
 
 QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) const
