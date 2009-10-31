@@ -42,21 +42,25 @@ namespace Globals
 	
 	enum PadStroke
 	{
-		PadStrokeNo = -1,
-		PadStrokeDown,
-		PadStrokeRight,
-		PadStrokeLeft,
-		PadStrokeUp
+		PadStrokeNo = 0x0,
+		PadStrokeDown = 0x1,
+		PadStrokeRight = 0x2,
+		PadStrokeLeft = 0x4,
+		PadStrokeUp = 0x8
 	};
+	
+	Q_DECLARE_FLAGS( PadStrokes, PadStroke )
 	
 	enum PadAction
 	{
-		PadActionNo = -1,
-		PadAction1,
-		PadAction2,
-		PadAction3,
-		PadAction4
+		PadActionNo = 0x0,
+		PadAction1 = 0x1,
+		PadAction2 = 0x2,
+		PadAction3 = 0x4,
+		PadAction4 = 0x8
 	};
+	
+	Q_DECLARE_FLAGS( PadActions, PadAction )
 	
 	enum PlayerState
 	{
@@ -98,5 +102,8 @@ namespace Globals
 	
 	QImage toGrayscale( const QImage& srcImage, bool keepAlpha = true );
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS( Globals::PadStrokes )
+Q_DECLARE_OPERATORS_FOR_FLAGS( Globals::PadActions )
 
 #endif // GLOBALS_H
