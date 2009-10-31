@@ -26,9 +26,9 @@ GSPadSettings::GSPadSettings( const PadSettingsList& pads )
 	mPads = pads;
 }
 
-void GSPadSettings::Init( GameEngine* engine, const QSizeF& size )
+void GSPadSettings::init( GameEngine* engine, const QSizeF& size )
 {
-	AbstractGameState::Init( engine, size );
+	AbstractGameState::init( engine, size );
 	
 	mCurrentPadIndex = 1;
 	mIsWaitingInput = false;
@@ -133,9 +133,9 @@ void GSPadSettings::Init( GameEngine* engine, const QSizeF& size )
 	loadPadSettings( 1 );
 }
 
-void GSPadSettings::Cleanup()
+void GSPadSettings::cleanup()
 {
-	AbstractGameState::Cleanup();
+	AbstractGameState::cleanup();
 	
 	mBackgroundValue = 0;
 	mBackground = QPixmap();
@@ -150,15 +150,15 @@ void GSPadSettings::Cleanup()
 	Q_CLEANUP( mFormMenu );
 }
 
-void GSPadSettings::Pause()
+void GSPadSettings::pause()
 {
 }
 
-void GSPadSettings::Resume()
+void GSPadSettings::resume()
 {
 }
 
-void GSPadSettings::HandleEvents( GameEngine* game )
+void GSPadSettings::handleEvents( GameEngine* game )
 {
 	Q_UNUSED( game );
 	
@@ -261,7 +261,7 @@ void GSPadSettings::HandleEvents( GameEngine* game )
 				{
 					case Qt::Key_Escape:
 					{
-						game->ChangeState( GSMode::instance() );
+						game->changeState( GSMode::instance() );
 						break;
 					}
 					case Qt::Key_Return:
@@ -274,12 +274,12 @@ void GSPadSettings::HandleEvents( GameEngine* game )
 						}
 						else if ( formIndex == 0 )
 						{
-							game->ChangeState( GSMode::instance() );
+							game->changeState( GSMode::instance() );
 						}
 						else if ( formIndex == 1 )
 						{
 							game->setPadSettings( mPads );
-							game->ChangeState( GSMode::instance() );
+							game->changeState( GSMode::instance() );
 						}
 						break;
 					}
@@ -406,7 +406,7 @@ void GSPadSettings::HandleEvents( GameEngine* game )
 	}
 }
 
-void GSPadSettings::Update( GameEngine* game )
+void GSPadSettings::update( GameEngine* game )
 {
 	Q_UNUSED( game );
 	

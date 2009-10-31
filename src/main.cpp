@@ -17,10 +17,10 @@ int main( int argc, char** argv )
 	
 	// initialize game engine
 	GameEngine engine;
-	engine.Init( "Cooler", QSize( 1024, 768 ) );
+	engine.init( "Cooler", QSize( 1024, 768 ) );
 
 	// load the intro
-	engine.ChangeState( GSIntroduction::instance() );
+	engine.changeState( GSIntroduction::instance() );
 	
 	// run engine
 	engine.start();
@@ -28,6 +28,6 @@ int main( int argc, char** argv )
 	int result = app.exec();
 
 	// cleanup the engine
-	engine.Cleanup();
+	engine.cleanup();
 	return result;
 }

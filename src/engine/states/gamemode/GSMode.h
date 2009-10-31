@@ -11,14 +11,14 @@ class GSMode : public AbstractGameState
 public:
 	static GSMode* instance();
 	
-	virtual void Init( GameEngine* engine, const QSizeF& size );
-	virtual void Cleanup();
+	virtual void init( GameEngine* engine, const QSizeF& size );
+	virtual void cleanup();
 
-	virtual void Pause();
-	virtual void Resume();
+	virtual void pause();
+	virtual void resume();
 
-	virtual void HandleEvents( GameEngine* game );
-	virtual void Update( GameEngine* game );
+	virtual void handleEvents( GameEngine* game );
+	virtual void update( GameEngine* game );
 	virtual bool validateState( GameEngine* game ) const;
 
 protected:

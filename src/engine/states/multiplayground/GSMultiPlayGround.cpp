@@ -18,9 +18,9 @@ GSMultiPlayGround* GSMultiPlayGround::instance()
 	return mInstance;
 }
 
-void GSMultiPlayGround::Init( GameEngine* engine, const QSizeF& size )
+void GSMultiPlayGround::init( GameEngine* engine, const QSizeF& size )
 {
-	AbstractGameState::Init( engine, size );
+	AbstractGameState::init( engine, size );
 	
 	mTiles = TilesManager::instance()->tiles( Globals::GameScreenTile );
 	
@@ -58,9 +58,9 @@ void GSMultiPlayGround::Init( GameEngine* engine, const QSizeF& size )
 	}
 }
 
-void GSMultiPlayGround::Cleanup()
+void GSMultiPlayGround::cleanup()
 {
-	AbstractGameState::Cleanup();
+	AbstractGameState::cleanup();
 	
 	setLayout( 0 );
 	mMainLayout = 0;
@@ -70,15 +70,15 @@ void GSMultiPlayGround::Cleanup()
 	mPlayers.clear();
 }
 
-void GSMultiPlayGround::Pause()
+void GSMultiPlayGround::pause()
 {
 }
 
-void GSMultiPlayGround::Resume()
+void GSMultiPlayGround::resume()
 {
 }
 
-void GSMultiPlayGround::HandleEvents( GameEngine* engine )
+void GSMultiPlayGround::handleEvents( GameEngine* engine )
 {
 	Q_UNUSED( engine );
 	
@@ -135,7 +135,7 @@ void GSMultiPlayGround::HandleEvents( GameEngine* engine )
 	}
 }
 
-void GSMultiPlayGround::Update( GameEngine* engine )
+void GSMultiPlayGround::update( GameEngine* engine )
 {
 	Q_UNUSED( engine );
 }
