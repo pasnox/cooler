@@ -29,15 +29,19 @@ public:
 	QPoint posToGrid( const QPoint& pos ) const;
 	QPoint gridPos( MapObjectItem* object ) const;
 	
-	void moveObjectToGridPosition( MapObjectItem* object, const QPoint& position );
+	QList<MapObjectItem*> graphicsItemListToMapObjectItemList( const QList<QGraphicsItem*>& items ) const;
+	QList<MapObjectItem*> objectsAt( const QPoint& pos ) const;
+	QList<MapObjectItem*> objectsIn( const QRect& rect ) const;
 	
-	QPoint canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) const;
-	QPoint closestPos( const QPoint& pos ) const;
+	void moveObjectToGridPosition( MapObjectItem* object, const QPoint& position );
+	void movePlayerBySteps( PlayerItem* player, const QPoint& steps );
 	
 protected:
 	Map* mMap;
 	LayersMapObjects mObjects;
 	
+	QPoint canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) const;
+	QPoint closestPos( const QPoint& pos ) const;
 	MapObjectItem* nearestObject( const QPoint& strokePoint, Globals::PadStroke stroke, const QSet<MapObjectItem*>& objects ) const;
 };
 
