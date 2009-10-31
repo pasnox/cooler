@@ -18,9 +18,9 @@ GSMode* GSMode::instance()
 	return mInstance;
 }
 
-void GSMode::Init( GameEngine* engine, const QSizeF& size )
+void GSMode::init( GameEngine* engine, const QSizeF& size )
 {
-	AbstractGameState::Init( engine, size );
+	AbstractGameState::init( engine, size );
 	
 	mTiles = TilesManager::instance()->tiles( Globals::GameScreenTile );
 	mBackgroundValue = 0;
@@ -69,9 +69,9 @@ void GSMode::Init( GameEngine* engine, const QSizeF& size )
 	mMenu->setPos( menuRect.topLeft() );
 }
 
-void GSMode::Cleanup()
+void GSMode::cleanup()
 {
-	AbstractGameState::Cleanup();
+	AbstractGameState::cleanup();
 	
 	mBackgroundValue = 0;
 	mBackground = QPixmap();
@@ -81,15 +81,15 @@ void GSMode::Cleanup()
 	Q_CLEANUP( mMenu );
 }
 
-void GSMode::Pause()
+void GSMode::pause()
 {
 }
 
-void GSMode::Resume()
+void GSMode::resume()
 {
 }
 
-void GSMode::HandleEvents( GameEngine* game )
+void GSMode::handleEvents( GameEngine* game )
 {
 	Q_UNUSED( game );
 	
@@ -104,7 +104,7 @@ void GSMode::HandleEvents( GameEngine* game )
 				switch ( ke->key )
 				{
 					case Qt::Key_Escape:
-						game->ChangeState( GSIntroduction::instance() );
+						game->changeState( GSIntroduction::instance() );
 						break;
 					case Qt::Key_Up:
 						mMenu->selectPreviousItem();
@@ -123,10 +123,10 @@ void GSMode::HandleEvents( GameEngine* game )
 							case 0:
 								break;
 							case 1:
-								game->ChangeState( GSMultiPlayerSetup::instance() );
+								game->changeState( GSMultiPlayerSetup::instance() );
 								break;
 							case 2:
-								game->ChangeState( GSPadSettings::instance( game->padsSettings() ) );
+								game->changeState( GSPadSettings::instance( game->padsSettings() ) );
 								break;
 						}
 					}
@@ -153,7 +153,7 @@ void GSMode::HandleEvents( GameEngine* game )
 	}
 }
 
-void GSMode::Update( GameEngine* game )
+void GSMode::update( GameEngine* game )
 {
 	Q_UNUSED( game );
 	

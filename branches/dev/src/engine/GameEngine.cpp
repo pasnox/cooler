@@ -8,7 +8,7 @@
 #include <QApplication>
 #include <QDesktopWidget>
 
-void GameEngine::Init( const QString& title, const QSize& size, int bpp, bool fullscreen )
+void GameEngine::init( const QString& title, const QSize& size, int bpp, bool fullscreen )
 {
 	Q_UNUSED( bpp );
 	
@@ -78,13 +78,13 @@ void GameEngine::Init( const QString& title, const QSize& size, int bpp, bool fu
 	}
 }
 
-void GameEngine::Cleanup()
+void GameEngine::cleanup()
 {
 	while ( !mStates.isEmpty() )
 	{
 		mStates.last()->ungrabKeyboard();
 		mScene->removeItem( mStates.last() );
-		mStates.last()->Cleanup();
+		mStates.last()->cleanup();
 		mStates.erase( mStates.end() -1 );
 	}
 	
@@ -103,76 +103,76 @@ void GameEngine::Cleanup()
 	mSettings->endArray();
 }
 
-void GameEngine::ChangeState( AbstractGameState* state ) 
+void GameEngine::changeState( AbstractGameState* state ) 
 {
 	if ( !mStates.isEmpty() )
 	{
 		mStates.last()->ungrabKeyboard();
 		mScene->removeItem( mStates.last() );
-		mStates.last()->Cleanup();
+		mStates.last()->cleanup();
 		mStates.erase( mStates.end() -1 );
 	}
 	
 	mStates.append( state );
-	mStates.last()->Init( this, mSize );
+	mStates.last()->init( this, mSize );
 	mScene->addItem( state );
 	mScene->setFocusItem( state );
 	state->grabKeyboard();
 }
 
-void GameEngine::PushState( AbstractGameState* state )
+void GameEngine::pushState( AbstractGameState* state )
 {
 	if ( !mStates.isEmpty() )
 	{
-		mStates.last()->Pause();
+		mStates.last()->pause();
 	}
 	
 	mStates.append( state );
-	mStates.last()->Init( this, mSize );
+	mStates.last()->init( this, mSize );
 	mScene->addItem( state );
 	mScene->setFocusItem( state );
 	state->grabKeyboard();
 }
 
-void GameEngine::PopState()
+void GameEngine::popState()
 {
 	if ( !mStates.isEmpty() )
 	{
 		mStates.last()->ungrabKeyboard();
 		mScene->removeItem( mStates.last() );
-		mStates.last()->Cleanup();
+		mStates.last()->cleanup();
 		mStates.erase( mStates.end() -1 );
 	}
 	
 	if ( !mStates.isEmpty() )
 	{
-		mStates.last()->Resume();
+		mStates.last()->resume();
 	}
 }
 
 
-void GameEngine::HandleEvents() 
+void GameEngine::handleEvents() 
 {
 	if ( mStates.isEmpty() )
 	{
 		return;
 	}
 	
-	mStates.last()->HandleEvents( this );
-	mStates.last()->FlushEvents();
+	mStates.last()->handleEvents( this );
+	mStates.last()->flushEvents();
 }
 
-void GameEngine::Update() 
+void GameEngine::update() 
 {
 	if ( mStates.isEmpty() )
 	{
 		return;
 	}
 	
-	mStates.last()->Update( this );
+	mStates.last()->update( this );
 }
 
-void GameEngine::Draw() 
+void GameEngine::draw() 
 {
 	mScene->update();
 }
@@ -228,9 +228,9 @@ void GameEngine::timerEvent( QTimerEvent* event )
 			close();
 		}
 		
-		HandleEvents();
-		Update();
-		Draw();
+		handleEvents();
+		update();
+		draw();
 	}
 }
 

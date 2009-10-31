@@ -131,36 +131,36 @@ class AbstractGameState : public QGraphicsWidget
 	Q_OBJECT
 	
 public:
-	virtual void Init( GameEngine* engine, const QSizeF& size )
+	virtual void init( GameEngine* engine, const QSizeF& size )
 	{
 		Q_UNUSED( engine );
 		mSize = size;
 		setGeometry( QRectF( QPointF( 0, 0 ), size ) );
 	}
 	
-	virtual void Cleanup()
+	virtual void cleanup()
 	{
-		FlushEvents();
+		flushEvents();
 		setGeometry( QRectF() );
 		mTiles.clear();
 	}
 	
-	virtual void FlushEvents()
+	virtual void flushEvents()
 	{
 		qDeleteAll( mEvents );
 		mEvents.clear();
 	}
 
-	virtual void Pause() = 0;
-	virtual void Resume() = 0;
+	virtual void pause() = 0;
+	virtual void resume() = 0;
 
-	virtual void HandleEvents( GameEngine* game ) = 0;
-	virtual void Update( GameEngine* game ) = 0;
+	virtual void handleEvents( GameEngine* game ) = 0;
+	virtual void update( GameEngine* game ) = 0;
 	virtual bool validateState( GameEngine* game ) const = 0;
 
-	virtual void ChangeState( GameEngine* game, AbstractGameState* state )
+	virtual void changeState( GameEngine* game, AbstractGameState* state )
 	{
-		game->ChangeState( state );
+		game->changeState( state );
 	}
 
 protected:

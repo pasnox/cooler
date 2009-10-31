@@ -23,9 +23,9 @@ GSMultiGamePlay* GSMultiGamePlay::instance()
 	return mInstance;
 }
 
-void GSMultiGamePlay::Init( GameEngine* engine, const QSizeF& size )
+void GSMultiGamePlay::init( GameEngine* engine, const QSizeF& size )
 {
-	AbstractGameState::Init( engine, size );
+	AbstractGameState::init( engine, size );
 	
 	mTiles = TilesManager::instance()->tiles( Globals::GameScreenTile );
 	mBackgroundValue = 0;
@@ -106,9 +106,9 @@ void GSMultiGamePlay::Init( GameEngine* engine, const QSizeF& size )
 	mMainLayout->insertStretch( 3, 100 );
 }
 
-void GSMultiGamePlay::Cleanup()
+void GSMultiGamePlay::cleanup()
 {
-	AbstractGameState::Cleanup();
+	AbstractGameState::cleanup();
 	
 	mBackgroundValue = 0;
 	mBackground = QPixmap();
@@ -122,15 +122,15 @@ void GSMultiGamePlay::Cleanup()
 	Q_CLEANUP( mStatesMenu );
 }
 
-void GSMultiGamePlay::Pause()
+void GSMultiGamePlay::pause()
 {
 }
 
-void GSMultiGamePlay::Resume()
+void GSMultiGamePlay::resume()
 {
 }
 
-void GSMultiGamePlay::HandleEvents( GameEngine* game )
+void GSMultiGamePlay::handleEvents( GameEngine* game )
 {
 	Q_UNUSED( game );
 	
@@ -146,14 +146,14 @@ void GSMultiGamePlay::HandleEvents( GameEngine* game )
 				{
 					case Qt::Key_Escape:
 					{
-						game->ChangeState( GSMultiPlayerChoice::instance() );
+						game->changeState( GSMultiPlayerChoice::instance() );
 						break;
 					}
 					case Qt::Key_Return:
 					case Qt::Key_Enter:
 					{
 						if ( validateState( game ) )
-							game->ChangeState( GSMultiMapChoice::instance() );
+							game->changeState( GSMultiMapChoice::instance() );
 						break;
 					}
 					case Qt::Key_Up:
@@ -203,7 +203,7 @@ void GSMultiGamePlay::HandleEvents( GameEngine* game )
 	}
 }
 
-void GSMultiGamePlay::Update( GameEngine* game )
+void GSMultiGamePlay::update( GameEngine* game )
 {
 	Q_UNUSED( game );
 	

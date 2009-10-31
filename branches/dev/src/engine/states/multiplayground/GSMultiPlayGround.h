@@ -13,14 +13,14 @@ class GSMultiPlayGround : public AbstractGameState
 public:
 	static GSMultiPlayGround* instance();
 	
-	virtual void Init( GameEngine* engine, const QSizeF& size );
-	virtual void Cleanup();
+	virtual void init( GameEngine* engine, const QSizeF& size );
+	virtual void cleanup();
 
-	virtual void Pause();
-	virtual void Resume();
+	virtual void pause();
+	virtual void resume();
 
-	virtual void HandleEvents( GameEngine* engine );
-	virtual void Update( GameEngine* engine );
+	virtual void handleEvents( GameEngine* engine );
+	virtual void update( GameEngine* engine );
 	virtual bool validateState( GameEngine* engine ) const;
 
 protected:

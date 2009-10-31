@@ -20,19 +20,19 @@ class GameEngine : public QGraphicsView
 	Q_OBJECT
 	
 public:
-	virtual void Init( const QString& title, const QSize& size = QSize( 1024, 768 ), int bpp = 0, bool fullscreen = false );
-	virtual void Cleanup();
+	virtual void init( const QString& title, const QSize& size = QSize( 1024, 768 ), int bpp = 0, bool fullscreen = false );
+	virtual void cleanup();
 
-	virtual void ChangeState( AbstractGameState* state );
-	virtual void PushState( AbstractGameState* state );
-	virtual void PopState();
+	virtual void changeState( AbstractGameState* state );
+	virtual void pushState( AbstractGameState* state );
+	virtual void popState();
 
-	virtual void HandleEvents();
-	virtual void Update();
-	virtual void Draw();
+	virtual void handleEvents();
+	virtual void update();
+	virtual void draw();
 
-	virtual bool Running() { return mRunning; }
-	virtual void Quit() { mRunning = false; }
+	virtual bool running() { return mRunning; }
+	virtual void quit() { mRunning = false; }
 	
 	void setPadSettings( const PadSettingsList& pads );
 	const PadSettingsList& padsSettings() const;
