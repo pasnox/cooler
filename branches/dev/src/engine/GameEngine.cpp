@@ -21,6 +21,7 @@ void GameEngine::init( const QString& title, const QSize& size, int bpp, bool fu
 	
 	// scene
 	mScene = new QGraphicsScene( this );
+	mScene->setItemIndexMethod( QGraphicsScene::NoIndex );
 	mScene->setSceneRect( QRectF( QPointF( 0, 0 ), QSizeF( size ) ) );
 	
 	// variables
