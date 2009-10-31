@@ -62,6 +62,26 @@ qWarning() << "tile";
 	//mPlayerTile = static_cast<PlayerTile*>( tile );
 }
 
+Globals::PadStrokes PlayerItem::padStrokes() const
+{
+	return mStrokes;
+}
+
+void PlayerItem::setPadStrokes( Globals::PadStrokes strokes )
+{
+	mStrokes = strokes;
+}
+
+Globals::PadActions PlayerItem::padActions() const
+{
+	return mActions;
+}
+
+void PlayerItem::setPadActions( Globals::PadActions actions )
+{
+	mActions = actions;
+}
+
 /*
 PadSettings* PlayerItem::pad() const
 {

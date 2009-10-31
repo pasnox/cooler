@@ -27,6 +27,12 @@ public:
 	virtual QRectF explosiveBoundingRect() const;
 	virtual void setTile( AbstractTile* tile );
 	
+	Globals::PadStrokes padStrokes() const;
+	void setPadStrokes( Globals::PadStrokes strokes );
+	
+	Globals::PadActions padActions() const;
+	void setPadActions( Globals::PadActions actions );
+	
 	/*
 	PadSettings* pad() const;
 	void setPad( PadSettings* pad );
@@ -36,6 +42,9 @@ public:
 
 protected:
 	const Player* mPlayer;
+	Globals::PadStrokes mStrokes;
+	Globals::PadActions mActions;
+	
 	/*
 	PlayerTile* mPlayerTile;
 	PadSettings* mPad;
