@@ -18,7 +18,27 @@ QPixmap PlayerTile::tile( int step ) const
 
 QPixmap PlayerTile::tile( Globals::PadStroke stroke, int step ) const
 {
+	int offset = 0;
+	
+	switch ( stroke )
+	{
+		case Globals::PadStrokeRight:
+			offset = 1;
+			break;
+		case Globals::PadStrokeLeft:
+			offset = 2;
+			break;
+		case Globals::PadStrokeUp:
+			offset = 3;
+			break;
+		case Globals::PadStrokeNo:
+		case Globals::PadStrokeDown:
+		default:
+			offset = 0;
+			break;
+	}
+	
 	const QSize tileScaledSize = TilesManager::instance()->tileScaledSize();
-	const QPoint point = QPoint( step *Globals::TilesSize.width(), stroke *Globals::TilesSize.height() );
+	const QPoint point = QPoint( step *Globals::TilesSize.width(), offset *Globals::TilesSize.height() );
 	return Pixmap.copy( QRect( point, Globals::TilesSize ) ).scaled( tileScaledSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
 }
