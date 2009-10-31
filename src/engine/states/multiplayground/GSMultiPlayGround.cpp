@@ -54,6 +54,7 @@ void GSMultiPlayGround::init( GameEngine* engine, const QSizeF& size )
 		}
 		
 		PlayerItem* playerItem = new PlayerItem( player, mMap );
+		mPlayers[ i ] = playerItem;
 		mMap->moveObjectToGridPosition( playerItem, engine->map()->playersPosition().at( i ) );
 	}
 }
@@ -90,7 +91,7 @@ void GSMultiPlayGround::handleEvents( GameEngine* engine )
 			{
 				KeyEvent* ke = static_cast<KeyEvent*>( event );
 				
-				if ( handlePlayersEvent( ke, engine->padsSettings() ) )
+				if ( handlePlayersEvent( ke, engine ) )
 				{
 					continue;
 				}
@@ -122,7 +123,7 @@ void GSMultiPlayGround::handleEvents( GameEngine* engine )
 			{
 				KeyEvent* ke = static_cast<KeyEvent*>( event );
 				
-				if ( handlePlayersEvent( ke, engine->padsSettings() ) )
+				if ( handlePlayersEvent( ke, engine ) )
 				{
 					continue;
 				}
@@ -137,7 +138,39 @@ void GSMultiPlayGround::handleEvents( GameEngine* engine )
 
 void GSMultiPlayGround::update( GameEngine* engine )
 {
-	Q_UNUSED( engine );
+	const int step = 4;
+	
+	foreach ( const uint& i, mPlayers.keys() )
+	{
+		PlayerItem* player = mPlayers[ i ];
+		const Globals::PadStrokes strokes = player->padStrokes();
+		QPoint steps;
+		
+		if ( strokes.testFlag( Globals::PadStrokeDown ) )
+		{
+			steps.ry() += step;
+		}
+		
+		if ( strokes.testFlag( Globals::PadStrokeRight ) )
+		{
+			steps.rx() += step;
+		}
+		
+		if ( strokes.testFlag( Globals::PadStrokeLeft ) )
+		{
+			steps.rx() -= step;
+		}
+		
+		if ( strokes.testFlag( Globals::PadStrokeUp ) )
+		{
+			steps.ry() -= step;
+		}
+		
+		if ( !steps.isNull() )
+		{
+			mMap->movePlayerBySteps( player, steps );
+		}
+	}
 }
 
 bool GSMultiPlayGround::validateState( GameEngine* engine ) const
@@ -151,11 +184,14 @@ void GSMultiPlayGround::paint( QPainter* painter, const QStyleOptionGraphicsItem
 	AbstractGameState::paint( painter, option, widget );
 }
 
-bool GSMultiPlayGround::handlePlayersEvent( KeyEvent* event, const PadSettingsList& pads )
+bool GSMultiPlayGround::handlePlayersEvent( KeyEvent* event, GameEngine* engine )
 {
+	const PadSettingsList& pads = engine->padsSettings();
+	
 	foreach ( const uint& i, mPlayers.keys() )
 	{
 		const PadSettings& pad = pads.at( i );
+		PlayerItem* player = mPlayers[ i ];
 		
 		switch ( event->type )
 		{
@@ -163,14 +199,11 @@ bool GSMultiPlayGround::handlePlayersEvent( KeyEvent* event, const PadSettingsLi
 			{
 				if ( pad.isStrokeKeyUsed( event->key ) )
 				{
-					/*
-					mStroke = pad.keyStroke( event->key );
+					const Globals::PadStroke stroke = pad.keyStroke( event->key );
+					const Globals::PadStrokes strokes = player->padStrokes() | stroke;
 					
-					if ( !mStrokeTimer->isActive() )
-					{
-						mStrokeTimer->start( mStrokeSpeed );
-					}
-					*/
+					player->setPadStrokes( strokes );
+					return true;
 				}
 				
 				break;
@@ -184,14 +217,11 @@ bool GSMultiPlayGround::handlePlayersEvent( KeyEvent* event, const PadSettingsLi
 				
 				if ( pad.isStrokeKeyUsed( event->key ) )
 				{
-					/*
-					if ( mStrokeTimer->isActive() )
-					{
-						mStrokeTimer->stop();
-					}
+					const Globals::PadStroke stroke = pad.keyStroke( event->key );
+					const Globals::PadStrokes strokes = player->padStrokes() &~ stroke;
 					
-					setPosAt( 0, pos().toPoint() );
-					*/
+					player->setPadStrokes( strokes );
+					return true;
 				}
 				else if ( pad.isActionKeyUsed( event->key ) )
 				{

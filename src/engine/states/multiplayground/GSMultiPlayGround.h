@@ -33,7 +33,7 @@ protected:
 	
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );
 	
-	bool handlePlayersEvent( KeyEvent* event, const PadSettingsList& pads );
+	bool handlePlayersEvent( KeyEvent* event, GameEngine* engine );
 };
 
 #endif // GSMULTIPLAYGROUND_H
