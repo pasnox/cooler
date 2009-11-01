@@ -175,6 +175,7 @@ void GameEngine::update()
 
 void GameEngine::draw() 
 {
+	mScene->advance();
 	mScene->update();
 }
 
