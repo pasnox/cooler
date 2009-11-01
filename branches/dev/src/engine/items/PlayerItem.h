@@ -8,6 +8,26 @@
 class Player;
 class PlayerTile;
 
+struct PlayerProperties
+{
+	PlayerProperties()
+	{
+		mPlayer = 0;
+		mPlayerTile = 0;
+		mStrokes = Globals::PadStrokeNo;
+		mActions = Globals::PadActionNo;
+		mFrameStep = 0;
+		mSpeed = 2;
+	}
+	
+	const Player* mPlayer;
+	PlayerTile* mPlayerTile;
+	Globals::PadStrokes mStrokes;
+	Globals::PadActions mActions;
+	qreal mFrameStep;
+	qreal mSpeed;
+};
+
 class PlayerItem : public QObject, public MapObjectItem
 {
 	Q_OBJECT
@@ -22,42 +42,16 @@ public:
 	virtual QRectF explosiveBoundingRect() const;
 	virtual void setTile( AbstractTile* tile );
 	
+	const PlayerProperties& properties() const;
+	
 	Globals::PadStrokes padStrokes() const;
 	void setPadStrokes( Globals::PadStrokes strokes );
 	
 	Globals::PadActions padActions() const;
 	void setPadActions( Globals::PadActions actions );
-	
-	/*
-	PadSettings* pad() const;
-	void setPad( PadSettings* pad );
-	
-	void setPosAt( qreal step, const QPoint& pos );
-	*/
 
 protected:
-	const Player* mPlayer;
-	PlayerTile* mPlayerTile;
-	Globals::PadStrokes mStrokes;
-	Globals::PadActions mActions;
-	qreal mStep;
-	
-	/*
-	PadSettings* mPad;
-	QString mName;
-//	BombInformations mBombInfos;
-	Globals::PadStroke mStroke;
-	qreal mStrokeStep;
-	int mStrokeSpeed;
-	QTimer* mStrokeTimer;
-	
-	void handleKeyboard( QKeyEvent* event );
-	void handleAction( Globals::PadAction action );
-	void dropBomb();
-
-protected slots:
-	void strokeTimer_timeout();
-	*/
+	PlayerProperties mProperties;
 };
 
 #endif // PLAYERITEM_H

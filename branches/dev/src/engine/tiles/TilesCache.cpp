@@ -1,7 +1,5 @@
 #include "TilesCache.h"
 
-#include <QDebug>
-
 TilesCache* TilesCache::instance()
 {
 	static TilesCache* _instance = 0;
@@ -59,9 +57,9 @@ bool TilesCache::insert( const uint& key, const QPixmap& pm )
 {
 	QPixmap* pixmap = new QPixmap( pm );
 	
+	// QCache take ownership of the pointer, no need to delete it
 	if ( !QCache<uint, QPixmap>::insert( key, pixmap, pixmapCost( pm ) ) )
 	{
-		//delete pixmap; // QCache take ownership of it, cf the doc.
 		pixmap = 0;
 	}
 	
