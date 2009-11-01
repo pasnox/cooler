@@ -138,8 +138,9 @@ void GSMultiPlayGround::handleEvents( GameEngine* engine )
 
 void GSMultiPlayGround::update( GameEngine* engine )
 {
-	const int step = 4;
+	const int step = 1;
 	
+	// update players position
 	foreach ( const uint& i, mPlayers.keys() )
 	{
 		PlayerItem* player = mPlayers[ i ];
