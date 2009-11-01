@@ -1,5 +1,6 @@
 #include "PlayerItem.h"
 #include "Player.h"
+#include "PlayerTile.h"
 
 /*
 #include "TilesManager.h"
@@ -16,10 +17,14 @@
 */
 
 PlayerItem::PlayerItem( const Player* player, QGraphicsItem* parent )
-	: QObject(), MapObjectItem( player->tile(), parent )
+	: QObject(), MapObjectItem( 0, parent )
 {
 	setZValue( Globals::PlayerLayer );
 	mPlayer = player;
+	mPlayerTile = 0;
+	mStep = 0;
+	
+	setTile( player->tile() );
 	
 	/*
 	mPad = 0;
@@ -35,6 +40,51 @@ PlayerItem::PlayerItem( const Player* player, QGraphicsItem* parent )
 
 PlayerItem::~PlayerItem()
 {
+}
+
+void PlayerItem::advance( int phase )
+{
+	switch ( phase )
+	{
+		case 0:
+			break;
+		case 1:
+		{
+			if ( !mPlayerTile )
+			{
+				break;
+			}
+			
+			mStep += .5;
+			
+			if ( mStep >= mPlayerTile->steps() )
+			{
+				mStep = 0;
+			}
+			
+			if ( mStrokes.testFlag( Globals::PadStrokeUp ) )
+			{
+				setPixmap( mPlayerTile->tile( Globals::PadStrokeUp, mStep ) );
+			}
+			
+			if ( mStrokes.testFlag( Globals::PadStrokeDown ) )
+			{
+				setPixmap( mPlayerTile->tile( Globals::PadStrokeDown, mStep ) );
+			}
+			
+			if ( mStrokes.testFlag( Globals::PadStrokeLeft ) )
+			{
+				setPixmap( mPlayerTile->tile( Globals::PadStrokeLeft, mStep ) );
+			}
+			
+			if ( mStrokes.testFlag( Globals::PadStrokeRight ) )
+			{
+				setPixmap( mPlayerTile->tile( Globals::PadStrokeRight, mStep ) );
+			}
+			
+			break;
+		}
+	}
 }
 
 void PlayerItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget )
@@ -56,10 +106,14 @@ QRectF PlayerItem::explosiveBoundingRect() const
 
 void PlayerItem::setTile( AbstractTile* tile )
 {
-qWarning() << "tile";
-	Q_ASSERT( tile->Type == Globals::PlayerTile );
+	if ( tile->Type != Globals::PlayerTile )
+	{
+		Q_ASSERT( 0 );
+		return;
+	}
+	
 	MapObjectItem::setTile( tile );
-	//mPlayerTile = static_cast<PlayerTile*>( tile );
+	mPlayerTile = static_cast<PlayerTile*>( tile );
 }
 
 Globals::PadStrokes PlayerItem::padStrokes() const

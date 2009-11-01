@@ -6,13 +6,7 @@
 #include "MapObjectItem.h"
 
 class Player;
-
-/*
-class QTimer;
-class MapItem;
 class PlayerTile;
-class PadSettings;
-*/
 
 class PlayerItem : public QObject, public MapObjectItem
 {
@@ -22,6 +16,7 @@ public:
 	PlayerItem( const Player* player, QGraphicsItem* parent );
 	virtual ~PlayerItem();
 	
+	virtual void advance( int phase );
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );
 	
 	virtual QRectF explosiveBoundingRect() const;
@@ -42,11 +37,12 @@ public:
 
 protected:
 	const Player* mPlayer;
+	PlayerTile* mPlayerTile;
 	Globals::PadStrokes mStrokes;
 	Globals::PadActions mActions;
+	qreal mStep;
 	
 	/*
-	PlayerTile* mPlayerTile;
 	PadSettings* mPad;
 	QString mName;
 //	BombInformations mBombInfos;
