@@ -110,7 +110,8 @@ HEADERS	= src/engine/GameEngine.h \
 	src/engine/states/multiplayground/GSMultiPlayGround.h \
 	src/engine/states/padsettings/GSPadSettings.h \
 	src/engine/Map.h \
-	src/engine/MapItem.h
+	src/engine/MapItem.h \
+	src/engine/tiles/TilesCache.h
 
 #	src/obsolete/editor/GraphicsViewEditor.h \
 #	src/obsolete/editor/MapEditorItem.h \
@@ -158,7 +159,8 @@ SOURCES	= src/engine/GameEngine.cpp \
 	src/engine/states/padsettings/GSPadSettings.cpp \
 	src/engine/Map.cpp \
 	src/engine/MapItem.cpp \
-	src/main.cpp
+	src/main.cpp \
+	src/engine/tiles/TilesCache.cpp
 
 #	src/obsolete/editor/GraphicsViewEditor.cpp \
 #	src/obsolete/editor/MapEditorItem.cpp \

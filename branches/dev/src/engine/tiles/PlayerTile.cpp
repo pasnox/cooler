@@ -1,5 +1,6 @@
 #include "PlayerTile.h"
 #include "TilesManager.h"
+#include "TilesCache.h"
 
 PlayerTile::PlayerTile( const QFileInfo& fn )
 	: AbstractTile( fn, Globals::PlayerTile )
@@ -8,7 +9,7 @@ PlayerTile::PlayerTile( const QFileInfo& fn )
 
 int PlayerTile::steps() const
 {
-	return Pixmap.isNull() ? 0 : 6;
+	return pixmap().isNull() ? 0 : 6;
 }
 
 QPixmap PlayerTile::tile( int step ) const
@@ -39,6 +40,15 @@ QPixmap PlayerTile::tile( Globals::PadStroke stroke, int step ) const
 	}
 	
 	const QSize tileScaledSize = TilesManager::instance()->tileScaledSize();
-	const QPoint point = QPoint( step *Globals::TilesSize.width(), offset *Globals::TilesSize.height() );
-	return Pixmap.copy( QRect( point, Globals::TilesSize ) ).scaled( tileScaledSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+	const uint key = qHash( FileName.fileName().append( stroke ).append( step ).append( tileScaledSize.width() ).append( tileScaledSize.height() ) );
+	QPixmap pm;
+	
+	if ( !TilesCache::instance()->find( key, pm ) )
+	{
+		const QPoint point = QPoint( step *Globals::TilesSize.width(), offset *Globals::TilesSize.height() );
+		pm = pixmap().copy( QRect( point, Globals::TilesSize ) ).scaled( tileScaledSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+		TilesCache::instance()->insert( key, pm );
+	}
+	
+	return pm;
 }
