@@ -1,5 +1,6 @@
 #include "ObjectTile.h"
 #include "TilesManager.h"
+#include "TilesCache.h"
 
 ObjectTile::ObjectTile( const QFileInfo& fn, Globals::TypeTile type )
 	: AbstractTile( fn, type )
@@ -8,7 +9,7 @@ ObjectTile::ObjectTile( const QFileInfo& fn, Globals::TypeTile type )
 
 int ObjectTile::steps() const
 {
-	return Pixmap.isNull() ? 0 : 1;
+	return pixmap().isNull() ? 0 : 1;
 }
 
 QPixmap ObjectTile::tile( int step ) const
@@ -24,7 +25,18 @@ QPixmap ObjectTile::tile( int step ) const
 		case Globals::BoxTile:
 		case Globals::FloorTile:
 		case Globals::SkyTile:
-			return Pixmap.scaled( tileScaledSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+		{
+			const uint key = qHash( FileName.fileName().append( step ).append( tileScaledSize.width() ).append( tileScaledSize.height() ) );
+			QPixmap pm;
+			
+			if ( !TilesCache::instance()->find( key, pm ) )
+			{
+				pm = pixmap().scaled( tileScaledSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+				TilesCache::instance()->insert( key, pm );
+			}
+			
+			return pm;
+		}
 		case Globals::InvalidTile:
 		case Globals::GameScreenTile:
 		case Globals::BombExplosionTile:
@@ -34,5 +46,5 @@ QPixmap ObjectTile::tile( int step ) const
 			break;
 	}
 	
-	return Pixmap;
+	return pixmap();
 }

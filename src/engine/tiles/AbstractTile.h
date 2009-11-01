@@ -16,6 +16,7 @@ struct AbstractTile
 	
 	virtual QString absoluteFilePath() const;
 	virtual QString name() const;
+	virtual QPixmap pixmap() const;
 	virtual int steps() const = 0;
 	virtual QPixmap tile( int step ) const = 0;
 	
@@ -24,7 +25,6 @@ struct AbstractTile
 	
 	Globals::TypeTile Type;
 	QFileInfo FileName;
-	QPixmap Pixmap;
 };
 
 typedef QMap<QString, AbstractTile*> TilesMap;

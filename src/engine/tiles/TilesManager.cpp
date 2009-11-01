@@ -1,5 +1,6 @@
 #include "TilesManager.h"
-#include "Globals.h"
+#include "ObjectTile.h"
+#include "PlayerTile.h"
 
 #include <QDebug>
 

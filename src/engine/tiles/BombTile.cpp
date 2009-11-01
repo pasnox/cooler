@@ -11,16 +11,20 @@ BombTile::BombTile( const QFileInfo& fn, Globals::TypeTile type )
 	Size = settings.value( "Size" ).toSize();
 	QString tilesFn = fn.absolutePath().append( "/" ).append( settings.value( "Tiles" ).toString() );
 	settings.endGroup();
-	Pixmap = QPixmap( tilesFn );
+	//Pixmap = QPixmap( tilesFn );
 }
 
 int BombTile::steps() const
 {
-	return Pixmap.width() /Size.width();
+	return 0;
+	//return Pixmap.width() /Size.width();
 }
 
 QPixmap BombTile::tile( int step ) const
 {
+	return QPixmap();
+	/*
 	const QPoint point = QPoint( step *Size.width(), 0 );
 	return Pixmap.copy( QRect( point, Size ) );
+	*/
 }

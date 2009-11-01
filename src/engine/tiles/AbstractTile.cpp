@@ -1,10 +1,10 @@
 #include "AbstractTile.h"
+#include "TilesCache.h"
 
 AbstractTile::AbstractTile( const QFileInfo& fn, Globals::TypeTile type )
 {
 	FileName = fn;
 	Type = type;
-	Pixmap = QPixmap( absoluteFilePath() );
 }
 
 AbstractTile::~AbstractTile()
@@ -19,6 +19,11 @@ QString AbstractTile::absoluteFilePath() const
 QString AbstractTile::name() const
 {
 	return FileName.baseName();
+}
+
+QPixmap AbstractTile::pixmap() const
+{
+	return TilesCache::instance()->pixmap( qHash( absoluteFilePath() ), absoluteFilePath() );
 }
 
 QByteArray AbstractTile::toByteArray( const AbstractTile* tile )

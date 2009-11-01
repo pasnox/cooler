@@ -3,9 +3,7 @@
 
 #include <QApplication>
 
-#include "ObjectTile.h"
-#include "PlayerTile.h"
-#include "BombTile.h"
+#include "AbstractTile.h"
 
 class TilesManager : public QObject
 {
