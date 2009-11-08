@@ -4,6 +4,9 @@
 #include "GameEngine.h"
 #include "GSIntroduction.h"
 
+#include "Map.h"
+#include "GSMultiPlayGround.h"
+
 int main( int argc, char** argv )
 {
 	QApplication app( argc, argv );
@@ -21,6 +24,28 @@ int main( int argc, char** argv )
 
 	// load the intro
 	engine.changeState( GSIntroduction::instance() );
+	
+	// ****************** QUICK START HACK *****************
+	const TilesMap faces = TilesManager::instance()->tiles( Globals::PlayerTile );
+	PlayerList players = engine.players();
+	
+	// p1
+	players[ 0 ].setState( Globals::PlayerStateHuman );
+	players[ 0 ].setTile( faces.value( "players/Windows.png" ) );
+	
+	// p2
+	players[ 1 ].setState( Globals::PlayerStateHuman );
+	players[ 1 ].setTile( faces.value( "players/Apple.png" ) );
+	
+	// set players
+	engine.setPlayers( players );
+	
+	// set map
+	engine.setMap( new Map( engine.maps().first() ) );
+	
+	//set gameplay state
+	engine.changeState( GSMultiPlayGround::instance() );
+	// ****************** QUICK END HACK *****************
 	
 	// run engine
 	engine.start();

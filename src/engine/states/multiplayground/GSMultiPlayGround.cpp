@@ -138,40 +138,6 @@ void GSMultiPlayGround::handleEvents( GameEngine* engine )
 
 void GSMultiPlayGround::update( GameEngine* engine )
 {
-	const int step = 1;
-	
-	// update players position
-	foreach ( const uint& i, mPlayers.keys() )
-	{
-		PlayerItem* player = mPlayers[ i ];
-		const Globals::PadStrokes strokes = player->padStrokes();
-		QPoint steps;
-		
-		if ( strokes.testFlag( Globals::PadStrokeDown ) )
-		{
-			steps.ry() += step;
-		}
-		
-		if ( strokes.testFlag( Globals::PadStrokeRight ) )
-		{
-			steps.rx() += step;
-		}
-		
-		if ( strokes.testFlag( Globals::PadStrokeLeft ) )
-		{
-			steps.rx() -= step;
-		}
-		
-		if ( strokes.testFlag( Globals::PadStrokeUp ) )
-		{
-			steps.ry() -= step;
-		}
-		
-		if ( !steps.isNull() )
-		{
-			mMap->movePlayerBySteps( player, steps );
-		}
-	}
 }
 
 bool GSMultiPlayGround::validateState( GameEngine* engine ) const
