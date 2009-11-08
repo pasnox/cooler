@@ -133,8 +133,49 @@ void MapItem::moveObjectToGridPosition( MapObjectItem* object, const QPoint& pos
 void MapItem::movePlayerBySteps( PlayerItem* player, const QPoint& steps )
 {
 	QPoint pos = player->pos().toPoint() +steps;
-	QRect rect( pos, boundingRect().size().toSize() );
-	QList<MapObjectItem*> objects = objectsIn( rect );
+	
+	// check map bounding rect
+	if ( pos.x() < 0 )
+	{
+		pos.rx() = 0;
+	}
+	else if ( pos.x() +player->boundingRect().width() > size().width() )
+	{
+		pos.rx() = size().width() -player->boundingRect().width();
+	}
+	
+	if ( pos.y() < 0 )
+	{
+		pos.ry() = 0;
+	}
+	else if ( pos.y() +player->boundingRect().height() > size().height() )
+	{
+		pos.ry() = size().height() -player->boundingRect().height();
+	}
+	
+	// check for walkable objects
+	QPoint p = pos;
+	
+	if ( player->properties().mStrokes.testFlag( Globals::PadStrokeRight ) )
+	{
+		p.rx() += player->boundingRect().width();
+	}
+	else if ( player->properties().mStrokes.testFlag( Globals::PadStrokeDown ) )
+	{
+		p.ry() += player->boundingRect().height();
+	}
+	
+	QList<MapObjectItem*> objects = objectsAt( mapToScene( p ).toPoint() );
+	
+	foreach ( MapObjectItem* object, objects )
+	{
+		if ( !object->isWalkable() )
+		{
+			return;
+		}
+	}
+	
+	
 	player->setPos( pos );
 }
 

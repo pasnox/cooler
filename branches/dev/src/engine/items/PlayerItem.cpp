@@ -1,6 +1,7 @@
 #include "PlayerItem.h"
 #include "Player.h"
 #include "PlayerTile.h"
+#include "MapItem.h"
 
 /*
 #include "TilesManager.h"
@@ -41,6 +42,7 @@ void PlayerItem::advance( int phase )
 				break;
 			}
 			
+			// animation update
 			mProperties.mFrameStep += .5;
 			
 			if ( mProperties.mFrameStep >= mProperties.mPlayerTile->steps() )
@@ -71,6 +73,34 @@ void PlayerItem::advance( int phase )
 			if ( mProperties.mStrokes == Globals::PadStrokeNo )
 			{
 				setPixmap( mProperties.mPlayerTile->tile( Globals::PadStrokeDown, 0 ) );
+			}
+			
+			// update stroking
+			QPoint steps;
+			
+			if ( mProperties.mStrokes.testFlag( Globals::PadStrokeDown ) )
+			{
+				steps.ry() += mProperties.mSpeed;
+			}
+			
+			if ( mProperties.mStrokes.testFlag( Globals::PadStrokeRight ) )
+			{
+				steps.rx() += mProperties.mSpeed;
+			}
+			
+			if ( mProperties.mStrokes.testFlag( Globals::PadStrokeLeft ) )
+			{
+				steps.rx() -= mProperties.mSpeed;
+			}
+			
+			if ( mProperties.mStrokes.testFlag( Globals::PadStrokeUp ) )
+			{
+				steps.ry() -= mProperties.mSpeed;
+			}
+			
+			if ( !steps.isNull() )
+			{
+				map()->movePlayerBySteps( this, steps );
 			}
 			
 			break;
