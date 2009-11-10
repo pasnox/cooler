@@ -134,38 +134,39 @@ void MapItem::movePlayerBySteps( PlayerItem* player, const QPoint& steps )
 {
 	QPoint pos = player->pos().toPoint() +steps;
 	
-	// check map bounding rect
-	if ( pos.x() < 0 )
-	{
-		pos.rx() = 0;
-	}
-	else if ( pos.x() +player->boundingRect().width() > size().width() )
-	{
-		pos.rx() = size().width() -player->boundingRect().width();
-	}
-	
-	if ( pos.y() < 0 )
-	{
-		pos.ry() = 0;
-	}
-	else if ( pos.y() +player->boundingRect().height() > size().height() )
-	{
-		pos.ry() = size().height() -player->boundingRect().height();
-	}
+	// bound to map space
+	pos.rx() = qBound( 0, pos.x(), int( size().width() -player->boundingRect().width() -1 ) );
+	pos.ry() = qBound( 0, pos.y(), int( size().height() -player->boundingRect().height() -1 ) );
 	
 	// check for walkable objects
-	QPoint p = pos;
+	QPoint p1 = pos;
+	QPoint p2 = pos;
+	
+	if ( player->properties().mStrokes.testFlag( Globals::PadStrokeDown ) )
+	{
+		p1.ry() += player->boundingRect().height() -1;
+		p2.ry() = p1.ry();
+		p2.rx() += player->boundingRect().width() -1;
+	}
 	
 	if ( player->properties().mStrokes.testFlag( Globals::PadStrokeRight ) )
 	{
-		p.rx() += player->boundingRect().width();
-	}
-	else if ( player->properties().mStrokes.testFlag( Globals::PadStrokeDown ) )
-	{
-		p.ry() += player->boundingRect().height();
+		p1.rx() += player->boundingRect().width() -1;
+		p2.rx() = p1.rx();
+		p2.ry() += player->boundingRect().height() -1;
 	}
 	
-	QList<MapObjectItem*> objects = objectsAt( mapToScene( p ).toPoint() );
+	if ( player->properties().mStrokes.testFlag( Globals::PadStrokeLeft ) )
+	{
+		p2.ry() += player->boundingRect().height() -1;
+	}
+	
+	if ( player->properties().mStrokes.testFlag( Globals::PadStrokeUp ) )
+	{
+		p2.rx() += player->boundingRect().width() -1;
+	}
+	
+	QList<MapObjectItem*> objects = objectsIn( mapRectToScene( QRect( p1, p2 ) ).toRect() );
 	
 	foreach ( MapObjectItem* object, objects )
 	{
