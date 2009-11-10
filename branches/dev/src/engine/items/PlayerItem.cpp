@@ -115,14 +115,11 @@ void PlayerItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* optio
 
 QRectF PlayerItem::explosiveBoundingRect() const
 {
-	return MapObjectItem::explosiveBoundingRect();
-	/*
 	QRectF br = boundingRect();
 	int height = br.height() /2;
 	br.moveTop( height );
 	br.setHeight( height );
 	return br;
-	*/
 }
 
 void PlayerItem::setTile( AbstractTile* tile )
