@@ -166,16 +166,109 @@ void MapItem::movePlayerBySteps( PlayerItem* player, const QPoint& steps )
 		p2.rx() += player->boundingRect().width() -1;
 	}
 	
-	QList<MapObjectItem*> objects = objectsIn( mapRectToScene( QRect( p1, p2 ) ).toRect() );
+	const QRect collisionRect = mapRectToScene( QRect( p1, p2 ) ).toRect();
+	QList<MapObjectItem*> objectsList = objectsIn( collisionRect );
 	
-	foreach ( MapObjectItem* object, objects )
+	// temporary code
+	foreach ( MapObjectItem* object, objectsList )
 	{
 		if ( !object->isWalkable() )
 		{
 			return;
 		}
 	}
+	//end temporary code
 	
+	// ***********
+	/*
+	QMap<QPoint, MapObjectItem*> objects;
+	QSet<MapObjectItem*> walkableObjects;
+	
+	// minimized objects map
+	foreach ( MapObjectItem* object, objectsList )
+	{
+		if ( !object->isValid() || object == player )
+		{
+			continue;
+		}
+		
+		const QPoint p = gridPos( object );
+		
+		if ( objects.contains( p ) )
+		{
+			MapObjectItem* curObject = objects[ pos ];
+			
+			if ( curObject->isWalkable() )
+			{
+				walkableObjects.remove( curObject );
+				objects[ pos ] = object;
+				
+				if ( object->isWalkable() )
+				{
+					walkableObjects << object;
+				}
+			}
+		}
+		else
+		{
+			objects[ pos ] = object;
+			
+			if ( object->isWalkable() )
+			{
+				walkableObjects << object;
+			}
+		}
+	}
+	
+	// determine the item to walk to
+	MapObjectItem* walkToObject = nearestObject( collisionRect.center(), player->properties().mStrokes, walkableObjects );
+	
+	// return if can't walk
+	if ( !walkToObject )
+	{
+		return;
+	}
+	
+	const QRect bbr = player->mapRectToScene( player->boundingRect() ).toRect();
+	const QRect ebr = player->mapRectToScene( player->explosiveBoundingRect() ).toRect();
+	
+	// calculate the step to move to
+	if ( player->properties().mStrokes.testFlag( Globals::PadStrokeLeft ) || player->properties().mStrokes.testFlag( Globals::PadStrokeRight ) )
+	{
+		if ( bbr.y() != walkToObject->y() )
+		{
+			if ( bbr.y() < walkToObject->y() )
+				pos.ry() += steps.y();
+			else
+				pos.ry() -= steps.y();
+		}
+		else
+		{
+			if( player->properties().mStrokes.testFlag( Globals::PadStrokeLeft ) )
+				pos.rx() -= steps.x();
+			else
+				pos.rx() += steps.x();
+		}
+	}
+	
+	if ( player->properties().mStrokes.testFlag( Globals::PadStrokeUp ) || player->properties().mStrokes.testFlag( Globals::PadStrokeDown ) )
+	{
+		if ( bbr.x() != walkToObject->x() )
+		{
+			if ( bbr.x() < walkToObject->x() )
+				pos.rx() += steps.x();
+			else
+				pos.rx() -= steps.x();
+		}
+		else
+		{
+			if ( player->properties().mStrokes.testFlag( Globals::PadStrokeUp ) )
+				pos.ry() -= steps.y();
+			else
+				pos.ry() += steps.y();
+		}
+	}
+	*/
 	
 	player->setPos( pos );
 }
@@ -320,7 +413,7 @@ QPoint MapItem::closestPos( const QPoint& pos ) const
 }
 
 
-MapObjectItem* MapItem::nearestObject( const QPoint& strokePoint, Globals::PadStroke stroke, const QSet<MapObjectItem*>& objects ) const
+MapObjectItem* MapItem::nearestObject( const QPoint& strokePoint, Globals::PadStrokes strokes, const QSet<MapObjectItem*>& objects ) const
 {
 	if ( objects.isEmpty() )
 	{
@@ -338,25 +431,23 @@ MapObjectItem* MapItem::nearestObject( const QPoint& strokePoint, Globals::PadSt
 		const QPoint center = object->mapToScene( object->boundingRect().center() ).toPoint();
 		int diff, min = 0, max = 0;
 		
-		switch ( stroke )
+		if ( strokes.testFlag( Globals::PadStrokeLeft ) || strokes.testFlag( Globals::PadStrokeRight ) )
 		{
-			case Globals::PadStrokeUp:
-			case Globals::PadStrokeDown:
-				min = qMin( strokePoint.x(), center.x() );
-				max = qMax( strokePoint.x(), center.x() );
-				break;
-			case Globals::PadStrokeLeft:
-			case Globals::PadStrokeRight:
-				min = qMin( strokePoint.y(), center.y() );
-				max = qMax( strokePoint.y(), center.y() );
-				break;
-			default:
-				Q_ASSERT( 0 );
-				break;
+			min = qMin( strokePoint.y(), center.y() );
+			max = qMax( strokePoint.y(), center.y() );
+			
+			diff = max -min;
+			items[ diff ] = object;
 		}
 		
-		diff = max -min;
-		items[ diff ] = object;
+		if ( strokes.testFlag( Globals::PadStrokeUp ) || strokes.testFlag( Globals::PadStrokeDown ) )
+		{
+			min = qMin( strokePoint.x(), center.x() );
+			max = qMax( strokePoint.x(), center.x() );
+			
+			diff = max -min;
+			items[ diff ] = object;
+		}
 	}
 	
 	return items.values().first();
