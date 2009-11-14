@@ -35,7 +35,7 @@ int main( int argc, char** argv )
 	
 	// p2
 	players[ 1 ].setState( Globals::PlayerStateHuman );
-	players[ 1 ].setTile( faces.value( "players/Apple.png" ) );
+	players[ 1 ].setTile( faces.value( "players/Red.png" ) );
 	
 	// set players
 	engine.setPlayers( players );
