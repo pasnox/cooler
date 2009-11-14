@@ -169,18 +169,7 @@ void MapItem::movePlayerBySteps( PlayerItem* player, const QPoint& steps )
 	const QRect collisionRect = mapRectToScene( QRect( p1, p2 ) ).toRect();
 	QList<MapObjectItem*> objectsList = objectsIn( collisionRect );
 	
-	// temporary code
-	foreach ( MapObjectItem* object, objectsList )
-	{
-		if ( !object->isWalkable() )
-		{
-			return;
-		}
-	}
-	//end temporary code
-	
 	// ***********
-	/*
 	QMap<QPoint, MapObjectItem*> objects;
 	QSet<MapObjectItem*> walkableObjects;
 	
@@ -223,186 +212,82 @@ void MapItem::movePlayerBySteps( PlayerItem* player, const QPoint& steps )
 	// determine the item to walk to
 	MapObjectItem* walkToObject = nearestObject( collisionRect.center(), player->properties().mStrokes, walkableObjects );
 	
+	//qWarning() << ( walkToObject ? "have way" : "no way" ) << ( walkToObject ? walkToObject->isWalkable() : false );
+	
 	// return if can't walk
-	if ( !walkToObject )
+	if ( !walkToObject || ( gridPos( walkToObject ) == gridPos( player ) && walkToObject->pos() == player->pos() ) )
 	{
 		return;
 	}
 	
-	const QRect bbr = player->mapRectToScene( player->boundingRect() ).toRect();
-	const QRect ebr = player->mapRectToScene( player->explosiveBoundingRect() ).toRect();
+	/*
+	foreach ( MapObjectItem* object, walkableObjects )
+	{
+		qWarning() << object->isWalkable() << object->tile()->name();
+	}
+	*/
 	
-	// calculate the step to move to
+	const QRect bbr = mapRectFromScene( player->mapRectToScene( player->boundingRect() ) ).toRect();
+	
+	//qWarning() << bbr << player->pos() << walkToObject->pos();
+	//qWarning() << gridPos( player ) << gridPos( walkToObject );
+	
+	// calculate auto stroke
 	if ( player->properties().mStrokes.testFlag( Globals::PadStrokeLeft ) || player->properties().mStrokes.testFlag( Globals::PadStrokeRight ) )
 	{
-		if ( bbr.y() != walkToObject->y() )
+		const bool noUpDown = !player->properties().mStrokes.testFlag( Globals::PadStrokeUp ) && !player->properties().mStrokes.testFlag( Globals::PadStrokeDown );
+		
+		if ( bbr.y() < walkToObject->y() )
 		{
-			if ( bbr.y() < walkToObject->y() )
-				pos.ry() += steps.y();
-			else
-				pos.ry() -= steps.y();
+			//qWarning() << "#1";
+			pos.rx() -= steps.x();
+			
+			if ( noUpDown )
+			{
+				pos.ry() += abs( steps.x() );
+			}
 		}
-		else
+		
+		if ( bbr.y() > walkToObject->y() )
 		{
-			if( player->properties().mStrokes.testFlag( Globals::PadStrokeLeft ) )
-				pos.rx() -= steps.x();
-			else
-				pos.rx() += steps.x();
+			//qWarning() << "#2";
+			pos.rx() -= steps.x();
+			
+			if ( noUpDown )
+			{
+				pos.ry() -= abs( steps.x() );
+			}
 		}
 	}
 	
 	if ( player->properties().mStrokes.testFlag( Globals::PadStrokeUp ) || player->properties().mStrokes.testFlag( Globals::PadStrokeDown ) )
 	{
-		if ( bbr.x() != walkToObject->x() )
+		const bool noLeftRight = !player->properties().mStrokes.testFlag( Globals::PadStrokeLeft ) && !player->properties().mStrokes.testFlag( Globals::PadStrokeRight );
+		
+		if ( bbr.x() < walkToObject->x() )
 		{
-			if ( bbr.x() < walkToObject->x() )
-				pos.rx() += steps.x();
-			else
-				pos.rx() -= steps.x();
+			//qWarning() << "#3";
+			if ( noLeftRight )
+			{
+				pos.rx() += abs( steps.y() );
+			}
+			
+			pos.ry() -= steps.y();
 		}
-		else
+		
+		if ( bbr.x() > walkToObject->x() )
 		{
-			if ( player->properties().mStrokes.testFlag( Globals::PadStrokeUp ) )
-				pos.ry() -= steps.y();
-			else
-				pos.ry() += steps.y();
+			//qWarning() << "#4";
+			if ( noLeftRight )
+			{
+				pos.rx() -= abs( steps.y() );
+			}
+			
+			pos.ry() -= steps.y();
 		}
 	}
-	*/
 	
 	player->setPos( pos );
-}
-
-QPoint MapItem::canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) const
-{
-	const int stepBy = 1;
-	const QRect bbr = player->mapRectToScene( player->boundingRect() ).toRect();
-	const QRect ebr = player->mapRectToScene( player->explosiveBoundingRect() ).toRect();
-	const int mw = ebr.width() /8;
-	const int mh = ebr.height() /8;
-	QPoint p;
-	QRect sr;
-	
-	// check map bounding rect
-	switch ( stroke )
-	{
-		case Globals::PadStrokeUp:
-			if ( !( bbr.y() -stepBy >= y() ) )
-				return p;
-			sr = QRect( QPoint( ebr.left() +mw, ebr.top() -1 ), QSize( mw *6, 1 ) );
-			break;
-		case Globals::PadStrokeDown:
-			if ( !( bbr.y() +stepBy +bbr.height() <= boundingRect().height() ) )
-				return p;
-			sr = QRect( QPoint( ebr.left() +mw, ebr.bottom() +1 ), QSize( mw *6, 1 ) );
-			break;
-		case Globals::PadStrokeLeft:
-			if ( !( bbr.x() -stepBy >= x() ) )
-				return p;
-			sr = QRect( QPoint( ebr.left() -1, ebr.top() +mh ), QSize( 1, mh *6 ) );
-			break;
-		case Globals::PadStrokeRight:
-			if ( !( bbr.x() +stepBy +bbr.width() <= boundingRect().width() ) )
-				return p;
-			sr = QRect( QPoint( ebr.right() +1, ebr.top() +mh ), QSize( 1, mh *6 ) );
-			break;
-		default:
-			break;
-	}
-	
-	QMap<QPoint, MapObjectItem*> objects;
-	QSet<MapObjectItem*> walkableObjects;
-	
-	// minimized objects map
-	foreach ( QGraphicsItem* item, scene()->items( sr ) )
-	{
-		MapObjectItem* object = qgraphicsitem_cast<MapObjectItem*>( item );
-		
-		if ( !object || !object->isValid() || object == player )
-		{
-			continue;
-		}
-		
-		const QPoint pos = gridPos( object );
-		
-		if ( objects.contains( pos ) )
-		{
-			MapObjectItem* curObject = objects[ pos ];
-			
-			if ( curObject->isWalkable() )
-			{
-				walkableObjects.remove( curObject );
-				objects[ pos ] = object;
-				
-				if ( object->isWalkable() )
-				{
-					walkableObjects << object;
-				}
-			}
-		}
-		else
-		{
-			objects[ pos ] = object;
-			
-			if ( object->isWalkable() )
-			{
-				walkableObjects << object;
-			}
-		}
-	}
-	
-	// determine the item to walk to
-	MapObjectItem* walkToObject = nearestObject( sr.center(), stroke, walkableObjects );
-	
-	// return if can't walk
-	if ( !walkToObject )
-	{
-		return p;
-	}
-	
-	// calculate the step to move to
-	switch ( stroke )
-	{
-		case Globals::PadStrokeUp:
-		case Globals::PadStrokeDown:
-			if ( bbr.x() != walkToObject->x() )
-			{
-				if ( bbr.x() < walkToObject->x() )
-					p.rx() += stepBy;
-				else
-					p.rx() -= stepBy;
-			}
-			else
-			{
-				if ( stroke == Globals::PadStrokeUp )
-					p.ry() -= stepBy;
-				else
-					p.ry() += stepBy;
-			}
-			break;
-		case Globals::PadStrokeLeft:
-		case Globals::PadStrokeRight:
-			if ( bbr.y() != walkToObject->y() )
-			{
-				if ( bbr.y() < walkToObject->y() )
-					p.ry() += stepBy;
-				else
-					p.ry() -= stepBy;
-			}
-			else
-			{
-				if( stroke == Globals::PadStrokeLeft )
-					p.rx() -= stepBy;
-				else
-					p.rx() += stepBy;
-			}
-			break;
-		default:
-			break;
-	}
-	
-	// return possible walk
-	return p;
 }
 
 QPoint MapItem::closestPos( const QPoint& pos ) const

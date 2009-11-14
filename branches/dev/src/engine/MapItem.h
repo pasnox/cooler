@@ -40,7 +40,6 @@ protected:
 	Map* mMap;
 	LayersMapObjects mObjects;
 	
-	QPoint canStrokeTo( PlayerItem* player, Globals::PadStroke stroke ) const;
 	QPoint closestPos( const QPoint& pos ) const;
 	MapObjectItem* nearestObject( const QPoint& strokePoint, Globals::PadStrokes strokes, const QSet<MapObjectItem*>& objects ) const;
 };
