@@ -142,6 +142,7 @@ void MapItem::movePlayerBySteps( PlayerItem* player, const QPoint& steps )
 	QPoint p1 = pos;
 	QPoint p2 = pos;
 	
+	// calculate bounding rect for getting objects
 	if ( player->properties().mStrokes.testFlag( Globals::PadStrokeDown ) )
 	{
 		p1.ry() += player->boundingRect().height() -1;
@@ -166,10 +167,9 @@ void MapItem::movePlayerBySteps( PlayerItem* player, const QPoint& steps )
 		p2.rx() += player->boundingRect().width() -1;
 	}
 	
+	// get items
 	const QRect collisionRect = mapRectToScene( QRect( p1, p2 ) ).toRect();
 	QList<MapObjectItem*> objectsList = objectsIn( collisionRect );
-	
-	// ***********
 	QMap<QPoint, MapObjectItem*> objects;
 	QSet<MapObjectItem*> walkableObjects;
 	
