@@ -111,7 +111,8 @@ HEADERS	= src/engine/GameEngine.h \
 	src/engine/states/padsettings/GSPadSettings.h \
 	src/engine/Map.h \
 	src/engine/MapItem.h \
-	src/engine/tiles/TilesCache.h
+	src/engine/tiles/TilesCache.h \
+	src/engine/BombSettings.h
 
 #	src/obsolete/editor/GraphicsViewEditor.h \
 #	src/obsolete/editor/MapEditorItem.h \
@@ -160,7 +161,8 @@ SOURCES	= src/engine/GameEngine.cpp \
 	src/engine/Map.cpp \
 	src/engine/MapItem.cpp \
 	src/main.cpp \
-	src/engine/tiles/TilesCache.cpp
+	src/engine/tiles/TilesCache.cpp \
+	src/engine/BombSettings.cpp
 
 #	src/obsolete/editor/GraphicsViewEditor.cpp \
 #	src/obsolete/editor/MapEditorItem.cpp \

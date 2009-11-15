@@ -8,6 +8,8 @@
 
 class AbstractTile;
 
+#warning Rename class PlayerSettings
+
 class Player
 {
 public:

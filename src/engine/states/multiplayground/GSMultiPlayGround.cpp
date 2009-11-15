@@ -138,6 +138,7 @@ void GSMultiPlayGround::handleEvents( GameEngine* engine )
 
 void GSMultiPlayGround::update( GameEngine* engine )
 {
+	Q_UNUSED( engine );
 }
 
 bool GSMultiPlayGround::validateState( GameEngine* engine ) const
@@ -164,12 +165,26 @@ bool GSMultiPlayGround::handlePlayersEvent( KeyEvent* event, GameEngine* engine 
 		{
 			case Event::KeyPress:
 			{
+				if ( event->autoRepeat )
+				{
+					break;
+				}
+				
 				if ( pad.isStrokeKeyUsed( event->key ) )
 				{
 					const Globals::PadStroke stroke = pad.keyStroke( event->key );
 					const Globals::PadStrokes strokes = player->padStrokes() | stroke;
 					
 					player->setPadStrokes( strokes );
+					return true;
+				}
+				else if ( pad.isActionKeyUsed( event->key ) )
+				{
+					const Globals::PadAction action = pad.keyAction( event->key );
+					const Globals::PadActions actions = player->padActions() | action;
+					
+					player->setPadActions( actions );
+					player->triggerAction( action );
 					return true;
 				}
 				
@@ -192,10 +207,11 @@ bool GSMultiPlayGround::handlePlayersEvent( KeyEvent* event, GameEngine* engine 
 				}
 				else if ( pad.isActionKeyUsed( event->key ) )
 				{
-					/*
-					Globals::PadAction action = mPad->keyAction( event->key() );
-					handleAction( action );
-					*/
+					const Globals::PadAction action = pad.keyAction( event->key );
+					const Globals::PadActions actions = player->padActions() &~ action;
+					
+					player->setPadActions( actions );
+					return true;
 				}
 				
 				break;

@@ -25,13 +25,13 @@ public:
 	
 	virtual bool loadMap( Map* map );
 	
-	QPoint gridToPos( const QPoint& gridPos ) const;
-	QPoint posToGrid( const QPoint& pos ) const;
+	QPoint gridToPos( const QPointF& gridPos ) const;
+	QPoint posToGrid( const QPointF& pos ) const;
 	QPoint gridPos( MapObjectItem* object ) const;
 	
 	QList<MapObjectItem*> graphicsItemListToMapObjectItemList( const QList<QGraphicsItem*>& items ) const;
-	QList<MapObjectItem*> objectsAt( const QPoint& pos ) const;
-	QList<MapObjectItem*> objectsIn( const QRect& rect ) const;
+	QList<MapObjectItem*> objectsAt( const QPointF& pos ) const;
+	QList<MapObjectItem*> objectsIn( const QRectF& rect ) const;
 	
 	void moveObjectToGridPosition( MapObjectItem* object, const QPoint& position );
 	void movePlayerBySteps( PlayerItem* player, const QPoint& steps );

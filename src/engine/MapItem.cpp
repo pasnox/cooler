@@ -68,13 +68,13 @@ bool MapItem::loadMap( Map* map )
 	return true;
 }
 
-QPoint MapItem::gridToPos( const QPoint& gridPos ) const
+QPoint MapItem::gridToPos( const QPointF& gridPos ) const
 {
 	const QSize tileScaledSize = mMap->mTiles->tileScaledSize();
 	return QPoint( gridPos.x() *tileScaledSize.width(), gridPos.y() *tileScaledSize.height() );
 }
 
-QPoint MapItem::posToGrid( const QPoint& pos ) const
+QPoint MapItem::posToGrid( const QPointF& pos ) const
 {
 	const QSize tileScaledSize = mMap->mTiles->tileScaledSize();
 	return QPoint( pos.x() /tileScaledSize.width(), pos.y() /tileScaledSize.height() );
@@ -112,15 +112,15 @@ QList<MapObjectItem*> MapItem::graphicsItemListToMapObjectItemList( const QList<
 	return objects;
 }
 
-QList<MapObjectItem*> MapItem::objectsAt( const QPoint& pos ) const
+QList<MapObjectItem*> MapItem::objectsAt( const QPointF& pos ) const
 {
-	QList<QGraphicsItem*> items = scene()->items( pos );
+	QList<QGraphicsItem*> items = scene()->items( mapToScene( pos ) );
 	return graphicsItemListToMapObjectItemList( items );
 }
 
-QList<MapObjectItem*> MapItem::objectsIn( const QRect& rect ) const
+QList<MapObjectItem*> MapItem::objectsIn( const QRectF& rect ) const
 {
-	QList<QGraphicsItem*> items = scene()->items( rect );
+	QList<QGraphicsItem*> items = scene()->items( mapRectToScene( rect ) );
 	return graphicsItemListToMapObjectItemList( items );
 }
 
@@ -168,7 +168,7 @@ void MapItem::movePlayerBySteps( PlayerItem* player, const QPoint& steps )
 	}
 	
 	// get items
-	const QRect collisionRect = mapRectToScene( QRect( p1, p2 ) ).toRect();
+	const QRect collisionRect = QRect( p1, p2 );
 	QList<MapObjectItem*> objectsList = objectsIn( collisionRect );
 	QMap<QPoint, MapObjectItem*> objects;
 	QSet<MapObjectItem*> walkableObjects;

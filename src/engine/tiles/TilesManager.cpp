@@ -1,14 +1,15 @@
 #include "TilesManager.h"
 #include "ObjectTile.h"
 #include "PlayerTile.h"
+#include "BombTile.h"
 
 #include <QDebug>
 
-TilesManager::TilesManager( QObject* parent, const QString& datasPath )
+TilesManager::TilesManager( QObject* parent, const QString& dataPath )
 	: QObject( parent )
 {
 	mTileScaledSize = Globals::TilesSize;
-	setDatasPath( datasPath );
+	setDataPath( dataPath );
 }
 
 TilesManager::~TilesManager()
@@ -31,14 +32,14 @@ TilesManager* TilesManager::instance()
 	return _instance;
 }
 
-QString TilesManager::datasPath() const
+QString TilesManager::dataPath() const
 {
-	return mDatasPath;
+	return mDataPath;
 }
 
-void TilesManager::setDatasPath( const QString& path )
+void TilesManager::setDataPath( const QString& path )
 {
-	mDatasPath = path;
+	mDataPath = path;
 }
 
 QSize TilesManager::tileScaledSize() const
@@ -53,11 +54,11 @@ void TilesManager::setTileScaledSize( const QSize& size )
 
 bool TilesManager::loadDatas()
 {
-	QDir datas( mDatasPath );
+	QDir datas( mDataPath );
 	
 	if ( !datas.exists() )
 	{
-		emit datasLoaded( false );
+		emit dataLoaded( false );
 		return false;
 	}
 	
@@ -117,7 +118,7 @@ bool TilesManager::loadDatas()
 		}
 	}
 	
-	emit datasLoaded( true );
+	emit dataLoaded( true );
 	return true;
 }
 
@@ -166,7 +167,7 @@ void TilesManager::loadTiles( Globals::TypeTile type, const QString& path )
 	
 	foreach ( const QFileInfo& file, files )
 	{
-		const QString key = Globals::relativeFilePath( mDatasPath, file.absoluteFilePath() );
+		const QString key = Globals::relativeFilePath( mDataPath, file.absoluteFilePath() );
 		AbstractTile* tile = 0;
 		
 		switch ( type )
@@ -174,8 +175,10 @@ void TilesManager::loadTiles( Globals::TypeTile type, const QString& path )
 			case Globals::PlayerTile:
 				tile = new PlayerTile( file );
 				break;
-			case Globals::BlockTile:
 			case Globals::BombTile:
+				tile = new BombTile( file );
+				break;
+			case Globals::BlockTile:
 			case Globals::BombExplosionTile:
 			case Globals::BonusTile:
 			case Globals::BoxTile:

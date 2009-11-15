@@ -15,6 +15,7 @@ struct AbstractTile
 	virtual ~AbstractTile();
 	
 	virtual QString absoluteFilePath() const;
+	virtual QString relativeFilePath() const;
 	virtual QString name() const;
 	virtual QPixmap pixmap() const;
 	virtual int steps() const = 0;
