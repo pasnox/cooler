@@ -2,20 +2,8 @@
 #include "Player.h"
 #include "PlayerTile.h"
 #include "MapItem.h"
-
-/*
+#include "BombItem.h"
 #include "TilesManager.h"
-#include "PadSettings.h"
-#include "MapItem.h"
-*/
-
-/*
-#include <QTimer>
-#include <QGraphicsScene>
-#include <QKeyEvent>
-#include <QPainter>
-#include <QDebug>
-*/
 
 PlayerItem::PlayerItem( const Player* player, QGraphicsItem* parent )
 	: QObject(), MapObjectItem( 0, parent )
@@ -115,11 +103,19 @@ void PlayerItem::paint( QPainter* painter, const QStyleOptionGraphicsItem* optio
 
 QRectF PlayerItem::explosiveBoundingRect() const
 {
+	return boundingRect();
+	/*
 	QRectF br = boundingRect();
 	int height = br.height() /2;
 	br.moveTop( height );
 	br.setHeight( height );
 	return br;
+	*/
+}
+
+QPointF PlayerItem::explosiveBoundingRectCenter() const
+{
+	return explosiveBoundingRect().center();
 }
 
 void PlayerItem::setTile( AbstractTile* tile )
@@ -157,4 +153,45 @@ Globals::PadActions PlayerItem::padActions() const
 void PlayerItem::setPadActions( Globals::PadActions actions )
 {
 	mProperties.mActions = actions;
+}
+
+void PlayerItem::triggerAction( Globals::PadAction action )
+{
+	switch ( action )
+	{
+		case Globals::PadActionNo:
+			break;
+		case Globals::PadAction1:
+			dropBomb();
+			break;
+		case Globals::PadAction2:
+			break;
+		case Globals::PadAction3:
+			break;
+		case Globals::PadAction4:
+			break;
+	}
+}
+
+void PlayerItem::dropBomb()
+{
+	// check if area already have a bomb
+	const QPointF center = mapToParent( explosiveBoundingRectCenter() );
+	const QPointF pos = map()->gridToPos( map()->posToGrid( center ) );
+	QList<MapObjectItem*> objects = map()->objectsIn( QRectF( pos, explosiveBoundingRect().size() ) );
+	
+	foreach ( MapObjectItem* object, objects )
+	{
+		if ( object->tile()->Type == Globals::BombTile || !object->isWalkable() )
+		{
+			return;
+		}
+	}
+	
+	// create and drop new bomb
+	const TilesMap bombs = TilesManager::instance()->tiles( Globals::BombTile );
+	
+	BombItem* bomb = new BombItem( bombs.value( "bombs/Bomb.png" ), map(), mProperties.mBombSettings );
+	bomb->setPos( pos );
+	bomb->start();
 }

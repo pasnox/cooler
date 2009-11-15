@@ -12,8 +12,8 @@ class TilesManager : public QObject
 public:
 	static TilesManager* instance();
 	
-	QString datasPath() const;
-	void setDatasPath( const QString& path );
+	QString dataPath() const;
+	void setDataPath( const QString& path );
 	
 	QSize tileScaledSize() const;
 	void setTileScaledSize( const QSize& size );
@@ -25,17 +25,17 @@ public:
 	QString tileKey( AbstractTile* tile ) const;
 	
 protected:
-	QString mDatasPath;
+	QString mDataPath;
 	QSize mTileScaledSize;
 	TypesTilesMap mTiles;
 	
-	TilesManager( QObject* parent = 0, const QString& datasPath = QApplication::applicationDirPath() +"/Graphics" );
+	TilesManager( QObject* parent = 0, const QString& dataPath = QApplication::applicationDirPath() +"/Graphics" );
 	virtual ~TilesManager();
 	
 	void loadTiles( Globals::TypeTile type, const QString& path );
 
 signals:
-	void datasLoaded( bool success );
+	void dataLoaded( bool success );
 };
 
 #endif // TILESMANAGER_H

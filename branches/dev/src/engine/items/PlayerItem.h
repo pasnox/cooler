@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include "MapObjectItem.h"
+#include "BombSettings.h"
 
 class Player;
 class PlayerTile;
@@ -26,6 +27,7 @@ struct PlayerProperties
 	Globals::PadActions mActions;
 	qreal mFrameStep;
 	qreal mSpeed;
+	BombSettings mBombSettings;
 };
 
 class PlayerItem : public QObject, public MapObjectItem
@@ -40,6 +42,7 @@ public:
 	virtual void paint( QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0 );
 	
 	virtual QRectF explosiveBoundingRect() const;
+	virtual QPointF explosiveBoundingRectCenter() const;
 	virtual void setTile( AbstractTile* tile );
 	
 	const PlayerProperties& properties() const;
@@ -49,9 +52,13 @@ public:
 	
 	Globals::PadActions padActions() const;
 	void setPadActions( Globals::PadActions actions );
+	
+	void triggerAction( Globals::PadAction action );
 
 protected:
 	PlayerProperties mProperties;
+	
+	void dropBomb();
 };
 
 #endif // PLAYERITEM_H

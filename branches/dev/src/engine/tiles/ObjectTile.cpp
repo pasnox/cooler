@@ -26,7 +26,7 @@ QPixmap ObjectTile::tile( int step ) const
 		case Globals::FloorTile:
 		case Globals::SkyTile:
 		{
-			const uint key = qHash( FileName.fileName().append( step ).append( tileScaledSize.width() ).append( tileScaledSize.height() ) );
+			const uint key = qHash( relativeFilePath().append( step ).append( tileScaledSize.width() ).append( tileScaledSize.height() ) );
 			QPixmap pm;
 			
 			if ( !TilesCache::instance()->find( key, pm ) )

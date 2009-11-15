@@ -40,7 +40,7 @@ QPixmap PlayerTile::tile( Globals::PadStroke stroke, int step ) const
 	}
 	
 	const QSize tileScaledSize = TilesManager::instance()->tileScaledSize();
-	const uint key = qHash( FileName.fileName().append( stroke ).append( step ).append( tileScaledSize.width() ).append( tileScaledSize.height() ) );
+	const uint key = qHash( relativeFilePath().append( stroke ).append( step ).append( tileScaledSize.width() ).append( tileScaledSize.height() ) );
 	QPixmap pm;
 	
 	if ( !TilesCache::instance()->find( key, pm ) )

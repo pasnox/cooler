@@ -31,14 +31,14 @@ void TreeWidgetTiles::setTiles( TilesManager* tiles )
 	
 	if ( mTiles )
 	{
-		disconnect( mTiles, SIGNAL( datasLoaded( bool ) ), this, SLOT( datasLoaded( bool ) ) );
+		disconnect( mTiles, SIGNAL( dataLoaded( bool ) ), this, SLOT( dataLoaded( bool ) ) );
 	}
 	
 	mTiles = tiles;
 	
 	if ( mTiles )
 	{
-		connect( mTiles, SIGNAL( datasLoaded( bool ) ), this, SLOT( datasLoaded( bool ) ) );
+		connect( mTiles, SIGNAL( dataLoaded( bool ) ), this, SLOT( dataLoaded( bool ) ) );
 	}
 }
 
@@ -73,7 +73,7 @@ void TreeWidgetTiles::mousePressEvent( QMouseEvent* event )
 	}
 }
 
-void TreeWidgetTiles::datasLoaded( bool success )
+void TreeWidgetTiles::dataLoaded( bool success )
 {
 	if ( success )
 	{

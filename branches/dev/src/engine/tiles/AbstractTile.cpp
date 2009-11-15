@@ -1,4 +1,5 @@
 #include "AbstractTile.h"
+#include "TilesManager.h"
 #include "TilesCache.h"
 
 AbstractTile::AbstractTile( const QFileInfo& fn, Globals::TypeTile type )
@@ -14,6 +15,11 @@ AbstractTile::~AbstractTile()
 QString AbstractTile::absoluteFilePath() const
 {
 	return FileName.absoluteFilePath();
+}
+
+QString AbstractTile::relativeFilePath() const
+{
+	return Globals::relativeFilePath( TilesManager::instance()->dataPath(), FileName.absoluteFilePath() );
 }
 
 QString AbstractTile::name() const

@@ -28,7 +28,7 @@ protected:
 	virtual void mousePressEvent( QMouseEvent* event );
 
 protected slots:
-	void datasLoaded( bool success );
+	void dataLoaded( bool success );
 };
 
 #endif // TREEWIDGETTILES_H

@@ -1,30 +1,29 @@
 #include "BombTile.h"
+#include "TilesManager.h"
+#include "TilesCache.h"
 
-#include <QSettings>
-
-BombTile::BombTile( const QFileInfo& fn, Globals::TypeTile type )
-	: AbstractTile( fn, type )
+BombTile::BombTile( const QFileInfo& fn )
+	: AbstractTile( fn, Globals::BombTile )
 {
-	QSettings settings( FileName.absoluteFilePath(), QSettings::IniFormat );
-	settings.beginGroup( "Bomb" );
-	Name = settings.value( "Name" ).toString();
-	Size = settings.value( "Size" ).toSize();
-	QString tilesFn = fn.absolutePath().append( "/" ).append( settings.value( "Tiles" ).toString() );
-	settings.endGroup();
-	//Pixmap = QPixmap( tilesFn );
 }
 
 int BombTile::steps() const
 {
-	return 0;
-	//return Pixmap.width() /Size.width();
+	return pixmap().isNull() ? 0 : 3;
 }
 
 QPixmap BombTile::tile( int step ) const
 {
-	return QPixmap();
-	/*
-	const QPoint point = QPoint( step *Size.width(), 0 );
-	return Pixmap.copy( QRect( point, Size ) );
-	*/
+	const QSize tileScaledSize = TilesManager::instance()->tileScaledSize();
+	const uint key = qHash( relativeFilePath().append( step ).append( tileScaledSize.width() ).append( tileScaledSize.height() ) );
+	QPixmap pm;
+	
+	if ( !TilesCache::instance()->find( key, pm ) )
+	{
+		const QPoint point = QPoint( step *Globals::TilesSize.width(), 0 );
+		pm = pixmap().copy( QRect( point, Globals::TilesSize ) ).scaled( tileScaledSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+		TilesCache::instance()->insert( key, pm );
+	}
+	
+	return pm;
 }
