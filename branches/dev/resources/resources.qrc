@@ -1,0 +1,11 @@
+<RCC>
+  <qresource prefix="icons" >
+    <file>icons/document-new.png</file>
+    <file>icons/document-open.png</file>
+    <file>icons/document-save.png</file>
+    <file>icons/color-picker-white.png</file>
+    <file>icons/list-add.png</file>
+    <file>icons/list-remove.png</file>
+    <file>icons/folder-new.png</file>
+  </qresource>
+</RCC>

@@ -26,6 +26,7 @@ void GameEngine::init( const QString& title, const QSize& size, int bpp, bool fu
 	
 	// variables
 	mIDLETimer = -1;
+	mFPSTimer = -1;
 	mRunning = true;
 	mFullScreen = fullscreen;
 	mSize = size;
@@ -223,6 +224,8 @@ void GameEngine::closeEvent( QCloseEvent* event )
 
 void GameEngine::timerEvent( QTimerEvent* event )
 {
+	static int fps = 0;
+	
 	if ( event->timerId() == mIDLETimer )
 	{
 		if ( !mRunning )
@@ -233,6 +236,13 @@ void GameEngine::timerEvent( QTimerEvent* event )
 		handleEvents();
 		update();
 		draw();
+		
+		fps++;
+	}
+	else if ( event->timerId() == mFPSTimer )
+	{
+		setWindowTitle( QString( "FPS: %1" ).arg( fps ) );
+		fps = 0;
 	}
 }
 
@@ -242,6 +252,7 @@ void GameEngine::start()
 	{
 		const int fps = 30;
 		mIDLETimer = startTimer( 1000 /fps );
+		mFPSTimer = startTimer( 1000 );
 		mRunning = true;
 	}
 }
@@ -251,7 +262,9 @@ void GameEngine::stop()
 	if ( mIDLETimer != -1 )
 	{
 		killTimer( mIDLETimer );
+		killTimer( mFPSTimer );
 		mIDLETimer = -1;
+		mFPSTimer = -1;
 		mRunning = false;
 	}
 }

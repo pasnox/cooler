@@ -6,6 +6,7 @@
 
 #include "Map.h"
 #include "GSMultiPlayGround.h"
+#include "qa/QAEditor.h"
 
 int main( int argc, char** argv )
 {
@@ -13,6 +14,9 @@ int main( int argc, char** argv )
 	app.setOrganizationDomain( "cooler.googlecode.com" );
 	app.setOrganizationName( "SoDream" );
 	app.setApplicationName( "Cooler" );
+	
+	QAEditor qaeditor;
+	qaeditor.showMaximized();
 	
 	// initialize tiles
 	TilesManager::instance()->loadDatas();
@@ -49,6 +53,7 @@ int main( int argc, char** argv )
 	
 	// run engine
 	engine.start();
+	//engine.hide();
 	QObject::connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
 	int result = app.exec();
 

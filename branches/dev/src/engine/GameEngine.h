@@ -54,6 +54,7 @@ protected:
 	QGraphicsScene* mScene;
 	QVector<AbstractGameState*> mStates;
 	int mIDLETimer;
+	int mFPSTimer;
 	bool mRunning;
 	bool mFullScreen;
 	QSize mSize;
