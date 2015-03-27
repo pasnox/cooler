@@ -1,0 +1,1 @@
+A cross platform Bomberman clone written in C++/Qt 4.
